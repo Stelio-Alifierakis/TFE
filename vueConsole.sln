@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vueConsole", "vueConsole\vueConsole.csproj", "{3744D48D-EE82-4662-A4B3-7330E29F2C14}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{987B8688-E732-4999-A388-03008BB69217}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyNavigateur", "ProxyNavigateur\ProxyNavigateur.csproj", "{96888CB6-3184-46E0-8600-622F00C6D9C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{3744D48D-EE82-4662-A4B3-7330E29F2C14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3744D48D-EE82-4662-A4B3-7330E29F2C14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3744D48D-EE82-4662-A4B3-7330E29F2C14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{987B8688-E732-4999-A388-03008BB69217}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{987B8688-E732-4999-A388-03008BB69217}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{987B8688-E732-4999-A388-03008BB69217}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{987B8688-E732-4999-A388-03008BB69217}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96888CB6-3184-46E0-8600-622F00C6D9C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96888CB6-3184-46E0-8600-622F00C6D9C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96888CB6-3184-46E0-8600-622F00C6D9C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96888CB6-3184-46E0-8600-622F00C6D9C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
