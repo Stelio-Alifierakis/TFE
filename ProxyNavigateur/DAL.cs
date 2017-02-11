@@ -12,9 +12,9 @@ namespace ProxyNavigateur
     {
         private BDDInterface bd;
 
-        public void creation()
+        public void creation(string nomBase)
         {
-            bd.creationTables();
+            bd.creationTables(nomBase);
         }
 
         public void setSyncrho(DateTime date)

@@ -14,13 +14,20 @@ namespace ProxyNavigateur.DB
 {
     public class db : BDDInterface
     {
-        public void creationTables()
-        {
-            if (!File.Exists("BDD.sqlite"))
-            {
-                SQLiteConnection.CreateFile("BDD.sqlite");
 
-                using (SQLiteConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+        private string BdNom;
+        private const string sqliteInfo = "Data Source=BDD.sqlite;Version=3;";
+
+        public void creationTables(string nomBase)
+        {
+
+            BdNom = nomBase; //"BDD.sqlite"
+
+            if (!File.Exists(BdNom))
+            {
+                SQLiteConnection.CreateFile(BdNom);
+
+                using (SQLiteConnection connexion = new SQLiteConnection(sqliteInfo))
                 {
 
                     if (connexion.State == ConnectionState.Closed)
@@ -33,24 +40,24 @@ namespace ProxyNavigateur.DB
                         connexion.Execute(@"
                         CREATE TABLE IF NOT EXISTS ListeTheme
                         (theme VARCHAR(25) PRIMARY KEY)
-                    ");
+                        ");
 
                         connexion.Execute(@"
                         CREATE TABLE IF NOT EXISTS Listes
                         (liste VARCHAR(25) PRIMARY KEY)
-                    ");
+                        ");
 
                         connexion.Execute(@"
                         CREATE TABLE IF NOT EXISTS Synchronisation
                         (date DATETIME PRIMARY KEY)
-                    ");
+                        ");
 
                         connexion.Execute(@"
                         CREATE TABLE IF NOT EXISTS Topologie (
                         idMachine VARCHAR(25) PRIMARY KEY,
                         fk_Date DATETIME,
                         FOREIGN KEY (fk_Date) REFERENCES Synchronisation(dateEntree)
-                    )");
+                        )");
 
                         connexion.Execute(@"
                         CREATE TABLE IF NOT EXISTS Sites (
@@ -62,7 +69,7 @@ namespace ProxyNavigateur.DB
                         FOREIGN KEY (fk_Date) REFERENCES Synchronisation(dateEntree),
                         FOREIGN KEY (fk_Theme) REFERENCES ListeTheme(theme),
                         FOREIGN KEY (fk_liste) REFERENCES Liste(liste)
-                    )");
+                        )");
 
                         connexion.Execute(@"
                         CREATE TABLE IF NOT EXISTS ListeDynamique (
@@ -72,7 +79,7 @@ namespace ProxyNavigateur.DB
                         fk_Theme VARCHAR(25),
                         FOREIGN KEY (fk_Date) REFERENCES Synchronisation(dateEntree),
                         FOREIGN KEY (fk_Theme) REFERENCES ListeTheme(theme)
-                    )");
+                        )");
 
                         connexion.Execute(@"
                         CREATE TABLE IF NOT EXISTS MotCle (
@@ -83,7 +90,7 @@ namespace ProxyNavigateur.DB
                         fk_Theme VARCHAR(25),
                         FOREIGN KEY (fk_Date) REFERENCES Synchronisation(dateEntree),
                         FOREIGN KEY (fk_Theme) REFERENCES ListeTheme(theme)
-                    )");
+                        )");
 
                         connexion.Execute(@"
                         CREATE TABLE IF NOT EXISTS Synonyme (
@@ -93,20 +100,21 @@ namespace ProxyNavigateur.DB
                         fk_trad VARCHAR(25),
                         FOREIGN KEY (fk_Date) REFERENCES Synchronisation(dateEntree),
                         FOREIGN KEY (fk_trad) REFERENCES MotCle(mot)
-                    )");
+                        )");
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine(e.Message);
                     }
-
-                    tableSeed();
+                    TableSeed ts = new TableSeed(this);
+                    ts.seeder();
+                    //tableSeed();
                 }
             }
 
         }
 
-        private void tableSeed()
+        /*private void tableSeed()
         {
             Synchronisation synch = new Synchronisation(DateTime.Now);
             ListeTheme th = new ListeTheme("Approprie");
@@ -151,13 +159,13 @@ namespace ProxyNavigateur.DB
 
             syn.mot = "seks";
             SetSynonyme(syn);
-        }
+        }*/
 
         //méthodes sut la table Synchronisation
 
         public void SetSynchro(Synchronisation synch)
         {
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -178,7 +186,7 @@ namespace ProxyNavigateur.DB
 
         public Synchronisation GetSynchro(DateTime date)
         {
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -203,7 +211,7 @@ namespace ProxyNavigateur.DB
         public IEnumerable<Synchronisation> GetSynchros()
         {
 
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -225,7 +233,7 @@ namespace ProxyNavigateur.DB
 
         public void SetListe(Listes l)
         {
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -246,7 +254,7 @@ namespace ProxyNavigateur.DB
 
         public Listes GetListes(string ms)
         {
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -271,7 +279,7 @@ namespace ProxyNavigateur.DB
         public IEnumerable<Listes> GetListes()
         {
 
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -293,7 +301,7 @@ namespace ProxyNavigateur.DB
 
         public void SetListeTheme(ListeTheme theme)
         {
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -314,7 +322,7 @@ namespace ProxyNavigateur.DB
 
         public ListeTheme GetTheme(string ms)
         {
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -339,7 +347,7 @@ namespace ProxyNavigateur.DB
         public IEnumerable<ListeTheme> GetListeThemes()
         {
 
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -361,7 +369,7 @@ namespace ProxyNavigateur.DB
 
         public void SetTopologie(Topologie topo)
         {
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -382,7 +390,7 @@ namespace ProxyNavigateur.DB
 
         public Topologie GetTopo(string ms)
         {
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -407,7 +415,7 @@ namespace ProxyNavigateur.DB
         public IEnumerable<Topologie> GetTopos()
         {
 
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -429,7 +437,7 @@ namespace ProxyNavigateur.DB
 
         public void SetListeDynamique(ListeDynamique dyn)
         {
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -450,7 +458,7 @@ namespace ProxyNavigateur.DB
 
         public ListeDynamique GetListeDynamique(string ms)
         {
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -475,7 +483,7 @@ namespace ProxyNavigateur.DB
         public IEnumerable<ListeDynamique> GetListeDynamiques()
         {
 
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -497,7 +505,7 @@ namespace ProxyNavigateur.DB
 
         public void SetSites(Sites site)
         {
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -517,7 +525,7 @@ namespace ProxyNavigateur.DB
 
         public Sites GetSite(string ms)
         {
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -542,7 +550,7 @@ namespace ProxyNavigateur.DB
         public IEnumerable<Sites> GetSites()
         {
 
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -565,7 +573,7 @@ namespace ProxyNavigateur.DB
 
         public void SetMotCle(MotCle mc)
         {
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -586,7 +594,7 @@ namespace ProxyNavigateur.DB
 
         public MotCle GetMotCle(string ms)
         {
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -611,7 +619,7 @@ namespace ProxyNavigateur.DB
         public IEnumerable<MotCle> GetMotCles()
         {
 
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -633,7 +641,7 @@ namespace ProxyNavigateur.DB
 
         public void SetSynonyme(Synonyme syn)
         {
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -654,7 +662,7 @@ namespace ProxyNavigateur.DB
 
         public Synonyme GetSynonyme(string ms)
         {
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -678,7 +686,7 @@ namespace ProxyNavigateur.DB
 
         public IEnumerable<Synonyme> GetSynonymes()
         {
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -703,7 +711,7 @@ namespace ProxyNavigateur.DB
             bool test = false;
             if (!(String.IsNullOrEmpty(msg)))
             {
-                using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+                using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
                 {
                     if (connexion.State == ConnectionState.Closed)
                     {
@@ -730,7 +738,7 @@ namespace ProxyNavigateur.DB
         {
             bool verif = false;
 
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -780,7 +788,7 @@ namespace ProxyNavigateur.DB
         {
             int val = 0;
 
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
@@ -813,7 +821,7 @@ namespace ProxyNavigateur.DB
         {
             string returnWord = string.Empty;
 
-            using (IDbConnection connexion = new SQLiteConnection("Data Source=BDD.sqlite;Version=3;"))
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
                 if (connexion.State == ConnectionState.Closed)
                 {

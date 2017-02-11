@@ -9,7 +9,7 @@ namespace ProxyNavigateur.DB
 {
     public interface BDDInterface
     {
-        void creationTables();
+        void creationTables(string nomBase);
 
         void SetSynchro(Synchronisation synch);
         Synchronisation GetSynchro(DateTime date);
