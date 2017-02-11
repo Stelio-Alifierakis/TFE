@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace ProxyNavigateur.Models
 {
-    class Listes
+    public sealed class Listes
     {
         public string liste { get; set; }
+
+        public Listes() { }
+
+        public Listes(string liste)
+        {
+            this.liste = liste;
+        }
     }
 }

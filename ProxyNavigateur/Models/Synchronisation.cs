@@ -6,8 +6,16 @@ using System.Threading.Tasks;
 
 namespace ProxyNavigateur.Models
 {
-    class Synchronisation
+    public sealed class Synchronisation
     {
         public DateTime date { get; set; }
+
+        public Synchronisation() { }
+
+        public Synchronisation(DateTime date)
+        {
+            this.date = date;
+        }
+
     }
 }

@@ -6,8 +6,18 @@ using System.Threading.Tasks;
 
 namespace ProxyNavigateur.Models
 {
-    class ListeTheme
+    public sealed class ListeTheme
     {
         public string theme { get; set; }
+
+        public ListeTheme()
+        {
+
+        }
+
+        public ListeTheme(string theme)
+        {
+            this.theme = theme;
+        }
     }
 }
