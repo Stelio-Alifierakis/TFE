@@ -16,16 +16,23 @@ namespace ProxyNavigateur.DB
     {
 
         private string BdNom;
-        private const string sqliteInfo = "Data Source=BDD.sqlite;Version=3;";
+        private string sqliteInfo = string.Empty;
 
-        public void creationTables(string nomBase)
+        public db() { }
+
+        public db(string nomBase) {
+            BdNom = nomBase; //"BDD.sqlite"
+        }
+
+        public void creationTables()
         {
 
-            BdNom = nomBase; //"BDD.sqlite"
+           // BdNom = nomBase; //"BDD.sqlite"
 
             if (!File.Exists(BdNom))
             {
                 SQLiteConnection.CreateFile(BdNom);
+                sqliteInfo = "Data Source=" + BdNom + ";Version=3;";
 
                 using (SQLiteConnection connexion = new SQLiteConnection(sqliteInfo))
                 {
@@ -106,12 +113,30 @@ namespace ProxyNavigateur.DB
                     {
                         Console.WriteLine(e.Message);
                     }
-                    TableSeed ts = new TableSeed(this);
-                    ts.seeder();
                     //tableSeed();
                 }
             }
+        }
 
+        public void suppressionDB()
+        {
+            if (File.Exists(BdNom))
+            {
+                try
+                {
+                    File.Delete(BdNom);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+        }
+
+        public void seeder()
+        {
+            TableSeed ts = new TableSeed(this);
+            ts.seeder();
         }
 
         /*private void tableSeed()
@@ -192,7 +217,7 @@ namespace ProxyNavigateur.DB
                 {
                     connexion.Open();
                 }
-                string msg = "SELECT * FROM Synchronisation where date ='" + date + "'";
+                string msg = "SELECT * FROM Synchronisation where date ='" + date.ToString("yyyy-MM-dd HH:mm:ss.fff") + "'";
                 Synchronisation sync;
                 try
                 {
@@ -706,7 +731,7 @@ namespace ProxyNavigateur.DB
 
         //vérif valeur
 
-        public bool verifMot(string msg)
+        public bool verifSite(string msg)
         {
             bool test = false;
             if (!(String.IsNullOrEmpty(msg)))

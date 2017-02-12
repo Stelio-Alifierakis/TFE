@@ -12,9 +12,19 @@ namespace ProxyNavigateur
     {
         private BDDInterface bd;
 
-        public void creation(string nomBase)
+        public DAL(string nomBase)
         {
-            bd.creationTables(nomBase);
+            bd = new db(nomBase);
+        }
+
+        public void creation()
+        {
+            bd.creationTables();
+        }
+
+        public void seed()
+        {
+            bd.seeder();
         }
 
         public void setSyncrho(DateTime date)
@@ -186,9 +196,9 @@ namespace ProxyNavigateur
             return bd.GetSynonymes();
         }
 
-        public bool verifMot(string msg)
+        public bool verifSite(string msg)
         {
-            return bd.verifMot(msg);
+            return bd.verifSite(msg);
         }
 
         public bool checkPartWord(string phrase)

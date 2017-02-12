@@ -51,7 +51,7 @@ namespace ProxyNavigateur.DB
             site.fk_liste = liste.liste;
             bd.SetSites(site);
 
-            dyn.url = "www.facebook.com";
+            dyn.url = "www.sex.com";
             dyn.fk_theme = th.theme;
             bd.SetListeDynamique(dyn);
 

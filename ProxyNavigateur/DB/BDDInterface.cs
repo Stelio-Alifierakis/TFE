@@ -9,7 +9,8 @@ namespace ProxyNavigateur.DB
 {
     public interface BDDInterface
     {
-        void creationTables(string nomBase);
+        void creationTables();
+        void seeder();
 
         void SetSynchro(Synchronisation synch);
         Synchronisation GetSynchro(DateTime date);
@@ -44,7 +45,7 @@ namespace ProxyNavigateur.DB
         Synonyme GetSynonyme(string ms);
         IEnumerable<Synonyme> GetSynonymes();
 
-        bool verifMot(string msg);
+        bool verifSite(string msg);
         bool checkPartWord(string phrase);
 
         int retourVal(string mot);
