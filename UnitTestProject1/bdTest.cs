@@ -4,6 +4,8 @@ using Moq;
 using ProxyNavigateur;
 using System.Collections.Generic;
 using System.Collections;
+using System.IO;
+using Dapper;
 using System.Linq;
 
 namespace UnitTestProject1
@@ -11,37 +13,55 @@ namespace UnitTestProject1
     [TestClass]
     public class bdTest
     {
+        ProxyNavigateur.DB.db bd;
+
+       [TestInitialize]
+        public void Init_Test()
+        {
+            if (File.Exists("test.sqlite"))
+            {
+                try
+                {
+                    File.Delete("test.sqlite");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            bd = new ProxyNavigateur.DB.db("test.sqlite");
+            bd.creationTables();
+        }
+
+        [TestCleanup]
+        public void Fermeture_Tests()
+        {
+            bd.suppressionDB();
+        }
+
         [TestMethod]
         public void Creation_BDD_sqlite()
         {
-            ProxyNavigateur.DB.db bd = new ProxyNavigateur.DB.db("test.sqlite");
-            bd.creationTables();
+            
             bd.SetListe(new ProxyNavigateur.Models.Listes { liste="test" });
             List <ProxyNavigateur.Models.Listes> l = bd.GetListes().ToList();
             Assert.IsNotNull(l);
             Assert.AreEqual("test",l[0].liste);
-            Assert.AreEqual(1,l.Count);
-            bd.suppressionDB();
+            Assert.AreEqual(1,l.Count);            
         }
 
         [TestMethod]
         public void Test_Get_Liste()
         {
-            ProxyNavigateur.DB.db bd = new ProxyNavigateur.DB.db("test.sqlite");
-            bd.creationTables();
             bd.SetListe(new ProxyNavigateur.Models.Listes { liste = "test" });
             ProxyNavigateur.Models.Listes l = bd.GetListes("test");
             Assert.IsNotNull(l);
             Assert.AreEqual("test", l.liste);
-            bd.suppressionDB();
-
         }
 
         [TestMethod]
         public void Test_Get_ListeDynamique()
         {
-            ProxyNavigateur.DB.db bd = new ProxyNavigateur.DB.db("test.sqlite");
-            bd.creationTables();
             bd.SetListeDynamique(new ProxyNavigateur.Models.ListeDynamique {
                 url ="testUrl",
                 fk_theme ="testTheme",
@@ -54,28 +74,20 @@ namespace UnitTestProject1
             Assert.AreEqual("testTheme", dyn.fk_theme);
             Assert.AreEqual(DateTime.Today, dyn.DateAjout);
             Assert.AreEqual(DateTime.Today, dyn.fk_Date);
-            bd.suppressionDB();
-
         }
 
         [TestMethod]
         public void Test_Get_ListeTheme()
         {
-            ProxyNavigateur.DB.db bd = new ProxyNavigateur.DB.db("test.sqlite");
-            bd.creationTables();
             bd.SetListeTheme(new ProxyNavigateur.Models.ListeTheme { theme = "testTheme" });
             ProxyNavigateur.Models.ListeTheme lt = bd.GetTheme("testTheme");
             Assert.IsNotNull(lt);
             Assert.AreEqual("testTheme", lt.theme);
-            bd.suppressionDB();
-
         }
 
         [TestMethod]
         public void Test_Get_MotCle()
         {
-            ProxyNavigateur.DB.db bd = new ProxyNavigateur.DB.db("test.sqlite");
-            bd.creationTables();
             bd.SetMotCle(new ProxyNavigateur.Models.MotCle {
                 mot ="test",
                 valeur =15,
@@ -91,15 +103,11 @@ namespace UnitTestProject1
             Assert.AreEqual("TestTheme", mc.fk_theme);
             Assert.AreEqual(DateTime.Today, mc.DateAjout);
             Assert.AreEqual(DateTime.Today, mc.fk_Date);
-            bd.suppressionDB();
         }
 
         [TestMethod]
         public void Test_Get_Site()
         {
-            ProxyNavigateur.DB.db bd = new ProxyNavigateur.DB.db("test.sqlite");
-            bd.creationTables();
-
             bd.SetSites(new ProxyNavigateur.Models.Sites {
                 nomSite ="testSite",
                 fk_theme ="testTheme",
@@ -115,28 +123,20 @@ namespace UnitTestProject1
             Assert.AreEqual("testListe", s.fk_liste);
             Assert.AreEqual(DateTime.Today, s.DateAjout);
             Assert.AreEqual(DateTime.Today, s.fk_Date);
-            bd.suppressionDB();
-
         }
 
         [TestMethod]
         public void Test_Get_Synchro()
         {
-            ProxyNavigateur.DB.db bd = new ProxyNavigateur.DB.db("test.sqlite");
-            bd.creationTables();
             bd.SetSynchro(new ProxyNavigateur.Models.Synchronisation { date=DateTime.Today });
             ProxyNavigateur.Models.Synchronisation syn = bd.GetSynchro(DateTime.Today);
             Assert.IsNotNull(syn);
             Assert.AreEqual(DateTime.Today, syn.date);
-            bd.suppressionDB();
-
         }
 
         [TestMethod]
         public void Test_Get_Synonyme()
         {
-            ProxyNavigateur.DB.db bd = new ProxyNavigateur.DB.db("test.sqlite");
-            bd.creationTables();
             bd.SetSynonyme(new ProxyNavigateur.Models.Synonyme {
                 mot="testSynonyme",
                 DateAjout= DateTime.Today,
@@ -149,15 +149,11 @@ namespace UnitTestProject1
             Assert.AreEqual("testTrad", syn.fk_trad);
             Assert.AreEqual(DateTime.Today, syn.DateAjout);
             Assert.AreEqual(DateTime.Today, syn.fk_Date);
-            bd.suppressionDB();
-
         }
 
         [TestMethod]
         public void Test_Get_Topologie()
         {
-            ProxyNavigateur.DB.db bd = new ProxyNavigateur.DB.db("test.sqlite");
-            bd.creationTables();
             bd.SetTopologie(new ProxyNavigateur.Models.Topologie {
                 idMachine="testId",
                 fk_Date =DateTime.Today
@@ -166,15 +162,11 @@ namespace UnitTestProject1
             Assert.IsNotNull(topo);
             Assert.AreEqual("testId", topo.idMachine);
             Assert.AreEqual(DateTime.Today, topo.fk_Date);
-            bd.suppressionDB();
-
         }
 
         [TestMethod]
         public void Seeder_test()
         {
-            ProxyNavigateur.DB.db bd = new ProxyNavigateur.DB.db("test.sqlite");
-            bd.creationTables();
             bd.seeder();
 
             List<ProxyNavigateur.Models.Listes> l = bd.GetListes().ToList();
@@ -230,16 +222,11 @@ namespace UnitTestProject1
             Assert.AreEqual("Pornographie", sites[1].fk_theme);
             Assert.AreEqual("Liste Rouge", sites[1].fk_liste);
             Assert.AreEqual(2, sites.Count);
-
-            bd.suppressionDB();
         }
 
         [TestMethod]
         public void Test_verifMot()
         {
-            ProxyNavigateur.DB.db bd = new ProxyNavigateur.DB.db("test.sqlite");
-            bd.creationTables();
-
             bd.SetSites(new ProxyNavigateur.Models.Sites
             {
                 nomSite = "testSite",
@@ -251,8 +238,6 @@ namespace UnitTestProject1
 
             Assert.AreEqual(true, bd.verifSite("testSite"));
             Assert.AreEqual(false, bd.verifSite("test"));
-
-            bd.suppressionDB();
         }
 
         [TestMethod]
@@ -261,57 +246,66 @@ namespace UnitTestProject1
             ProxyNavigateur.DB.db bd = new ProxyNavigateur.DB.db("test.sqlite");
             bd.creationTables();
 
-            bd.SetMotCle(new ProxyNavigateur.Models.MotCle
+            ProxyNavigateur.Models.MotCle mc = new ProxyNavigateur.Models.MotCle
             {
                 mot = "test",
                 valeur = 15,
                 fk_theme = "TestTheme",
                 DateAjout = DateTime.Today,
-                fk_Date = DateTime.Today
-            });
-            bd.SetMotCle(new ProxyNavigateur.Models.MotCle
-            {
-                mot = "carotte",
-                valeur = 7,
-                fk_theme = "TestTheme",
-                DateAjout = DateTime.Today,
-                fk_Date = DateTime.Today
-            });
-            bd.SetMotCle(new ProxyNavigateur.Models.MotCle
-            {
-                mot = "grand",
-                valeur = 2,
-                fk_theme = "TestTheme",
-                DateAjout = DateTime.Today,
-                fk_Date = DateTime.Today
-            });
+                fk_Date = DateTime.Today,
+                Synonyme = new ProxyNavigateur.Models.Synonyme()
+            };
+
+            bd.SetMotCle(mc);
 
             bd.SetSynonyme(new ProxyNavigateur.Models.Synonyme
             {
                 mot = "testSynonyme",
                 DateAjout = DateTime.Today,
                 fk_Date = DateTime.Today,
-                fk_trad = "test"
+                fk_trad = mc.mot
             });
+
+            mc = new ProxyNavigateur.Models.MotCle
+            {
+                mot = "carotte",
+                valeur = 7,
+                fk_theme = "TestTheme",
+                DateAjout = DateTime.Today,
+                fk_Date = DateTime.Today,
+                Synonyme = new ProxyNavigateur.Models.Synonyme()
+            };
+
+            bd.SetMotCle(mc);
+
             bd.SetSynonyme(new ProxyNavigateur.Models.Synonyme
             {
                 mot = "beurre",
                 DateAjout = DateTime.Today,
                 fk_Date = DateTime.Today,
-                fk_trad = "carotte"
+                fk_trad = mc.mot
             });
 
+            mc = new ProxyNavigateur.Models.MotCle
+            {
+                mot = "grand",
+                valeur = 2,
+                fk_theme = "TestTheme",
+                DateAjout = DateTime.Today,
+                fk_Date = DateTime.Today,
+                Synonyme = new ProxyNavigateur.Models.Synonyme()
+            };
+
+            bd.SetMotCle(mc);
 
 
             //Assert.AreEqual(true, bd.verifSite("je veux du beurre"));
-            //Assert.AreEqual(true, bd.verifSite("test ton code"));
+            Assert.AreEqual(true, bd.verifSite("test"));
             //Assert.AreEqual(true, bd.verifSite("carotte tomate"));
             //Assert.AreEqual(true, bd.verifSite("j'ai testSynonyme"));
             //Assert.AreEqual(true, bd.verifSite("je suis grand"));
-            //Assert.AreEqual(true, bd.verifSite("petit Test"));
+            //Assert.AreEqual(false, bd.verifSite("petit Test"));
             Assert.AreEqual(false, bd.verifSite("ici se trouve une phrase au hasard"));
-
-            bd.suppressionDB();
         }
     }
 }

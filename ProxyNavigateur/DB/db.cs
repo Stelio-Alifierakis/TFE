@@ -22,6 +22,7 @@ namespace ProxyNavigateur.DB
 
         public db(string nomBase) {
             BdNom = nomBase; //"BDD.sqlite"
+            sqliteInfo = "Data Source=" + BdNom + ";Version=3;";
         }
 
         public void creationTables()
@@ -32,7 +33,6 @@ namespace ProxyNavigateur.DB
             if (!File.Exists(BdNom))
             {
                 SQLiteConnection.CreateFile(BdNom);
-                sqliteInfo = "Data Source=" + BdNom + ";Version=3;";
 
                 using (SQLiteConnection connexion = new SQLiteConnection(sqliteInfo))
                 {
@@ -194,7 +194,16 @@ namespace ProxyNavigateur.DB
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
-                    connexion.Open();
+                    try
+                    {
+                        connexion.Open();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+
+                    
                 }
                 try
                 {
@@ -330,7 +339,15 @@ namespace ProxyNavigateur.DB
             {
                 if (connexion.State == ConnectionState.Closed)
                 {
-                    connexion.Open();
+                    try
+                    {
+                        connexion.Open();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                    
                 }
                 try
                 {
@@ -782,6 +799,7 @@ namespace ProxyNavigateur.DB
                     {
                         if (m.Synonyme == null)
                         {
+                            //Console.WriteLine(phrase.Contains(m.mot));
                             if (phrase.Contains(m.mot))
                             {
                                 verif = true;
@@ -792,6 +810,7 @@ namespace ProxyNavigateur.DB
                         {
                             if (phrase.Contains(m.mot) || phrase.Contains(m.Synonyme.mot))
                             {
+                                //Console.WriteLine(phrase.Contains(m.mot) + " et " + phrase.Contains(m.Synonyme.mot));
                                 verif = true;
                                 break;
                             }
@@ -803,7 +822,7 @@ namespace ProxyNavigateur.DB
                     Console.WriteLine(e.Message);
                 }
             }
-
+            Console.WriteLine(verif);
             return verif;
         }
 
