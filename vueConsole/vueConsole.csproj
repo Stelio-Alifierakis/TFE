@@ -79,6 +79,10 @@
       <Project>{96888cb6-3184-46e0-8600-622f00c6d9c8}</Project>
       <Name>ProxyNavigateur</Name>
     </ProjectReference>
+    <ProjectReference Include="..\proxy\proxy.csproj">
+      <Project>{A288C14C-B98B-47A2-B130-218EA16B9961}</Project>
+      <Name>proxy</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Rechercheur\Rechercheur.csproj">
       <Project>{5396eff4-e854-4f7e-b273-cb6a115a6018}</Project>
       <Name>Rechercheur</Name>
