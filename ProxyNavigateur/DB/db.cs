@@ -748,7 +748,7 @@ namespace ProxyNavigateur.DB
 
         //vérif valeur
 
-        public bool verifSite(string msg)
+        public bool verifSite(string msg) //à changer
         {
             bool test = false;
             if (!(String.IsNullOrEmpty(msg)))
@@ -799,7 +799,6 @@ namespace ProxyNavigateur.DB
                     {
                         if (m.Synonyme == null)
                         {
-                            //Console.WriteLine(phrase.Contains(m.mot));
                             if (phrase.Contains(m.mot))
                             {
                                 verif = true;
@@ -810,7 +809,6 @@ namespace ProxyNavigateur.DB
                         {
                             if (phrase.Contains(m.mot) || phrase.Contains(m.Synonyme.mot))
                             {
-                                //Console.WriteLine(phrase.Contains(m.mot) + " et " + phrase.Contains(m.Synonyme.mot));
                                 verif = true;
                                 break;
                             }
@@ -822,7 +820,6 @@ namespace ProxyNavigateur.DB
                     Console.WriteLine(e.Message);
                 }
             }
-            Console.WriteLine(verif);
             return verif;
         }
 

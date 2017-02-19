@@ -73,6 +73,7 @@
     <Compile Include="DB\BDDInterface.cs" />
     <Compile Include="DB\db.cs" />
     <Compile Include="DB\TableSeed.cs" />
+    <Compile Include="IDAL.cs" />
     <Compile Include="Models\ListeDynamique.cs" />
     <Compile Include="Models\Listes.cs" />
     <Compile Include="Models\ListeTheme.cs" />

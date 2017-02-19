@@ -12,6 +12,8 @@ namespace ProxyNavigateur.DB
         void creationTables();
         void seeder();
 
+        void suppressionDB();
+
         void SetSynchro(Synchronisation synch);
         Synchronisation GetSynchro(DateTime date);
         IEnumerable<Synchronisation> GetSynchros();

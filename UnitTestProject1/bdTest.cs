@@ -241,10 +241,8 @@ namespace UnitTestProject1
         }
 
         [TestMethod]
-        public void Test_checkPartWord()
+        public void Test_VerifSite()
         {
-            ProxyNavigateur.DB.db bd = new ProxyNavigateur.DB.db("test.sqlite");
-            bd.creationTables();
 
             ProxyNavigateur.Models.MotCle mc = new ProxyNavigateur.Models.MotCle
             {
@@ -306,6 +304,133 @@ namespace UnitTestProject1
             //Assert.AreEqual(true, bd.verifSite("je suis grand"));
             //Assert.AreEqual(false, bd.verifSite("petit Test"));
             Assert.AreEqual(false, bd.verifSite("ici se trouve une phrase au hasard"));
+        }
+
+        [TestMethod]
+        public void test_bdd_CheckPartWord()
+        {
+            ProxyNavigateur.Models.MotCle mc = new ProxyNavigateur.Models.MotCle
+            {
+                mot = "test",
+                valeur = 15,
+                fk_theme = "TestTheme",
+                DateAjout = DateTime.Today,
+                fk_Date = DateTime.Today,
+                Synonyme = new ProxyNavigateur.Models.Synonyme()
+            };
+
+            bd.SetMotCle(mc);
+
+            bd.SetSynonyme(new ProxyNavigateur.Models.Synonyme
+            {
+                mot = "testSynonyme",
+                DateAjout = DateTime.Today,
+                fk_Date = DateTime.Today,
+                fk_trad = mc.mot
+            });
+
+            mc = new ProxyNavigateur.Models.MotCle
+            {
+                mot = "carotte",
+                valeur = 7,
+                fk_theme = "TestTheme",
+                DateAjout = DateTime.Today,
+                fk_Date = DateTime.Today,
+                Synonyme = new ProxyNavigateur.Models.Synonyme()
+            };
+
+            bd.SetMotCle(mc);
+
+            bd.SetSynonyme(new ProxyNavigateur.Models.Synonyme
+            {
+                mot = "beurre",
+                DateAjout = DateTime.Today,
+                fk_Date = DateTime.Today,
+                fk_trad = mc.mot
+            });
+
+            mc = new ProxyNavigateur.Models.MotCle
+            {
+                mot = "grand",
+                valeur = 2,
+                fk_theme = "TestTheme",
+                DateAjout = DateTime.Today,
+                fk_Date = DateTime.Today,
+                Synonyme = new ProxyNavigateur.Models.Synonyme()
+            };
+
+            bd.SetMotCle(mc);
+
+            Assert.AreEqual(true, bd.checkPartWord("je veux du beurre"));
+            Assert.AreEqual(true, bd.checkPartWord("petit test"));
+            Assert.AreEqual(true, bd.checkPartWord("carotte tomate"));
+            Assert.AreEqual(true, bd.checkPartWord("j'ai testSynonyme"));
+            Assert.AreEqual(true, bd.checkPartWord("je suis grand"));
+            Assert.AreEqual(false, bd.checkPartWord("petit Test"));
+            Assert.AreEqual(false, bd.checkPartWord("ici se trouve une phrase au hasard"));
+        }
+
+        [TestMethod]
+        public void test_bdd_ReturnValeur()
+        {
+            ProxyNavigateur.Models.MotCle mc = new ProxyNavigateur.Models.MotCle
+            {
+                mot = "test",
+                valeur = 15,
+                fk_theme = "TestTheme",
+                DateAjout = DateTime.Today,
+                fk_Date = DateTime.Today,
+                Synonyme = new ProxyNavigateur.Models.Synonyme()
+            };
+
+            bd.SetMotCle(mc);
+
+            bd.SetSynonyme(new ProxyNavigateur.Models.Synonyme
+            {
+                mot = "testSynonyme",
+                DateAjout = DateTime.Today,
+                fk_Date = DateTime.Today,
+                fk_trad = mc.mot
+            });
+
+            mc = new ProxyNavigateur.Models.MotCle
+            {
+                mot = "carotte",
+                valeur = 7,
+                fk_theme = "TestTheme",
+                DateAjout = DateTime.Today,
+                fk_Date = DateTime.Today,
+                Synonyme = new ProxyNavigateur.Models.Synonyme()
+            };
+
+            bd.SetMotCle(mc);
+
+            bd.SetSynonyme(new ProxyNavigateur.Models.Synonyme
+            {
+                mot = "beurre",
+                DateAjout = DateTime.Today,
+                fk_Date = DateTime.Today,
+                fk_trad = mc.mot
+            });
+
+            mc = new ProxyNavigateur.Models.MotCle
+            {
+                mot = "grand",
+                valeur = 2,
+                fk_theme = "TestTheme",
+                DateAjout = DateTime.Today,
+                fk_Date = DateTime.Today,
+                Synonyme = new ProxyNavigateur.Models.Synonyme()
+            };
+
+            bd.SetMotCle(mc);
+
+            Assert.AreEqual(7, bd.retourVal("beurre"));
+            Assert.AreEqual(15, bd.retourVal("test"));
+            Assert.AreEqual(7, bd.retourVal("carotte"));
+            Assert.AreEqual(15, bd.retourVal("testSynonyme"));
+            Assert.AreEqual(2, bd.retourVal("grand"));
+            Assert.AreEqual(0, bd.retourVal("plouf"));
         }
     }
 }

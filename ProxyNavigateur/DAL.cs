@@ -12,9 +12,19 @@ namespace ProxyNavigateur
     {
         private BDDInterface bd;
 
+        public DAL()
+        {
+            
+        }
+
         public DAL(string nomBase)
         {
             bd = new db(nomBase);
+        }
+
+        public DAL(db bd)
+        {
+            this.bd = bd;
         }
 
         public void creation()
@@ -25,6 +35,11 @@ namespace ProxyNavigateur
         public void seed()
         {
             bd.seeder();
+        }
+
+        public void suppressionDB()
+        {
+            bd.suppressionDB();
         }
 
         public void setSyncrho(DateTime date)

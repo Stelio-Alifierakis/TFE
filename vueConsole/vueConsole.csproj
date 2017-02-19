@@ -16,7 +16,7 @@
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -78,6 +78,10 @@
     <ProjectReference Include="..\ProxyNavigateur\ProxyNavigateur.csproj">
       <Project>{96888cb6-3184-46e0-8600-622f00c6d9c8}</Project>
       <Name>ProxyNavigateur</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Rechercheur\Rechercheur.csproj">
+      <Project>{5396eff4-e854-4f7e-b273-cb6a115a6018}</Project>
+      <Name>Rechercheur</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
