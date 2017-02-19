@@ -15,6 +15,7 @@ namespace vueConsole
             Console.WriteLine(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]));
             DAL d = new DAL(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0])+ "/test.sqlite");
             Rechercheur.Rechercheur r = new Rechercheur.Rechercheur(d);
+            r.ValArret = 20;
 
             //d.creation();
             //d.seed();
@@ -29,6 +30,7 @@ namespace vueConsole
             Console.WriteLine(r.checkPartWord("pas de sex").ToString());
             Console.WriteLine(r.checkPartWord("seks").ToString());
             Console.WriteLine(r.checkPartWord("partout").ToString());
+            Console.WriteLine(r.valPhrase("pas de sex, pas de sex, pas de sex, pas de sex, pas de sex, pas de seks <br> du porn, encore du porn et du sexe, pas de sex, pas de seks <br> du porn, encore du porn et du sexe, pas de sex, pas de seks <br> du porn, encore du porn et du sexe, pas de sex, pas de seks <br> du porn, encore du porn et du sexe, pas de sex, pas de seks <br> du porn, encore du porn et du sexe,pas de sex, pas de seks <br> du porn, encore du porn et du sexe").ToString());
 
             bool essai = (Console.ReadKey().Key == ConsoleKey.O);
         }

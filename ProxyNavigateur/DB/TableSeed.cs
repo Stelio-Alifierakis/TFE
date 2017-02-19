@@ -35,7 +35,6 @@ namespace ProxyNavigateur.DB
 
 
             bd.SetSynchro(synch);
-            //SetListeTheme(th);
             bd.SetListe(liste);
             bd.SetTopologie(topo);
             bd.SetSites(site);
