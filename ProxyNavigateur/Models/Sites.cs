@@ -13,6 +13,7 @@ namespace ProxyNavigateur.Models
         public DateTime fk_Date { get; set; }
         public string fk_theme { get; set; }
         public string fk_liste { get; set; }
+        public Listes Listes { get; set; }
 
         public Sites() { }
 

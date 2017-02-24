@@ -776,6 +776,37 @@ namespace ProxyNavigateur.DB
             return test;
         }
 
+        public IEnumerable<dynamic> getURL(string listeURL)
+        {
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
+            {
+                if (connexion.State == ConnectionState.Closed)
+                {
+                    connexion.Open();
+                }
+
+                try
+                {
+                    string sqlQuery = @"SELECT * FROM Sites
+                        INNER JOIN Listes ON Sites.fk_theme=Listes.liste
+                        WHERE Listes.liste = '" + listeURL + "'";
+
+                    var valMot = connexion.Query<Sites, Listes, Sites>(sqlQuery, (sites, listes) =>
+                    {
+                        sites.Listes = listes;
+                        return sites;
+                    }, splitOn: "nomSite").ToList();
+
+                    return valMot;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return null;
+                }
+            }
+        }
+
         public bool checkPartWord(string phrase)
         {
             bool verif = false;

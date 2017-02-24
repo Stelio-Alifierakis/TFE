@@ -8,6 +8,7 @@ using Titanium.Web.Proxy;
 using Titanium.Web.Proxy.EventArguments;
 using Titanium.Web.Proxy.Models;
 
+
 namespace proxy
 {
     public class Eproxy : IEproxy
@@ -81,10 +82,11 @@ namespace proxy
                 requestBodyHistory[e.Id] = bodyString;
             }
 
+            Console.WriteLine("---------------------------->" + e.WebSession.Request.RequestUri.AbsoluteUri);
 
             //To cancel a request with a custom HTML content
             //Filter URL
-            if (e.WebSession.Request.RequestUri.AbsoluteUri.Contains("google.com"))
+            if (e.WebSession.Request.RequestUri.AbsoluteUri.Contains("perdu"))
             {
                 await e.Ok("<!DOCTYPE html>" +
                       "<html><body><h1>" +
@@ -99,7 +101,6 @@ namespace proxy
             {
                 await e.Redirect("https://www.paypal.com");
             }
-
         }
 
         public async Task OnResponse(object sender, SessionEventArgs e)
@@ -127,7 +128,7 @@ namespace proxy
                         await e.SetResponseBody(bodyBytes);
 
                         string body = await e.GetResponseBodyAsString();
-                        Console.WriteLine("---------------------------->" + body);
+                        //Console.WriteLine("---------------------------->" + body);
                         await e.SetResponseBodyString(body);
                     }
                 }

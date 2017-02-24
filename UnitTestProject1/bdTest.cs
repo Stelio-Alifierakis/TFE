@@ -225,6 +225,14 @@ namespace UnitTestProject1
         }
 
         [TestMethod]
+        public void getURL_test()
+        {
+            bd.seeder();
+
+            
+        }
+
+        [TestMethod]
         public void Test_verifMot()
         {
             bd.SetSites(new ProxyNavigateur.Models.Sites
