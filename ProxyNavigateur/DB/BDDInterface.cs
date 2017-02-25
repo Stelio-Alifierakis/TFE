@@ -38,6 +38,7 @@ namespace ProxyNavigateur.DB
         void SetListeDynamique(ListeDynamique dyn);
         ListeDynamique GetListeDynamique(string ms);
         IEnumerable<ListeDynamique> GetListeDynamiques();
+        IEnumerable<ListeDynamique> GetListeDynamiques(string nomTheme);
 
         void SetMotCle(MotCle mc);
         MotCle GetMotCle(string ms);
@@ -53,5 +54,7 @@ namespace ProxyNavigateur.DB
         int retourVal(string mot);
 
         string returnTheme(string word);
+
+        IEnumerable<Sites> getURL(string listeURL);
     }
 }

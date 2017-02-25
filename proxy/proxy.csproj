@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>proxy</RootNamespace>
     <AssemblyName>proxy</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,6 +55,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProxyNavigateur\ProxyNavigateur.csproj">
+      <Project>{96888cb6-3184-46e0-8600-622f00c6d9c8}</Project>
+      <Name>ProxyNavigateur</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Rechercheur\Rechercheur.csproj">
+      <Project>{5396eff4-e854-4f7e-b273-cb6a115a6018}</Project>
+      <Name>Rechercheur</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

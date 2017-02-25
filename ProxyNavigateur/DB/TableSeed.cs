@@ -33,7 +33,6 @@ namespace ProxyNavigateur.DB
             MotCle mc = new MotCle("sex", 4, synch.date, th.theme);
             Synonyme syn = new Synonyme("sexe", mc.mot, synch.date);
 
-
             bd.SetSynchro(synch);
             bd.SetListe(liste);
             bd.SetTopologie(topo);

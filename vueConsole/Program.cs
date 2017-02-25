@@ -21,11 +21,14 @@ namespace vueConsole
 
             Console.WriteLine(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]));
             DAL d = new DAL(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0])+ "/test.sqlite");
-            Rechercheur.Rechercheur r = new Rechercheur.Rechercheur(d);
-            r.ValArret = 20;
 
-            //d.creation();
-            //d.seed();
+            d.creation();
+            d.seed();
+
+            Rechercheur.Rechercheur r = new Rechercheur.Rechercheur(d);
+          
+            Controller.setRechercheur(r);
+            r.ValArret = 20;
 
             //d.checkPartWord("pas de sex");
             //d.checkPartWord("seks");

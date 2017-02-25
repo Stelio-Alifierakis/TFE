@@ -10,5 +10,6 @@ namespace proxy
     {
         void StartProxy();
         void Stop();
+        void setRechercheur(Rechercheur.Rechercheur r);
     }
 }

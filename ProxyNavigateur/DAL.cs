@@ -161,6 +161,12 @@ namespace ProxyNavigateur
             return bd.GetListeDynamiques();
         }
 
+        public List<ListeDynamique> GetListeDynamiques(string nomTheme)
+        {
+            List<ListeDynamique> dyn = bd.GetListeDynamiques(nomTheme).ToList();
+            return dyn;
+        }
+
         public void SetMotCle(string mot, int valeur, DateTime DateAjout)
         {
             MotCle mc = new MotCle(mot, valeur, DateAjout);
@@ -229,6 +235,19 @@ namespace ProxyNavigateur
         public string returnTheme(string word)
         {
             return bd.returnTheme(word);
+        }
+
+        public List<Sites> retourSites(string nomListe)
+        {
+            switch (nomListe)
+            {
+                case "Liste Verte":
+                case "Liste Rouge":
+                    List<Sites> l1 = bd.getURL(nomListe).ToList();
+                    return l1;
+                default:
+                    return null;
+            }            
         }
     }
 }

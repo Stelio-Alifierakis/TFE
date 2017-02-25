@@ -8,6 +8,8 @@ using Titanium.Web.Proxy;
 using Titanium.Web.Proxy.EventArguments;
 using Titanium.Web.Proxy.Models;
 
+using ProxyNavigateur.Models;
+using Rechercheur;
 
 namespace proxy
 {
@@ -15,12 +17,25 @@ namespace proxy
     {
         private ProxyServer proxyServer;
         private Dictionary<Guid, string> requestBodyHistory;
+        private Rechercheur.Rechercheur r;
+        private List<Sites> listeVerte;
+        private List<Sites> listeRouge;
+        private List<ListeDynamique> listeDynamique;
 
         public Eproxy()
         {
             proxyServer = new ProxyServer();
             proxyServer.TrustRootCertificate = true;
             requestBodyHistory = new Dictionary<Guid, string>();
+            
+        }
+
+        public void setRechercheur(Rechercheur.Rechercheur r)
+        {
+            this.r = r;
+            listeVerte = r.getListeSites("Liste Verte");
+            listeRouge = r.getListeSites("Liste Rouge");
+            listeDynamique = r.GetListeDynamiques("Approprie");
         }
 
         public void StartProxy()
@@ -67,6 +82,7 @@ namespace proxy
             //Console.WriteLine(e.WebSession.Request.Url);
 
             var requestHeaders = e.WebSession.Request.RequestHeaders;
+            bool validSite = false;
 
             var method = e.WebSession.Request.Method.ToUpper();
             if ((method == "POST" || method == "PUT" || method == "PATCH"))
@@ -86,7 +102,48 @@ namespace proxy
 
             //To cancel a request with a custom HTML content
             //Filter URL
-            if (e.WebSession.Request.RequestUri.AbsoluteUri.Contains("perdu"))
+            foreach(Sites site in listeVerte)
+            {
+                if (e.WebSession.Request.RequestUri.AbsoluteUri.Contains(site.nomSite))
+                {
+                    validSite = true;
+                }
+            }
+
+            if (!validSite)
+            {
+                foreach (Sites site in listeRouge)
+                {
+                    if (e.WebSession.Request.RequestUri.AbsoluteUri.Contains(site.nomSite))
+                    {
+                        await e.Ok("<!DOCTYPE html>" +
+                      "<html><body><h1>" +
+                      "Website Blocked" +
+                      "</h1>" +
+                      "<p>N'Dèye VERMONT a bloqué cette page !!!</p>" +
+                      "</body>" +
+                      "</html>");
+                    }
+                }
+            }
+
+            if (!validSite)
+            {
+                foreach (ListeDynamique dyn in listeDynamique)
+                {
+                    if (e.WebSession.Request.RequestUri.AbsoluteUri.Contains(dyn.url))
+                    {
+                        await e.Ok("<!DOCTYPE html>" +
+                      "<html><body><h1>" +
+                      "Website Blocked" +
+                      "</h1>" +
+                      "<p>N'Dèye VERMONT a bloqué cette page !!!</p>" +
+                      "</body>" +
+                      "</html>");
+                    }
+                }
+            }
+            /*if (e.WebSession.Request.RequestUri.AbsoluteUri.Contains("perdu"))
             {
                 await e.Ok("<!DOCTYPE html>" +
                       "<html><body><h1>" +
@@ -95,7 +152,7 @@ namespace proxy
                       "<p>Blocked by titanium web proxy.</p>" +
                       "</body>" +
                       "</html>");
-            }
+            }*/
             //Redirect example
             if (e.WebSession.Request.RequestUri.AbsoluteUri.Contains("wikipedia.org"))
             {

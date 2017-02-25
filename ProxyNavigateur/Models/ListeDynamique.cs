@@ -12,6 +12,7 @@ namespace ProxyNavigateur.Models
         public DateTime DateAjout { get; set; }
         public DateTime fk_Date { get; set; }
         public string fk_theme { get; set; }
+        public ListeTheme theme { get; set; }
 
         public ListeDynamique() { }
 

@@ -543,6 +543,34 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        public IEnumerable<ListeDynamique> GetListeDynamiques(string nomTheme)
+        {
+
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
+            {
+                if (connexion.State == ConnectionState.Closed)
+                {
+                    connexion.Open();
+                }
+                try
+                {
+                    string sqlQuery = "SELECT * FROM ListeDynamique join ListeTheme on ListeTheme.Theme != ListeDynamique.fk_theme";
+                    var valMot = connexion.Query<ListeDynamique, ListeTheme, ListeDynamique>(sqlQuery, (dyn, theme) =>
+                    {
+                        dyn.theme = theme;
+                        return dyn;
+                    }, splitOn: "Theme").ToList();
+
+                    return valMot;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return null;
+                }
+            }
+        }
+
         //méthodes sut la table Sites
 
         public void SetSites(Sites site)
@@ -776,7 +804,7 @@ namespace ProxyNavigateur.DB
             return test;
         }
 
-        public IEnumerable<dynamic> getURL(string listeURL)
+        public IEnumerable<Sites> getURL(string listeURL)
         {
             using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
             {
@@ -787,15 +815,15 @@ namespace ProxyNavigateur.DB
 
                 try
                 {
-                    string sqlQuery = @"SELECT * FROM Sites
-                        INNER JOIN Listes ON Sites.fk_theme=Listes.liste
-                        WHERE Listes.liste = '" + listeURL + "'";
+                    //string sqlQuery = @"SELECT * FROM Sites INNER JOIN Listes ON Sites.fk_theme=Listes.liste WHERE Listes.liste = '" + listeURL + "'";
+
+                    string sqlQuery = @"SELECT * FROM Sites INNER JOIN Listes ON Sites.fk_liste=Listes.liste WHERE Listes.liste = '"+ listeURL + "'";
 
                     var valMot = connexion.Query<Sites, Listes, Sites>(sqlQuery, (sites, listes) =>
                     {
                         sites.Listes = listes;
                         return sites;
-                    }, splitOn: "nomSite").ToList();
+                    }, splitOn: "liste").ToList();
 
                     return valMot;
                 }

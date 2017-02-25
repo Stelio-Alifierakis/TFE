@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ProxyNavigateur;
+using ProxyNavigateur.Models;
 using System.Collections.Generic;
 using System.Collections;
 using System.IO;
@@ -229,7 +230,34 @@ namespace UnitTestProject1
         {
             bd.seeder();
 
-            
+            List<Sites> l1 = bd.getURL("Liste Verte").ToList();
+            List<Sites> l2 = bd.getURL("Liste Rouge").ToList();
+
+            Assert.IsNotNull(l1);
+            Assert.IsNotNull(l2);
+
+            Assert.AreEqual("www.openclassroom.com",l1[0].nomSite);
+            Assert.AreEqual("www.youporn.com", l2[0].nomSite);
+        }
+
+        [TestMethod]
+        public void getURLDAL_test()
+        {
+            bd.seeder();
+
+            DAL d = new DAL(bd);
+
+            List<Sites> l1 = d.retourSites("Liste Verte");
+            List<Sites> l2 = d.retourSites("Liste Rouge");
+            List<Sites> l3 = d.retourSites("Carotte");
+
+            Assert.IsNotNull(l1);
+            Assert.IsNotNull(l2);
+            Assert.IsNull(l3);
+
+
+            Assert.AreEqual("www.openclassroom.com", l1[0].nomSite);
+            Assert.AreEqual("www.youporn.com", l2[0].nomSite);
         }
 
         [TestMethod]

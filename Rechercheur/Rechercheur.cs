@@ -7,6 +7,8 @@ using ProxyNavigateur;
 using System.Collections;
 using System.Threading;
 
+using ProxyNavigateur.Models;
+
 namespace Rechercheur
 {
     public class Rechercheur
@@ -144,6 +146,20 @@ namespace Rechercheur
 
                 }
             }
+        }
+
+        public List<Sites> getListeSites(string nomListe)
+        {
+            List<Sites> l = bdd.retourSites(nomListe);
+
+            return l;
+        }
+
+        public List<ListeDynamique> GetListeDynamiques(string nomTheme)
+        {
+            List<ListeDynamique> dyn = bdd.GetListeDynamiques(nomTheme);
+
+            return dyn;
         }
     }
 }
