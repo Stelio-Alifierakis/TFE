@@ -468,5 +468,16 @@ namespace UnitTestProject1
             Assert.AreEqual(2, bd.retourVal("grand"));
             Assert.AreEqual(0, bd.retourVal("plouf"));
         }
+
+        [TestMethod]
+        public void test_listeDyn()
+        {
+            bd.seeder();
+
+            List<ListeDynamique> l= bd.GetListeDynamiques("Approprie").ToList();
+
+            Assert.IsNotNull(l);
+            Assert.AreEqual("www.sex.com",l[0].url);
+        }
     }
 }

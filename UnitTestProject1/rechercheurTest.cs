@@ -67,6 +67,8 @@ namespace UnitTestProject1
             Assert.AreEqual(15, r.valPhrase("essai"));
             Assert.AreEqual(225, r.valPhrase("test test"));
             Assert.AreEqual(0, r.valPhrase("carotte"));
+            Assert.AreNotEqual(225, r.valPhrase("test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test"));
+            Assert.AreNotEqual(240, r.valPhrase(@"a"));
         }
     }
 }

@@ -18,9 +18,26 @@ namespace Rechercheur
         private static Object _lock = new object();
 
         private double value = 0;
-        private ArrayList listWordValue = new ArrayList();
+        //private ArrayList listWordValue = new ArrayList();
+        private List<string> listWordValue = new List<string>();
         private string[] separateur;
         private int valArret=0;
+
+        string[] separateurBodyHead = {
+               "<head","<body"
+            };
+
+        string[] separateurHead = {
+                "<title","</title>", "name=\"description"
+            };
+
+        string[] separateurBody = {
+                "<p",
+            };
+
+        string[] separateurMot = {
+                " ", "\n", "\r\n", "=", "_", ",", "'","&","\""
+            };
 
         public int ValArret
         {
@@ -71,12 +88,13 @@ namespace Rechercheur
                 listWordValue.RemoveAt(0);
             }
 
-            List<Thread> listTh = new List<Thread>();
+            List<Thread> listTh = new List<Thread>();            
 
-            string[] testSeparator = { " ", "\n", "\r\n", "=", "_", ",", "'" };
-            separateur = phrase.Split(testSeparator, StringSplitOptions.RemoveEmptyEntries);
+            separateur = phrase.Split(separateurBodyHead, StringSplitOptions.RemoveEmptyEntries);
 
-            foreach (string s in separateur)
+            //divHead =;
+
+            /*foreach (string s in separateur)
             {
                 bool ifWordExist = false;
 
@@ -94,11 +112,30 @@ namespace Rechercheur
                 }
             }
 
-            foreach (string mot in listWordValue)
+            int i = 0;
+            int j = 0;
+            while (i<listWordValue.Count && value < valArret)
             {
-                Thread th = new Thread(new ParameterizedThreadStart(thValWord));
-                listTh.Add(th);
-                th.Start(mot);
+                if (j < 10)
+                {
+                    Thread th = new Thread(new ParameterizedThreadStart(thValWord));
+                    listTh.Add(th);
+                    th.Start(listWordValue[i]);
+
+                    j++;
+                    i++;
+                }
+                else
+                {
+                    foreach (Thread th in listTh)
+                    {
+                        if (th.IsAlive)
+                        {
+                            th.Join();
+                        }
+                    }
+                    j = 0;
+                }                
             }
 
             foreach (Thread th in listTh)
@@ -107,8 +144,7 @@ namespace Rechercheur
                 {
                     th.Join();
                 }
-            }
-
+            }*/
             return value;
         }
 

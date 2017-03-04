@@ -133,7 +133,7 @@ namespace proxy
                 {
                     if (e.WebSession.Request.RequestUri.AbsoluteUri.Contains(dyn.url))
                     {
-                        await e.Ok("<!DOCTYPE html>" +
+                       await e.Ok("<!DOCTYPE html>" +
                       "<html><body><h1>" +
                       "Website Blocked" +
                       "</h1>" +
@@ -153,11 +153,12 @@ namespace proxy
                       "</body>" +
                       "</html>");
             }*/
+
             //Redirect example
-            if (e.WebSession.Request.RequestUri.AbsoluteUri.Contains("wikipedia.org"))
+            /*if (e.WebSession.Request.RequestUri.AbsoluteUri.Contains("wikipedia.org"))
             {
                 await e.Redirect("https://www.paypal.com");
-            }
+            }*/
         }
 
         public async Task OnResponse(object sender, SessionEventArgs e)
@@ -185,6 +186,16 @@ namespace proxy
                         await e.SetResponseBody(bodyBytes);
 
                         string body = await e.GetResponseBodyAsString();
+                        if (r.valPhrase(body)>20)
+                        {
+                            await e.SetResponseBodyString("<!DOCTYPE html>" +
+                            "<html><body><h1>" +
+                            "Website Blocked" +
+                            "</h1>" +
+                            "<p>N'Dèye VERMONT a bloqué cette page !!!</p>" +
+                            "</body>" +
+                            "</html>");
+                        }
                         //Console.WriteLine("---------------------------->" + body);
                         await e.SetResponseBodyString(body);
                     }

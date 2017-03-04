@@ -554,7 +554,7 @@ namespace ProxyNavigateur.DB
                 }
                 try
                 {
-                    string sqlQuery = "SELECT * FROM ListeDynamique join ListeTheme on ListeTheme.Theme != ListeDynamique.fk_theme";
+                    string sqlQuery = "SELECT * FROM ListeDynamique join ListeTheme on ListeTheme.Theme = ListeDynamique.fk_theme where ListeTheme.Theme!='"+ nomTheme +"'";
                     var valMot = connexion.Query<ListeDynamique, ListeTheme, ListeDynamique>(sqlQuery, (dyn, theme) =>
                     {
                         dyn.theme = theme;
