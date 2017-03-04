@@ -22,8 +22,8 @@ namespace vueConsole
             Console.WriteLine(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]));
             DAL d = new DAL(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0])+ "/test.sqlite");
 
-            d.creation();
-            d.seed();
+            //d.creation();
+            //d.seed();
 
             Rechercheur.Rechercheur r = new Rechercheur.Rechercheur(d);
           
@@ -40,7 +40,7 @@ namespace vueConsole
             Console.WriteLine(r.checkPartWord("pas de sex").ToString());
             Console.WriteLine(r.checkPartWord("seks").ToString());
             Console.WriteLine(r.checkPartWord("partout").ToString());
-            Console.WriteLine(r.valPhrase(@"").ToString());
+            Console.WriteLine(r.valPhrase("sex").ToString());
 
             Controller.StartProxy();
 

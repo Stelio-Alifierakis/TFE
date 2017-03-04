@@ -56,5 +56,9 @@ namespace ProxyNavigateur.DB
         string returnTheme(string word);
 
         IEnumerable<Sites> getURL(string listeURL);
+
+        Dictionary<string, int> motsInterditVal();
+
+        Dictionary<string, int> motsInterdit();
     }
 }

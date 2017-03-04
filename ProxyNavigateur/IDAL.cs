@@ -47,5 +47,7 @@ namespace ProxyNavigateur
         bool checkPartWord(string phrase);
         int retourVal(string mot);
         string returnTheme(string word);
+        Dictionary<string, int> motsInterditVal();
+        Dictionary<string, int> motsInterdit();
     }
 }

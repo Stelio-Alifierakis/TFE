@@ -98,7 +98,7 @@ namespace proxy
                 requestBodyHistory[e.Id] = bodyString;
             }
 
-            Console.WriteLine("---------------------------->" + e.WebSession.Request.RequestUri.AbsoluteUri);
+            //Console.WriteLine("---------------------------->" + e.WebSession.Request.RequestUri.AbsoluteUri);
 
             //To cancel a request with a custom HTML content
             //Filter URL
@@ -186,8 +186,10 @@ namespace proxy
                         await e.SetResponseBody(bodyBytes);
 
                         string body = await e.GetResponseBodyAsString();
+                        Console.WriteLine(r.valPhrase(body));
                         if (r.valPhrase(body)>20)
                         {
+                            Console.WriteLine("Ca marche");
                             await e.SetResponseBodyString("<!DOCTYPE html>" +
                             "<html><body><h1>" +
                             "Website Blocked" +
@@ -196,8 +198,12 @@ namespace proxy
                             "</body>" +
                             "</html>");
                         }
+                        else
+                        {
+                            await e.SetResponseBodyString(body);
+                        }
                         //Console.WriteLine("---------------------------->" + body);
-                        await e.SetResponseBodyString(body);
+                        
                     }
                 }
             }

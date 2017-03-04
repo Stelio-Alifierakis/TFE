@@ -479,5 +479,33 @@ namespace UnitTestProject1
             Assert.IsNotNull(l);
             Assert.AreEqual("www.sex.com",l[0].url);
         }
+
+        [TestMethod]
+        public void test_dictionnaryMotCle()
+        {
+            bd.seeder();
+
+            Dictionary<string, int> dictTest = bd.motsInterdit();
+
+            Assert.IsNotNull(dictTest);
+            Assert.AreEqual(0, dictTest["sex"]);
+            Assert.AreEqual(0, dictTest["sexe"]);
+            Assert.AreEqual(0, dictTest["seks"]);
+            Assert.AreEqual(0, dictTest["porn"]);
+        }
+
+        [TestMethod]
+        public void test_dictionnaryMotCleVal()
+        {
+            bd.seeder();
+
+            Dictionary<string, int> dictTest = bd.motsInterditVal();
+
+            Assert.IsNotNull(dictTest);
+            Assert.AreEqual(4, dictTest["sex"]);
+            Assert.AreEqual(4, dictTest["sexe"]);
+            Assert.AreEqual(4, dictTest["seks"]);
+            Assert.AreEqual(15, dictTest["porn"]);
+        }
     }
 }

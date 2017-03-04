@@ -249,5 +249,15 @@ namespace ProxyNavigateur
                     return null;
             }            
         }
+
+        public Dictionary<string, int> motsInterditVal()
+        {
+            return bd.motsInterditVal();
+        }
+
+        public Dictionary<string, int> motsInterdit()
+        {
+            return bd.motsInterdit();
+        }
     }
 }

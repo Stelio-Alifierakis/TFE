@@ -20,7 +20,8 @@ namespace Rechercheur
         private double value = 0;
         //private ArrayList listWordValue = new ArrayList();
         private List<string> listWordValue = new List<string>();
-        private string[] separateur;
+        private Dictionary<string, int> dictValMot;
+        //private string[] separateur;
         private int valArret=0;
 
         string[] separateurBodyHead = {
@@ -55,6 +56,7 @@ namespace Rechercheur
         public Rechercheur(DAL bdd)
         {
             this.bdd = bdd;
+            dictValMot = bdd.motsInterditVal();
         }
 
         public bool goodWord(string msg) //à changer
@@ -76,9 +78,11 @@ namespace Rechercheur
 
         public double valPhrase(string phrase)
         {
-            value = 0;
+            Dictionary<string, int> nombreMots = bdd.motsInterdit();
 
-            if (valArret == 0)
+            double val = 0;
+
+            /*if (valArret == 0)
             {
                 valArret = 20;
             }
@@ -88,15 +92,26 @@ namespace Rechercheur
                 listWordValue.RemoveAt(0);
             }
 
-            List<Thread> listTh = new List<Thread>();            
+            List<Thread> listTh = new List<Thread>();
 
-            separateur = phrase.Split(separateurBodyHead, StringSplitOptions.RemoveEmptyEntries);
+            string[] separateur = phrase.Split(separateurBodyHead, StringSplitOptions.RemoveEmptyEntries);
 
-            //divHead =;
+            string[] diviseHead = separateur[1].Split(separateurHead, StringSplitOptions.RemoveEmptyEntries);
 
-            /*foreach (string s in separateur)
+            string[] donneesHead = diviseHead[1].Split(separateurMot, StringSplitOptions.RemoveEmptyEntries);*/
+
+            string[] separateur = phrase.Split(separateurMot, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (string mot in separateur)
             {
-                bool ifWordExist = false;
+                if (nombreMots.ContainsKey(mot))
+                {
+                    int nb = nombreMots[mot];
+                    nb++;
+                    nombreMots[mot] = nb;
+                }
+
+                /*bool ifWordExist = false;
 
                 foreach (string mot in listWordValue)
                 {
@@ -109,10 +124,27 @@ namespace Rechercheur
                 if (!ifWordExist)
                 {
                     listWordValue.Add(s);
+                }*/
+            }
+
+            foreach (KeyValuePair<string,int> mot in nombreMots)
+            {
+                if (mot.Value==1)
+                {
+                    val += dictValMot[mot.Key];
+                }
+                else if(mot.Value >1)
+                {
+                    val += Math.Pow(dictValMot[mot.Key],mot.Value);
+                }
+
+                if (value>100)
+                {
+                    return val;
                 }
             }
 
-            int i = 0;
+            /*int i = 0;
             int j = 0;
             while (i<listWordValue.Count && value < valArret)
             {
@@ -145,10 +177,10 @@ namespace Rechercheur
                     th.Join();
                 }
             }*/
-            return value;
+            return val;
         }
 
-        private void thValWord(object wordTh)
+        /*private void thValWord(object wordTh)
         {
             string word = (string)wordTh;
 
@@ -182,7 +214,7 @@ namespace Rechercheur
 
                 }
             }
-        }
+        }*/
 
         public List<Sites> getListeSites(string nomListe)
         {

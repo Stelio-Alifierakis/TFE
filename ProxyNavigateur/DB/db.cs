@@ -950,5 +950,113 @@ namespace ProxyNavigateur.DB
             return returnWord;
         }
 
+        public Dictionary<string,int> motsInterdit()
+        {
+            Dictionary<string, int> dictMots=new Dictionary<string, int>();
+
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
+            {
+                if (connexion.State == ConnectionState.Closed)
+                {
+                    connexion.Open();
+                }
+                try
+                {
+                    string sqlQuery = "SELECT DISTINCT * FROM MotCle LEFT OUTER JOIN Synonyme ON MotCle.mot=Synonyme.fk_trad";
+                    var valMot = connexion.Query<MotCle, Synonyme, MotCle>(sqlQuery, (motCle, syn) =>
+                    {
+                        motCle.Synonyme = syn;
+                        return motCle;
+                    }, splitOn: "mot").ToList();
+
+                    foreach (MotCle m in valMot)
+                    {
+                        if (m.fk_theme!= "Approprie")
+                        {
+                            if (m.Synonyme!=null)
+                            {
+                                if (!dictMots.ContainsKey(m.Synonyme.mot)) {
+                                    dictMots.Add(m.Synonyme.mot, 0);
+                                }
+                                if (!dictMots.ContainsKey(m.mot))
+                                {
+                                    dictMots.Add(m.mot, 0);
+                                }
+                            }
+                            else
+                            {
+                                if (!dictMots.ContainsKey(m.mot))
+                                {
+                                    dictMots.Add(m.mot, 0);
+                                }
+                            }
+                        }
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+            return dictMots;
+        }
+
+        public Dictionary<string,int> motsInterditVal()
+        {
+            Dictionary<string, int> dictMotsVal = new Dictionary<string, int>();
+
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
+            {
+                if (connexion.State == ConnectionState.Closed)
+                {
+                    connexion.Open();
+                }
+                try
+                {
+                    string sqlQuery = "SELECT * FROM MotCle LEFT OUTER JOIN Synonyme ON MotCle.mot=Synonyme.fk_trad";
+                    var valMot = connexion.Query<MotCle, Synonyme, MotCle>(sqlQuery, (motCle, syn) =>
+                    {
+                        motCle.Synonyme = syn;
+                        return motCle;
+                    }, splitOn: "mot").ToList();
+
+                    foreach (MotCle m in valMot)
+                    {
+                        if (m.fk_theme != "Approprie")
+                        {
+                            if (m.Synonyme != null)
+                            {
+                                if (!dictMotsVal.ContainsKey(m.Synonyme.mot))
+                                {
+                                    dictMotsVal.Add(m.Synonyme.mot, m.valeur);
+                                }
+
+                                if (!dictMotsVal.ContainsKey(m.mot))
+                                {
+                                    dictMotsVal.Add(m.mot, m.valeur);
+                                }
+                            }
+                            else
+                            {
+                                if (!dictMotsVal.ContainsKey(m.mot))
+                                {
+                                    dictMotsVal.Add(m.mot, m.valeur);
+                                }
+                            }
+                        }
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+            return dictMotsVal;
+        }
+
     }
 }
