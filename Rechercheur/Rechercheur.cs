@@ -21,6 +21,7 @@ namespace Rechercheur
         //private ArrayList listWordValue = new ArrayList();
         private List<string> listWordValue = new List<string>();
         private Dictionary<string, int> dictValMot;
+        private Dictionary<string, string> lienThemeMot;
         //private string[] separateur;
         private int valArret=0;
 
@@ -56,7 +57,15 @@ namespace Rechercheur
         public Rechercheur(DAL bdd)
         {
             this.bdd = bdd;
-            dictValMot = bdd.motsInterditVal();
+            try
+            {
+                dictValMot = bdd.motsInterditVal();
+                lienThemeMot = bdd.retourTheme();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         public bool goodWord(string msg) //à changer
@@ -78,27 +87,18 @@ namespace Rechercheur
 
         public double valPhrase(string phrase)
         {
-            Dictionary<string, int> nombreMots = bdd.motsInterdit();
+            Dictionary<string, int> nombreMots=new Dictionary<string, int>();
+
+            try
+            {
+                nombreMots = bdd.motsInterdit();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
             double val = 0;
-
-            /*if (valArret == 0)
-            {
-                valArret = 20;
-            }
-
-            while (listWordValue.Count>0)
-            {
-                listWordValue.RemoveAt(0);
-            }
-
-            List<Thread> listTh = new List<Thread>();
-
-            string[] separateur = phrase.Split(separateurBodyHead, StringSplitOptions.RemoveEmptyEntries);
-
-            string[] diviseHead = separateur[1].Split(separateurHead, StringSplitOptions.RemoveEmptyEntries);
-
-            string[] donneesHead = diviseHead[1].Split(separateurMot, StringSplitOptions.RemoveEmptyEntries);*/
 
             string[] separateur = phrase.Split(separateurMot, StringSplitOptions.RemoveEmptyEntries);
 
@@ -110,21 +110,6 @@ namespace Rechercheur
                     nb++;
                     nombreMots[mot] = nb;
                 }
-
-                /*bool ifWordExist = false;
-
-                foreach (string mot in listWordValue)
-                {
-                    if (s == mot)
-                    {
-                        ifWordExist = true;
-                        break;
-                    }
-                }
-                if (!ifWordExist)
-                {
-                    listWordValue.Add(s);
-                }*/
             }
 
             foreach (KeyValuePair<string,int> mot in nombreMots)
@@ -143,78 +128,8 @@ namespace Rechercheur
                     return val;
                 }
             }
-
-            /*int i = 0;
-            int j = 0;
-            while (i<listWordValue.Count && value < valArret)
-            {
-                if (j < 10)
-                {
-                    Thread th = new Thread(new ParameterizedThreadStart(thValWord));
-                    listTh.Add(th);
-                    th.Start(listWordValue[i]);
-
-                    j++;
-                    i++;
-                }
-                else
-                {
-                    foreach (Thread th in listTh)
-                    {
-                        if (th.IsAlive)
-                        {
-                            th.Join();
-                        }
-                    }
-                    j = 0;
-                }                
-            }
-
-            foreach (Thread th in listTh)
-            {
-                if (th.IsAlive)
-                {
-                    th.Join();
-                }
-            }*/
             return val;
         }
-
-        /*private void thValWord(object wordTh)
-        {
-            string word = (string)wordTh;
-
-            if (value < valArret)
-            {
-                string testWord = bdd.returnTheme(word);
-                if (testWord != "" && testWord != "Approprie")
-                {
-                    int valTmp = 0;
-                    int dubble = 0;
-                    valTmp = bdd.retourVal(word);
-
-                    foreach (string dubbleWord in separateur)
-                    {
-                        if (word == dubbleWord)
-                        {
-                            dubble++;
-                        }
-                    }
-                    lock (_lock)
-                    {
-                        if (dubble > 1)
-                        {
-                            value += Math.Pow((double)valTmp, (double)dubble);
-                        }
-                        else
-                        {
-                            value += (double)valTmp;
-                        }
-                    }
-
-                }
-            }
-        }*/
 
         public List<Sites> getListeSites(string nomListe)
         {
@@ -228,6 +143,58 @@ namespace Rechercheur
             List<ListeDynamique> dyn = bdd.GetListeDynamiques(nomTheme);
 
             return dyn;
+        }
+
+        public string themePage(string phrase)
+        {
+            Dictionary<string, int> valParTheme = new Dictionary<string, int>();
+            Dictionary<string, int> nombreMots = new Dictionary<string, int>();
+
+            try
+            {
+                nombreMots = bdd.motsInterdit();
+                valParTheme = bdd.themeVal();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            string[] separateur = phrase.Split(separateurMot, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (string mot in separateur)
+            {
+                if (nombreMots.ContainsKey(mot))
+                {
+                    int nb = nombreMots[mot];
+                    nb++;
+                    nombreMots[mot] = nb;
+                }
+            }
+
+            foreach (KeyValuePair<string, int> mot in nombreMots)
+            {
+                if (mot.Value >0)
+                {
+                    int valTheme=valParTheme[lienThemeMot[mot.Key]];
+                    valTheme++;
+                    valParTheme[lienThemeMot[mot.Key]] = valTheme;
+                }
+            }
+
+            int max = 0;
+            string motTheme = "";
+
+            foreach (KeyValuePair<string, int> theme in valParTheme)
+            {
+                if (theme.Value>max)
+                {
+                    max = theme.Value;
+                    motTheme = theme.Key;
+                }
+            }
+
+            return motTheme;
         }
     }
 }

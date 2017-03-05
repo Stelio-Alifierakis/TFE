@@ -60,5 +60,9 @@ namespace ProxyNavigateur.DB
         Dictionary<string, int> motsInterditVal();
 
         Dictionary<string, int> motsInterdit();
+
+        Dictionary<string, string> retourTheme();
+
+        Dictionary<string, int> themeVal();
     }
 }

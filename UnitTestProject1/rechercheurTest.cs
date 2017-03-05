@@ -63,12 +63,20 @@ namespace UnitTestProject1
         public void test_returnValue()
         {
             Rechercheur.Rechercheur r = new Rechercheur.Rechercheur(d);
+
             Assert.AreEqual(15, r.valPhrase("test"));
             Assert.AreEqual(15, r.valPhrase("essai"));
             Assert.AreEqual(225, r.valPhrase("test test"));
             Assert.AreEqual(0, r.valPhrase("carotte"));
             Assert.AreNotEqual(225, r.valPhrase("test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test"));
             Assert.AreNotEqual(240, r.valPhrase(@"a"));
+        }
+
+        [TestMethod]
+        public void test_returnValueTheme() {
+            Rechercheur.Rechercheur r = new Rechercheur.Rechercheur(d);
+
+            Assert.AreEqual("TestTheme", r.themePage("test"));
         }
     }
 }

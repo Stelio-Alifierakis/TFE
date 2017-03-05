@@ -992,14 +992,12 @@ namespace ProxyNavigateur.DB
                             }
                         }
                     }
-
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
                 }
             }
-
             return dictMots;
         }
 
@@ -1056,6 +1054,92 @@ namespace ProxyNavigateur.DB
             }
 
             return dictMotsVal;
+        }
+
+        public Dictionary<string,string> retourTheme()
+        {
+            Dictionary<string, string> dictMotTheme = new Dictionary<string, string>();
+
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
+            {
+                if (connexion.State == ConnectionState.Closed)
+                {
+                    connexion.Open();
+                }
+                try
+                {
+                    string sqlQuery = "SELECT * FROM MotCle LEFT OUTER JOIN Synonyme ON MotCle.mot=Synonyme.fk_trad";
+                    var valMot = connexion.Query<MotCle, Synonyme, MotCle>(sqlQuery, (motCle, syn) =>
+                    {
+                        motCle.Synonyme = syn;
+                        return motCle;
+                    }, splitOn: "mot").ToList();
+
+                    foreach (MotCle m in valMot)
+                    {
+                        if (m.fk_theme != "Approprie")
+                        {
+                            if (m.Synonyme != null)
+                            {
+                                if (!dictMotTheme.ContainsKey(m.Synonyme.mot))
+                                {
+                                    dictMotTheme.Add(m.Synonyme.mot, m.fk_theme);
+                                }
+
+                                if (!dictMotTheme.ContainsKey(m.mot))
+                                {
+                                    dictMotTheme.Add(m.mot, m.fk_theme);
+                                }
+                            }
+                            else
+                            {
+                                if (!dictMotTheme.ContainsKey(m.mot))
+                                {
+                                    dictMotTheme.Add(m.mot, m.fk_theme);
+                                }
+                            }
+                        }
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+            return dictMotTheme;
+        }
+
+        public Dictionary<string,int> themeVal()
+        {
+            Dictionary<string, int> retourThemeVal = new Dictionary<string, int>();
+
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
+            {
+                if (connexion.State == ConnectionState.Closed)
+                {
+                    connexion.Open();
+                }
+                try
+                {
+                    List<ListeTheme> themes= connexion.Query<ListeTheme>("SELECT * FROM ListeTheme").ToList();
+
+                    foreach (ListeTheme l in themes)
+                    {
+                        if (!retourThemeVal.ContainsKey(l.theme))
+                        {
+                            retourThemeVal.Add(l.theme,0);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+            return retourThemeVal;
         }
 
     }

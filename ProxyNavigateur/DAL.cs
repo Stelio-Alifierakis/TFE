@@ -259,5 +259,15 @@ namespace ProxyNavigateur
         {
             return bd.motsInterdit();
         }
+
+        public Dictionary<string, string> retourTheme()
+        {
+            return bd.retourTheme();
+        }
+
+        public Dictionary<string, int> themeVal()
+        {
+            return bd.themeVal();
+        }
     }
 }

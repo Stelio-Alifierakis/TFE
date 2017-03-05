@@ -37,10 +37,10 @@ namespace vueConsole
             //d.verifSite("sex");
             //d.verifSite("seks");
             //d.verifSite("partout");
-            Console.WriteLine(r.checkPartWord("pas de sex").ToString());
-            Console.WriteLine(r.checkPartWord("seks").ToString());
-            Console.WriteLine(r.checkPartWord("partout").ToString());
-            Console.WriteLine(r.valPhrase("sex").ToString());
+            //Console.WriteLine(r.checkPartWord("pas de sex").ToString());
+            //Console.WriteLine(r.checkPartWord("seks").ToString());
+            //Console.WriteLine(r.checkPartWord("partout").ToString());
+            //Console.WriteLine(r.valPhrase("sex").ToString());
 
             Controller.StartProxy();
 

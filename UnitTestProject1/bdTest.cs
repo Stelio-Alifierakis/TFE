@@ -507,5 +507,31 @@ namespace UnitTestProject1
             Assert.AreEqual(4, dictTest["seks"]);
             Assert.AreEqual(15, dictTest["porn"]);
         }
+
+        [TestMethod]
+        public void test_dictionnaryMotTheme()
+        {
+            bd.seeder();
+
+            Dictionary<string, string> dictTest = bd.retourTheme();
+
+            Assert.IsNotNull(dictTest);
+            Assert.AreEqual("Pornographie", dictTest["sex"]);
+            Assert.AreEqual("Pornographie", dictTest["sexe"]);
+            Assert.AreEqual("Pornographie", dictTest["seks"]);
+            Assert.AreEqual("Pornographie", dictTest["porn"]);
+        }
+
+        [TestMethod]
+        public void test_dictionnaryValTheme()
+        {
+            bd.seeder();
+
+            Dictionary<string, int> dictTest = bd.themeVal();
+
+            Assert.IsNotNull(dictTest);
+            Assert.AreEqual(0, dictTest["Pornographie"]);
+            Assert.AreEqual(0, dictTest["Approprie"]);
+        }
     }
 }

@@ -121,6 +121,7 @@ namespace proxy
                       "Website Blocked" +
                       "</h1>" +
                       "<p>N'Dèye VERMONT a bloqué cette page !!!</p>" +
+                      "<p>Raison : Site dans la liste rouge</p>" +
                       "</body>" +
                       "</html>");
                     }
@@ -138,6 +139,7 @@ namespace proxy
                       "Website Blocked" +
                       "</h1>" +
                       "<p>N'Dèye VERMONT a bloqué cette page !!!</p>" +
+                      "<p>Raison : Site déjà bloqué</p>"+
                       "</body>" +
                       "</html>");
                     }
@@ -186,15 +188,17 @@ namespace proxy
                         await e.SetResponseBody(bodyBytes);
 
                         string body = await e.GetResponseBodyAsString();
-                        Console.WriteLine(r.valPhrase(body));
+                        //Console.WriteLine(r.valPhrase(body));
                         if (r.valPhrase(body)>20)
                         {
-                            Console.WriteLine("Ca marche");
+                            string theme = r.themePage(body);
+                            //Console.WriteLine("Ca marche");
                             await e.SetResponseBodyString("<!DOCTYPE html>" +
                             "<html><body><h1>" +
                             "Website Blocked" +
                             "</h1>" +
                             "<p>N'Dèye VERMONT a bloqué cette page !!!</p>" +
+                            "Raison : "+ theme +
                             "</body>" +
                             "</html>");
                         }
