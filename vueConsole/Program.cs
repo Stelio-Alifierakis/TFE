@@ -16,41 +16,33 @@ namespace vueConsole
 
         static void Main(string[] args)
         {
+
             NativeMethods.Handler = ConsoleEventCallback;
             NativeMethods.SetConsoleCtrlHandler(NativeMethods.Handler, true);
 
-            Console.WriteLine(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]));
-            DAL d = new DAL(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0])+ "/test.sqlite");
+            try
+            {
+                Console.WriteLine(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]));
+                DAL d = new DAL(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) + "/bdd/test.sqlite");
 
-            //d.creation();
-            //d.seed();
+                Rechercheur.Rechercheur r = new Rechercheur.Rechercheur(d);
 
-            Rechercheur.Rechercheur r = new Rechercheur.Rechercheur(d);
+                Controller.setRechercheur(r);
+                r.ValArret = 20;
+
+                Controller.StartProxy();
+
+                Console.WriteLine("Hit any key to exit..");
+                Console.WriteLine();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
           
-            Controller.setRechercheur(r);
-            r.ValArret = 20;
-
-            //d.checkPartWord("pas de sex");
-            //d.checkPartWord("seks");
-            //d.checkPartWord("partout");
-
-            //d.verifSite("sex");
-            //d.verifSite("seks");
-            //d.verifSite("partout");
-            //Console.WriteLine(r.checkPartWord("pas de sex").ToString());
-            //Console.WriteLine(r.checkPartWord("seks").ToString());
-            //Console.WriteLine(r.checkPartWord("partout").ToString());
-            //Console.WriteLine(r.valPhrase("sex").ToString());
-
-            Controller.StartProxy();
-
-            Console.WriteLine("Hit any key to exit..");
-            Console.WriteLine();
             Console.Read();
 
             Controller.Stop();
-
-            //bool essai = (Console.ReadKey().Key == ConsoleKey.O);
         }
 
         private static bool ConsoleEventCallback(int eventType)

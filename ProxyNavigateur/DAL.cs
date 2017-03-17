@@ -246,6 +246,7 @@ namespace ProxyNavigateur
                     List<Sites> l1 = bd.getURL(nomListe).ToList();
                     return l1;
                 default:
+                    //throw new Exception("Invalide liste");
                     return null;
             }            
         }

@@ -26,8 +26,7 @@ namespace proxy
         {
             proxyServer = new ProxyServer();
             proxyServer.TrustRootCertificate = true;
-            requestBodyHistory = new Dictionary<Guid, string>();
-            
+            requestBodyHistory = new Dictionary<Guid, string>();            
         }
 
         public void setRechercheur(Rechercheur.Rechercheur r)
@@ -45,6 +44,12 @@ namespace proxy
             proxyServer.ServerCertificateValidationCallback += OnCertificateValidation;
             proxyServer.ClientCertificateSelectionCallback += OnCertificateSelection;
 
+            /*string test = "démarrage du proxy";
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) + "/file/test.txt", true))
+            {              
+                file.WriteLine(test);
+            }*/
+
             var explicitEndPoint = new ExplicitProxyEndPoint(IPAddress.Any, 8000, true)
             {
                 // ExcludedHttpsHostNameRegex = new List<string>() { "google.com", "dropbox.com" }
@@ -60,8 +65,8 @@ namespace proxy
             proxyServer.AddEndPoint(transparentEndPoint);
 
             foreach (var endPoint in proxyServer.ProxyEndPoints)
-                Console.WriteLine("Listening on '{0}' endpoint at Ip {1} and port: {2} ",
-                    endPoint.GetType().Name, endPoint.IpAddress, endPoint.Port);
+                /*Console.WriteLine("Listening on '{0}' endpoint at Ip {1} and port: {2} ",
+                    endPoint.GetType().Name, endPoint.IpAddress, endPoint.Port);*/
 
             proxyServer.SetAsSystemHttpProxy(explicitEndPoint);
             proxyServer.SetAsSystemHttpsProxy(explicitEndPoint);
@@ -98,11 +103,16 @@ namespace proxy
                 requestBodyHistory[e.Id] = bodyString;
             }
 
+            /*using (System.IO.StreamWriter file = new System.IO.StreamWriter(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) + "/file/test.txt", true))
+            {
+                file.WriteLine(e.WebSession.Request.RequestUri.AbsoluteUri);
+            }*/
+
             //Console.WriteLine("---------------------------->" + e.WebSession.Request.RequestUri.AbsoluteUri);
 
             //To cancel a request with a custom HTML content
             //Filter URL
-            foreach(Sites site in listeVerte)
+            foreach (Sites site in listeVerte)
             {
                 if (e.WebSession.Request.RequestUri.AbsoluteUri.Contains(site.nomSite))
                 {
@@ -120,7 +130,7 @@ namespace proxy
                       "<html><body><h1>" +
                       "Website Blocked" +
                       "</h1>" +
-                      "<p>N'Dèye VERMONT a bloqué cette page !!!</p>" +
+                      "<p>N'Dèye VERMONT et Stelio ALIFIERAKIS ont bloqué cette page !!!</p>" +
                       "<p>Raison : Site dans la liste rouge</p>" +
                       "</body>" +
                       "</html>");
@@ -188,6 +198,11 @@ namespace proxy
                         await e.SetResponseBody(bodyBytes);
 
                         string body = await e.GetResponseBodyAsString();
+
+                        /*using (System.IO.StreamWriter file = new System.IO.StreamWriter(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) + "/file/test.txt", true))
+                        {
+                            file.WriteLine(body);
+                        }*/
                         //Console.WriteLine(r.valPhrase(body));
                         if (r.valPhrase(body)>20)
                         {

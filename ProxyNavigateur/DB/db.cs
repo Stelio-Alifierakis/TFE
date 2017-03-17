@@ -827,9 +827,10 @@ namespace ProxyNavigateur.DB
 
                     return valMot;
                 }
-                catch (Exception e)
+                catch
                 {
-                    Console.WriteLine(e.Message);
+                    //Console.WriteLine(e.Message);
+                    //throw new Exception("Invalide liste" + e.Message);
                     return null;
                 }
             }
