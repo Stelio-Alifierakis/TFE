@@ -139,53 +139,6 @@ namespace ProxyNavigateur.DB
             ts.seeder();
         }
 
-        /*private void tableSeed()
-        {
-            Synchronisation synch = new Synchronisation(DateTime.Now);
-            ListeTheme th = new ListeTheme("Approprie");
-            Listes liste = new Listes("Liste Verte");
-            Topologie topo = new Topologie("000001", synch.date);
-            Sites site = new Sites("www.openclassroom.com", synch.date, th.theme, liste.liste);
-            ListeDynamique dyn = new ListeDynamique("www.youtube.com", synch.date, th.theme);
-
-            SetListeTheme(th);
-            th.theme = "Pornographie";
-            SetListeTheme(th);
-
-            MotCle mc = new MotCle("sex", 4, synch.date, th.theme);
-            Synonyme syn = new Synonyme("sexe", mc.mot, synch.date);
-
-
-            SetSynchro(synch);
-            //SetListeTheme(th);
-            SetListe(liste);
-            SetTopologie(topo);
-            SetSites(site);
-            SetListeDynamique(dyn);
-            SetMotCle(mc);
-            SetSynonyme(syn);
-
-            liste.liste = "Liste Rouge";
-            SetListe(liste);
-
-            site.nomSite = "www.youporn.com";
-            site.fk_theme = th.theme;
-            site.fk_liste = liste.liste;
-            SetSites(site);
-
-            dyn.url = "www.facebook.com";
-            dyn.fk_theme = th.theme;
-            SetListeDynamique(dyn);
-
-            mc.mot = "porn";
-            mc.valeur = 15;
-            mc.fk_theme = th.theme;
-            SetMotCle(mc);
-
-            syn.mot = "seks";
-            SetSynonyme(syn);
-        }*/
-
         //méthodes sut la table Synchronisation
 
         public void SetSynchro(Synchronisation synch)
@@ -1141,6 +1094,78 @@ namespace ProxyNavigateur.DB
             }
 
             return retourThemeVal;
+        }
+
+        public Dictionary<string, bool> retourListeSites()
+        {
+            Dictionary<string, bool> retourSites = new Dictionary<string, bool>();
+
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
+            {
+                if (connexion.State == ConnectionState.Closed)
+                {
+                    connexion.Open();
+                }
+                try
+                {
+                    List<Sites> siteListes = connexion.Query<Sites>("SELECT * FROM Sites").ToList();
+
+                    foreach (Sites siteEnCours in siteListes)
+                    {
+                        if (!retourSites.ContainsKey(siteEnCours.nomSite) && siteEnCours.fk_liste.Equals("Liste Verte"))
+                        {
+                            retourSites.Add(siteEnCours.nomSite, true);
+                        }
+                        else if (!retourSites.ContainsKey(siteEnCours.nomSite) && siteEnCours.fk_liste.Equals("Liste Rouge"))
+                        {
+                            retourSites.Add(siteEnCours.nomSite, false);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return null;
+                }
+
+                return retourSites;
+            }
+        }
+
+        public Dictionary<string, bool> retourListeDynamiqueSites()
+        {
+            Dictionary<string, bool> retourSites = new Dictionary<string, bool>();
+
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
+            {
+                if (connexion.State == ConnectionState.Closed)
+                {
+                    connexion.Open();
+                }
+                try
+                {
+                    List<ListeDynamique> siteListes = connexion.Query<ListeDynamique>("SELECT * FROM ListeDynamique").ToList();
+
+                    foreach (ListeDynamique siteEnCours in siteListes)
+                    {
+                        if (!retourSites.ContainsKey(siteEnCours.url) && siteEnCours.fk_theme.Equals("Approprie"))
+                        {
+                            retourSites.Add(siteEnCours.url, true);
+                        }
+                        else if(!retourSites.ContainsKey(siteEnCours.url))
+                        {
+                            retourSites.Add(siteEnCours.url, false);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return null;
+                }
+
+                return retourSites;
+            }
         }
 
     }

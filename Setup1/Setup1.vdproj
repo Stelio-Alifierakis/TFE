@@ -87,12 +87,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_87EDF64379650BD1AD465A62E62EC8C8"
-        "OwnerKey" = "8:_1E7DBD5981C3FC3F72488755F18394AB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_88C5F33C284D955C7183ED0A3660A2BF"
         "OwnerKey" = "8:_B6795CBB3AEC4511AA13420A678ACFB4"
         "MsmSig" = "8:_UNDEFINED"
@@ -101,12 +95,6 @@
         {
         "MsmKey" = "8:_B074601BB872A0E4F1FF5103CB55E68A"
         "OwnerKey" = "8:_B6795CBB3AEC4511AA13420A678ACFB4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B52928F29E5146E6AD5077C25F4B7DA2"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -131,6 +119,12 @@
         {
         "MsmKey" = "8:_B856244DDF7883188355802A7C5686E5"
         "OwnerKey" = "8:_B6795CBB3AEC4511AA13420A678ACFB4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C1796C653AA542FAABAE1B63E12FF6BD"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -161,12 +155,6 @@
         {
         "MsmKey" = "8:_F78DEDC72E9C8D3F77E16F4EA1B98739"
         "OwnerKey" = "8:_B6795CBB3AEC4511AA13420A678ACFB4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B856244DDF7883188355802A7C5686E5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -241,6 +229,12 @@
         "OwnerKey" = "8:_CB1E79F660A450A4DD2AFE978257F2BC"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_B856244DDF7883188355802A7C5686E5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -259,6 +253,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -275,6 +285,27 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -608,26 +639,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B52928F29E5146E6AD5077C25F4B7DA2"
-            {
-            "SourcePath" = "8:..\\vueConsole\\bin\\Debug\\test.sqlite"
-            "TargetName" = "8:test.sqlite"
-            "Tag" = "8:"
-            "Folder" = "8:_A5DBD187E1544B5B89ED9DEA25F42DCB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B5E1E767DA40BAE0D5C2D20F6129F4DE"
             {
             "AssemblyRegister" = "3:1"
@@ -688,6 +699,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C1796C653AA542FAABAE1B63E12FF6BD"
+            {
+            "SourcePath" = "8:..\\BDD\\test.sqlite"
+            "TargetName" = "8:test.sqlite"
+            "Tag" = "8:"
+            "Folder" = "8:_A5DBD187E1544B5B89ED9DEA25F42DCB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_CB1E79F660A450A4DD2AFE978257F2BC"
@@ -820,7 +851,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Setup1"
         "ProductCode" = "8:{52102819-B136-453B-B564-7093011AD019}"
-        "PackageCode" = "8:{A4AFE3F1-7EC6-4D0E-96C9-CFD5EC608AB1}"
+        "PackageCode" = "8:{55D0E12A-8E04-419D-8380-55C161460B4A}"
         "UpgradeCode" = "8:{7C206F7C-9B01-4934-AA5F-EFB31720F97A}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

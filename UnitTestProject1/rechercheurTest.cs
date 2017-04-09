@@ -22,6 +22,7 @@ namespace UnitTestProject1
 
             ProxyNavigateur.Models.ListeTheme th = new ProxyNavigateur.Models.ListeTheme("TestTheme");
             bd.SetListeTheme(th);
+
             ProxyNavigateur.Models.MotCle mc = new ProxyNavigateur.Models.MotCle
             {
                 mot = "test",
@@ -42,6 +43,30 @@ namespace UnitTestProject1
 
             bd.SetMotCle(mc);
             bd.SetSynonyme(syn);
+
+            ProxyNavigateur.Models.Listes liste = new ProxyNavigateur.Models.Listes("Liste Verte");
+            ProxyNavigateur.Models.Sites site = new ProxyNavigateur.Models.Sites
+            {
+                nomSite = "www.facebook.com",
+                DateAjout = DateTime.Now,
+                fk_Date = DateTime.Now,
+                fk_theme = "TestTheme",
+                fk_liste = liste.liste
+            };
+            bd.SetListe(liste);
+            bd.SetSites(site);
+
+            liste = new ProxyNavigateur.Models.Listes("Liste Rouge");
+            site = new ProxyNavigateur.Models.Sites
+            {
+                nomSite = "www.youporn.com",
+                DateAjout = DateTime.Now,
+                fk_Date = DateTime.Now,
+                fk_theme = "TestTheme",
+                fk_liste = liste.liste
+            };
+            bd.SetListe(liste);
+            bd.SetSites(site);
         }
 
         [TestCleanup]
@@ -77,6 +102,21 @@ namespace UnitTestProject1
             Rechercheur.Rechercheur r = new Rechercheur.Rechercheur(d);
 
             Assert.AreEqual("TestTheme", r.themePage("test"));
+        }
+
+        [TestMethod]
+        public void test_return_valeur_url()
+        {
+            Rechercheur.Rechercheur r = new Rechercheur.Rechercheur(d);
+
+            Assert.AreEqual(1, r.checkUrl("www.facebook.com"));
+            Assert.AreEqual(0, r.checkUrl("www.youporn.com"));
+            Assert.AreEqual(0, r.checkUrl("http://www.youporn.com"));
+            Assert.AreEqual(1, r.checkUrl("http://www.facebook.com"));
+            Assert.AreEqual(1, r.checkUrl("http://www.facebook.com/test"));
+            Assert.AreEqual(2, r.checkUrl("www.youtube.com"));
+            Assert.AreEqual(2, r.checkUrl("www.youpagon.fr"));
+            Assert.AreEqual(2, r.checkUrl("http://www.youtube.com"));
         }
     }
 }

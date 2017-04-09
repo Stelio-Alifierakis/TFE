@@ -25,6 +25,10 @@ namespace vueConsole
                 Console.WriteLine(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]));
                 DAL d = new DAL(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) + "/bdd/test.sqlite");
 
+                /*d.suppressionDB();
+                d.creation();
+                d.seed();*/
+
                 Rechercheur.Rechercheur r = new Rechercheur.Rechercheur(d);
 
                 Controller.setRechercheur(r);
@@ -40,7 +44,7 @@ namespace vueConsole
                 Console.WriteLine(e.Message);
             }
           
-            Console.Read();
+            Console.ReadKey();
 
             Controller.Stop();
         }

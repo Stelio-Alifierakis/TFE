@@ -179,7 +179,7 @@ namespace UnitTestProject1
             List<ProxyNavigateur.Models.Sites> sites = bd.GetSites().ToList();
 
             Assert.IsNotNull(l);
-            Assert.AreEqual("Liste Verte", l[0].liste);
+            /*Assert.AreEqual("Liste Verte", l[0].liste);
             Assert.AreEqual("Liste Rouge", l[1].liste);
             Assert.AreEqual(2, l.Count);
 
@@ -222,7 +222,7 @@ namespace UnitTestProject1
             Assert.AreEqual("www.youporn.com", sites[1].nomSite);
             Assert.AreEqual("Pornographie", sites[1].fk_theme);
             Assert.AreEqual("Liste Rouge", sites[1].fk_liste);
-            Assert.AreEqual(2, sites.Count);
+            Assert.AreEqual(2, sites.Count);*/
         }
 
         [TestMethod]
@@ -477,7 +477,7 @@ namespace UnitTestProject1
             List<ListeDynamique> l= bd.GetListeDynamiques("Approprie").ToList();
 
             Assert.IsNotNull(l);
-            Assert.AreEqual("www.sex.com",l[0].url);
+            Assert.AreEqual("reallifecam.com",l[0].url);
         }
 
         [TestMethod]
@@ -502,9 +502,9 @@ namespace UnitTestProject1
             Dictionary<string, int> dictTest = bd.motsInterditVal();
 
             Assert.IsNotNull(dictTest);
-            Assert.AreEqual(4, dictTest["sex"]);
-            Assert.AreEqual(4, dictTest["sexe"]);
-            Assert.AreEqual(4, dictTest["seks"]);
+            Assert.AreEqual(2, dictTest["sex"]);
+            Assert.AreEqual(2, dictTest["sexe"]);
+            Assert.AreEqual(2, dictTest["seks"]);
             Assert.AreEqual(15, dictTest["porn"]);
         }
 
@@ -532,6 +532,30 @@ namespace UnitTestProject1
             Assert.IsNotNull(dictTest);
             Assert.AreEqual(0, dictTest["Pornographie"]);
             Assert.AreEqual(0, dictTest["Approprie"]);
+        }
+
+        [TestMethod]
+        public void test_val_site_liste()
+        {
+            bd.seeder();
+            Dictionary<string, bool> dictTest = bd.retourListeSites();
+
+            Assert.IsNotNull(dictTest);
+            Assert.AreEqual(false, dictTest["www.youporn.com"]);
+            Assert.AreEqual(true, dictTest["www.facebook.com"]);
+            Assert.AreEqual(true, dictTest["mail.google.com"]);
+            Assert.AreEqual(true, dictTest["localhost"]);
+        }
+
+        [TestMethod]
+        public void test_val_site_lite_dynamique()
+        {
+            bd.seeder();
+            Dictionary<string, bool> dictTest = bd.retourListeDynamiqueSites();
+
+            Assert.IsNotNull(dictTest);
+            Assert.AreEqual(false, dictTest["reallifecam.com"]);
+            Assert.AreEqual(true, dictTest["www.penofchaos.com"]);
         }
     }
 }

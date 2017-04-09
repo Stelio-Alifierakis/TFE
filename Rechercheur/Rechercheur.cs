@@ -22,8 +22,14 @@ namespace Rechercheur
         private List<string> listWordValue = new List<string>();
         private Dictionary<string, int> dictValMot;
         private Dictionary<string, string> lienThemeMot;
+        private Dictionary<string, bool> listeUrlACheck;
+        private Dictionary<string, bool> listeDynUrlACheck;
         //private string[] separateur;
         private int valArret=0;
+
+        string[] separateurURL = {
+               "/","&", "=", "?", ":"
+            };
 
         string[] separateurBodyHead = {
                "<head","<body"
@@ -61,6 +67,8 @@ namespace Rechercheur
             {
                 dictValMot = bdd.motsInterditVal();
                 lienThemeMot = bdd.retourTheme();
+                listeUrlACheck = bdd.listeSiteBool();
+                listeDynUrlACheck = bdd.retourListeDynamiqueSites();
             }
             catch (Exception e)
             {
@@ -106,6 +114,7 @@ namespace Rechercheur
             {
                 if (nombreMots.ContainsKey(mot))
                 {
+                    Console.WriteLine(mot);
                     int nb = nombreMots[mot];
                     nb++;
                     nombreMots[mot] = nb;
@@ -195,6 +204,42 @@ namespace Rechercheur
             }
 
             return motTheme;
+        }
+
+        public int checkUrl(string url)
+        {
+            int verif = 2;
+
+            string[] separateur = url.Split(separateurURL, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (string urlACheck in separateur)
+            {
+                if (listeUrlACheck.ContainsKey(urlACheck) && listeUrlACheck[urlACheck]==true)
+                {
+                    Console.WriteLine(listeUrlACheck[urlACheck]);
+                    verif = 1;
+                    break;
+                }
+                else if(listeUrlACheck.ContainsKey(urlACheck) && listeUrlACheck[urlACheck] == false)
+                {
+                    Console.WriteLine(listeUrlACheck[urlACheck]);
+                    verif = 0;
+                    break;
+                }
+                else if (listeDynUrlACheck.ContainsKey(urlACheck) && listeDynUrlACheck[urlACheck] == true)
+                {
+                    Console.WriteLine(listeUrlACheck[urlACheck]);
+                    verif = 1;
+                    break;
+                }
+                else if (listeDynUrlACheck.ContainsKey(urlACheck) && listeDynUrlACheck[urlACheck] == false)
+                {
+                    Console.WriteLine(listeUrlACheck[urlACheck]);
+                    verif = 0;
+                    break;
+                }
+            }
+            return verif;
         }
     }
 }

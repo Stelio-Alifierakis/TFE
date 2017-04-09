@@ -64,5 +64,9 @@ namespace ProxyNavigateur.DB
         Dictionary<string, string> retourTheme();
 
         Dictionary<string, int> themeVal();
+
+        Dictionary<string, bool> retourListeSites();
+
+        Dictionary<string, bool> retourListeDynamiqueSites();
     }
 }

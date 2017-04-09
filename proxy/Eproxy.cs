@@ -18,23 +18,26 @@ namespace proxy
         private ProxyServer proxyServer;
         private Dictionary<Guid, string> requestBodyHistory;
         private Rechercheur.Rechercheur r;
-        private List<Sites> listeVerte;
-        private List<Sites> listeRouge;
-        private List<ListeDynamique> listeDynamique;
+        private bool activationRechercheContenu = true;
+        private bool activationRechercheUrl = true;
+
+        private const string messageBlocage = "<!DOCTYPE html>" +
+                      "<html><body><h1>" +
+                      "Website Blocked" +
+                      "</h1>" +
+                      "<p>N'Dèye VERMONT et Stelio ALIFIERAKIS ont bloqué cette page !!!</p>";
 
         public Eproxy()
         {
             proxyServer = new ProxyServer();
             proxyServer.TrustRootCertificate = true;
-            requestBodyHistory = new Dictionary<Guid, string>();            
+            requestBodyHistory = new Dictionary<Guid, string>();
+            Console.WriteLine(activationRechercheContenu + " " + activationRechercheUrl);     
         }
 
         public void setRechercheur(Rechercheur.Rechercheur r)
         {
             this.r = r;
-            listeVerte = r.getListeSites("Liste Verte");
-            listeRouge = r.getListeSites("Liste Rouge");
-            listeDynamique = r.GetListeDynamiques("Approprie");
         }
 
         public void StartProxy()
@@ -44,15 +47,8 @@ namespace proxy
             proxyServer.ServerCertificateValidationCallback += OnCertificateValidation;
             proxyServer.ClientCertificateSelectionCallback += OnCertificateSelection;
 
-            /*string test = "démarrage du proxy";
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) + "/file/test.txt", true))
-            {              
-                file.WriteLine(test);
-            }*/
-
             var explicitEndPoint = new ExplicitProxyEndPoint(IPAddress.Any, 8000, true)
             {
-                // ExcludedHttpsHostNameRegex = new List<string>() { "google.com", "dropbox.com" }
             };
 
             proxyServer.AddEndPoint(explicitEndPoint);
@@ -63,10 +59,6 @@ namespace proxy
                 GenericCertificateName = "google.com"
             };
             proxyServer.AddEndPoint(transparentEndPoint);
-
-            foreach (var endPoint in proxyServer.ProxyEndPoints)
-                /*Console.WriteLine("Listening on '{0}' endpoint at Ip {1} and port: {2} ",
-                    endPoint.GetType().Name, endPoint.IpAddress, endPoint.Port);*/
 
             proxyServer.SetAsSystemHttpProxy(explicitEndPoint);
             proxyServer.SetAsSystemHttpsProxy(explicitEndPoint);
@@ -84,10 +76,9 @@ namespace proxy
 
         public async Task OnRequest(object sender, SessionEventArgs e)
         {
-            //Console.WriteLine(e.WebSession.Request.Url);
+            //Console.WriteLine("requête " + e.WebSession.Request.RequestUri);
 
             var requestHeaders = e.WebSession.Request.RequestHeaders;
-            bool validSite = false;
 
             var method = e.WebSession.Request.Method.ToUpper();
             if ((method == "POST" || method == "PUT" || method == "PATCH"))
@@ -102,127 +93,73 @@ namespace proxy
 
                 requestBodyHistory[e.Id] = bodyString;
             }
-
-            /*using (System.IO.StreamWriter file = new System.IO.StreamWriter(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) + "/file/test.txt", true))
-            {
-                file.WriteLine(e.WebSession.Request.RequestUri.AbsoluteUri);
-            }*/
-
-            //Console.WriteLine("---------------------------->" + e.WebSession.Request.RequestUri.AbsoluteUri);
-
-            //To cancel a request with a custom HTML content
-            //Filter URL
-            foreach (Sites site in listeVerte)
-            {
-                if (e.WebSession.Request.RequestUri.AbsoluteUri.Contains(site.nomSite))
-                {
-                    validSite = true;
-                }
-            }
-
-            if (!validSite)
-            {
-                foreach (Sites site in listeRouge)
-                {
-                    if (e.WebSession.Request.RequestUri.AbsoluteUri.Contains(site.nomSite))
-                    {
-                        await e.Ok("<!DOCTYPE html>" +
-                      "<html><body><h1>" +
-                      "Website Blocked" +
-                      "</h1>" +
-                      "<p>N'Dèye VERMONT et Stelio ALIFIERAKIS ont bloqué cette page !!!</p>" +
-                      "<p>Raison : Site dans la liste rouge</p>" +
-                      "</body>" +
-                      "</html>");
-                    }
-                }
-            }
-
-            if (!validSite)
-            {
-                foreach (ListeDynamique dyn in listeDynamique)
-                {
-                    if (e.WebSession.Request.RequestUri.AbsoluteUri.Contains(dyn.url))
-                    {
-                       await e.Ok("<!DOCTYPE html>" +
-                      "<html><body><h1>" +
-                      "Website Blocked" +
-                      "</h1>" +
-                      "<p>N'Dèye VERMONT a bloqué cette page !!!</p>" +
-                      "<p>Raison : Site déjà bloqué</p>"+
-                      "</body>" +
-                      "</html>");
-                    }
-                }
-            }
-            /*if (e.WebSession.Request.RequestUri.AbsoluteUri.Contains("perdu"))
-            {
-                await e.Ok("<!DOCTYPE html>" +
-                      "<html><body><h1>" +
-                      "Website Blocked" +
-                      "</h1>" +
-                      "<p>Blocked by titanium web proxy.</p>" +
-                      "</body>" +
-                      "</html>");
-            }*/
-
-            //Redirect example
-            /*if (e.WebSession.Request.RequestUri.AbsoluteUri.Contains("wikipedia.org"))
-            {
-                await e.Redirect("https://www.paypal.com");
-            }*/
+            //Console.WriteLine("Analyse de l'en-tête " + e.WebSession.Request.RequestUri.AbsoluteUri);
         }
 
         public async Task OnResponse(object sender, SessionEventArgs e)
         {
-            if (requestBodyHistory.ContainsKey(e.Id))
+            int validSite = 2;
+
+            //Console.WriteLine("requête " + e.WebSession.Request.RequestUri.AbsoluteUri);
+
+            if (activationRechercheUrl && r.checkUrl(e.WebSession.Request.RequestUri.AbsoluteUri) == 1)
             {
-                //access request body by looking up the shared dictionary using requestId
-                var requestBody = requestBodyHistory[e.Id];
+                validSite = 1;
+            }
+            else if (activationRechercheUrl && r.checkUrl(e.WebSession.Request.RequestUri.AbsoluteUri) == 0)
+            {
+                validSite = 0;
             }
 
-            //read response headers
-            var responseHeaders = e.WebSession.Response.ResponseHeaders;
+            Console.WriteLine("Validation URL : " + validSite + " -----------------> " + e.WebSession.Request.RequestUri.AbsoluteUri);
 
-            // print out process id of current session
-            //Console.WriteLine($"PID: {e.WebSession.ProcessId.Value}");
-
-            //if (!e.ProxySession.Request.Host.Equals("medeczane.sgk.gov.tr")) return;
-            if (e.WebSession.Request.Method == "GET" || e.WebSession.Request.Method == "POST")
+            if (validSite == 0)
             {
-                if (e.WebSession.Response.ResponseStatusCode == "200")
+                await e.Ok(messageBlocage +
+                      "<p>Raison : Site dans les listes bloquantes</p>" +
+                      "</body>" +
+                      "</html>");
+            }
+            else
+            {
+                if (requestBodyHistory.ContainsKey(e.Id))
                 {
-                    if (e.WebSession.Response.ContentType != null && e.WebSession.Response.ContentType.Trim().ToLower().Contains("text/html"))
+                    //access request body by looking up the shared dictionary using requestId
+                    var requestBody = requestBodyHistory[e.Id];
+                }
+
+                var responseHeaders = e.WebSession.Response.ResponseHeaders;
+
+                if (e.WebSession.Request.Method == "GET" || e.WebSession.Request.Method == "POST")
+                {
+                    if (e.WebSession.Response.ResponseStatusCode == "200")
                     {
-                        byte[] bodyBytes = await e.GetResponseBody();
-                        await e.SetResponseBody(bodyBytes);
+                        if (e.WebSession.Response.ContentType != null && e.WebSession.Response.ContentType.Trim().ToLower().Contains("text/html"))
+                        {
+                            byte[] bodyBytes = await e.GetResponseBody();
+                            await e.SetResponseBody(bodyBytes);
 
-                        string body = await e.GetResponseBodyAsString();
+                            string body = await e.GetResponseBodyAsString();
 
-                        /*using (System.IO.StreamWriter file = new System.IO.StreamWriter(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) + "/file/test.txt", true))
-                        {
-                            file.WriteLine(body);
-                        }*/
-                        //Console.WriteLine(r.valPhrase(body));
-                        if (r.valPhrase(body)>20)
-                        {
-                            string theme = r.themePage(body);
-                            //Console.WriteLine("Ca marche");
-                            await e.SetResponseBodyString("<!DOCTYPE html>" +
-                            "<html><body><h1>" +
-                            "Website Blocked" +
-                            "</h1>" +
-                            "<p>N'Dèye VERMONT a bloqué cette page !!!</p>" +
-                            "Raison : "+ theme +
-                            "</body>" +
-                            "</html>");
+                            if (activationRechercheContenu && validSite != 1 && r.checkUrl(e.WebSession.Request.RequestUri.AbsoluteUri) != 1 && r.valPhrase(body) > 20)
+                            {
+                                string theme = r.themePage(body);
+                                await e.SetResponseBodyString(messageBlocage +
+                                "Raison : " + theme +
+                                "</body>" +
+                                "</html>");
+                            }
+                            else
+                            {
+                                await e.SetResponseBodyString(body);
+                            }
+
+                            //Console.WriteLine("Analyse de la réponse " + e.WebSession.Request.RequestUri.AbsoluteUri + " réponse " + e.WebSession.Response.ResponseStatusCode);
                         }
-                        else
-                        {
-                            await e.SetResponseBodyString(body);
-                        }
-                        //Console.WriteLine("---------------------------->" + body);
-                        
+                    }
+                    else
+                    {
+                        Console.WriteLine(" erreur " + e.WebSession.Response.ResponseStatusCode);
                     }
                 }
             }
@@ -230,19 +167,15 @@ namespace proxy
 
         public Task OnCertificateValidation(object sender, CertificateValidationEventArgs e)
         {
-            //set IsValid to true/false based on Certificate Errors
             if (e.SslPolicyErrors == System.Net.Security.SslPolicyErrors.None)
             {
                 e.IsValid = true;
             }
-
             return Task.FromResult(0);
         }
 
         public Task OnCertificateSelection(object sender, CertificateSelectionEventArgs e)
         {
-            //set e.clientCertificate to override
-
             return Task.FromResult(0);
         }
     }

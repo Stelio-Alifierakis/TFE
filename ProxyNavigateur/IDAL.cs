@@ -51,5 +51,7 @@ namespace ProxyNavigateur
         Dictionary<string, int> motsInterdit();
         Dictionary<string, string> retourTheme();
         Dictionary<string, int> themeVal();
+        Dictionary<string, bool> listeSiteBool();
+        Dictionary<string, bool> retourListeDynamiqueSites();
     }
 }

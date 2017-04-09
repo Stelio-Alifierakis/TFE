@@ -270,5 +270,15 @@ namespace ProxyNavigateur
         {
             return bd.themeVal();
         }
+
+        public Dictionary<string, bool> listeSiteBool()
+        {
+            return bd.retourListeSites();
+        }
+
+        public Dictionary<string, bool> retourListeDynamiqueSites()
+        {
+            return bd.retourListeDynamiqueSites();
+        }
     }
 }

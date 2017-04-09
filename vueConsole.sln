@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wsProxy", "wsProxy\wsProxy.
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup1", "Setup1\Setup1.vdproj", "{039C3A96-E656-4D88-9365-D3577AEBD64A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Profileur", "Profileur\Profileur.csproj", "{4404D7B7-3B5E-449F-A76F-7B23007A35AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,14 @@ Global
 		{039C3A96-E656-4D88-9365-D3577AEBD64A}.Debug|x86.ActiveCfg = Debug
 		{039C3A96-E656-4D88-9365-D3577AEBD64A}.Release|Any CPU.ActiveCfg = Release
 		{039C3A96-E656-4D88-9365-D3577AEBD64A}.Release|x86.ActiveCfg = Release
+		{4404D7B7-3B5E-449F-A76F-7B23007A35AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4404D7B7-3B5E-449F-A76F-7B23007A35AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4404D7B7-3B5E-449F-A76F-7B23007A35AA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4404D7B7-3B5E-449F-A76F-7B23007A35AA}.Debug|x86.Build.0 = Debug|Any CPU
+		{4404D7B7-3B5E-449F-A76F-7B23007A35AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4404D7B7-3B5E-449F-A76F-7B23007A35AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4404D7B7-3B5E-449F-A76F-7B23007A35AA}.Release|x86.ActiveCfg = Release|Any CPU
+		{4404D7B7-3B5E-449F-A76F-7B23007A35AA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
