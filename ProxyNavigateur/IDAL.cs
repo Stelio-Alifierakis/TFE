@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace ProxyNavigateur
 {
+
+    /// <summary>
+    /// Interface de la couche d'accès de la base de données
+    /// </summary>
     public interface IDAL
     {
         void creation();
@@ -53,5 +57,7 @@ namespace ProxyNavigateur
         Dictionary<string, int> themeVal();
         Dictionary<string, bool> listeSiteBool();
         Dictionary<string, bool> retourListeDynamiqueSites();
+        List<Sites> retourSites(string nomListe);
+        List<ListeDynamique> GetListeDynamiques(string nomTheme);
     }
 }

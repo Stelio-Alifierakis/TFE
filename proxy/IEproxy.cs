@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Rechercheur;
+
 namespace proxy
 {
     public interface IEproxy
     {
         void StartProxy();
         void Stop();
-        void setRechercheur(Rechercheur.Rechercheur r);
+        void setRechercheur(IRechercheur r);
     }
 }

@@ -7,12 +7,14 @@ using ProxyNavigateur;
 using Rechercheur;
 using proxy;
 using System.Runtime.InteropServices;
+using Configurateur;
 
 namespace vueConsole
 {
     class Program
     {
-        private static readonly IEproxy Controller = new Eproxy();
+        //private static readonly IEproxy Controller = new Eproxy();
+        private static Configurateur.Configurateur conf = new Configurateur.Configurateur();
 
         static void Main(string[] args)
         {
@@ -23,18 +25,23 @@ namespace vueConsole
             try
             {
                 Console.WriteLine(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]));
-                DAL d = new DAL(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) + "/bdd/test.sqlite");
 
-                /*d.suppressionDB();
+                conf.init();
+
+                conf.Demarrage();
+
+                /*DAL d = new DAL(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) + "/bdd/test.sqlite");
+
+                d.suppressionDB();
                 d.creation();
-                d.seed();*/
+                d.seed();
 
                 Rechercheur.Rechercheur r = new Rechercheur.Rechercheur(d);
 
                 Controller.setRechercheur(r);
                 r.ValArret = 20;
 
-                Controller.StartProxy();
+                Controller.StartProxy();*/
 
                 Console.WriteLine("Hit any key to exit..");
                 Console.WriteLine();
@@ -46,7 +53,8 @@ namespace vueConsole
           
             Console.ReadKey();
 
-            Controller.Stop();
+            //Controller.Stop();
+            conf.Stop();
         }
 
         private static bool ConsoleEventCallback(int eventType)
@@ -54,7 +62,8 @@ namespace vueConsole
             if (eventType != 2) return false;
             try
             {
-                Controller.Stop();
+                //Controller.Stop();
+                conf.Stop();
             }
             catch
             {

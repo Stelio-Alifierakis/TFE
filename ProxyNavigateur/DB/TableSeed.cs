@@ -7,16 +7,28 @@ using ProxyNavigateur.Models;
 
 namespace ProxyNavigateur.DB
 {
-
+    /// <summary>
+    /// Classe qui va envoyer les seed de la base de données
+    /// </summary>
     class TableSeed
     {
+        /// <summary>
+        /// Variable qui contient la base de données
+        /// </summary>
         public BDDInterface bd;
 
+        /// <summary>
+        /// Constructeur
+        /// </summary>
+        /// <param name="bd">Base de données</param>
         public TableSeed(BDDInterface bd)
         {
             this.bd = bd;
         }
 
+        /// <summary>
+        /// Fonction qui envoie le seed de la base de données
+        /// </summary>
         public void seeder()
         {
             Synchronisation sync = setSynchro(DateTime.Now);
@@ -93,6 +105,11 @@ namespace ProxyNavigateur.DB
 
         }
 
+        /// <summary>
+        /// Fonction privée qui seed une synchronisation et renvoie la date de synchronisation
+        /// </summary>
+        /// <param name="dateSynchro">Date</param>
+        /// <returns>Synchronisation</returns>
         private Synchronisation setSynchro(DateTime dateSynchro)
         {
             Synchronisation sync = new Synchronisation(dateSynchro);
@@ -100,6 +117,11 @@ namespace ProxyNavigateur.DB
             return sync;
         }
 
+        /// <summary>
+        /// Fonction privée qui seed un thème et renvoie le thème
+        /// </summary>
+        /// <param name="nomTheme"></param>
+        /// <returns></returns>
         private ListeTheme setListeTheme(string nomTheme)
         {
             ListeTheme th = new ListeTheme(nomTheme);
@@ -107,6 +129,11 @@ namespace ProxyNavigateur.DB
             return th;
         }
 
+        /// <summary>
+        /// Fonction privée qui seed une liste et renvoie la liste
+        /// </summary>
+        /// <param name="nomListe">Nom de la liste</param>
+        /// <returns>Liste</returns>
         private Listes setListes(string nomListe)
         {
             Listes liste = new Listes(nomListe);
@@ -114,6 +141,13 @@ namespace ProxyNavigateur.DB
             return liste;
         }
 
+        /// <summary>
+        /// Fonction privée qui seed un site dynamique et renvoie un site dynamique
+        /// </summary>
+        /// <param name="urlSite">L'URL du site</param>
+        /// <param name="dateSynchro">La date de la synchronisation</param>
+        /// <param name="nomTheme">Le nom du thème</param>
+        /// <returns></returns>
         private ListeDynamique setListeDynamique(string urlSite, DateTime dateSynchro, string nomTheme)
         {
             ListeDynamique dyn = new ListeDynamique(urlSite, dateSynchro, nomTheme);
@@ -121,18 +155,38 @@ namespace ProxyNavigateur.DB
             return dyn;
         }
 
+        /// <summary>
+        /// Fonction privée qui seed une topologie
+        /// </summary>
+        /// <param name="numSerie">ID de machine</param>
+        /// <param name="dateSynchro">La date de la synchronisation</param>
         private void setTopo(string numSerie, DateTime dateSynchro)
         {
             Topologie topo = new Topologie(numSerie, dateSynchro);
             bd.SetTopologie(topo);
         }
 
+        /// <summary>
+        /// Fonction privée qui seed un site
+        /// </summary>
+        /// <param name="urlSite">L'URL du site</param>
+        /// <param name="dateSynchro">La date de la synchronisation</param>
+        /// <param name="themeSite">Le thème du site</param>
+        /// <param name="listeSite">La nom de la liste</param>
         private void setSite(string urlSite, DateTime dateSynchro, string themeSite, string listeSite)
         {
             Sites site = new Sites(urlSite, dateSynchro, themeSite, listeSite);
             bd.SetSites(site);
         }
 
+        /// <summary>
+        /// Fonction privée qui seed un mot-clé et le renvoie
+        /// </summary>
+        /// <param name="mot">Le mot</param>
+        /// <param name="valeur">La valeur du mot</param>
+        /// <param name="dateSynchro">La date de synchronisation du mot</param>
+        /// <param name="themeMot">Le thème du mot</param>
+        /// <returns>Mot-clé</returns>
         private MotCle setMotCle(string mot, int valeur, DateTime dateSynchro, string themeMot)
         {
             MotCle mc = new MotCle(mot, valeur, dateSynchro, themeMot);
@@ -140,7 +194,12 @@ namespace ProxyNavigateur.DB
             return mc;
         }
 
-
+        /// <summary>
+        /// Fonction privée qui seed les synonymes
+        /// </summary>
+        /// <param name="synonyme">Le mot synonyme</param>
+        /// <param name="mot">Le mot d'origine</param>
+        /// <param name="dateSynchro">La date de synchronisation</param>
         private void setSynonyme(string synonyme, string mot, DateTime dateSynchro)
         {
             Synonyme syn = new Synonyme(synonyme, mot, dateSynchro);

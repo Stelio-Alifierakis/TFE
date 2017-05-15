@@ -7,6 +7,9 @@ using ProxyNavigateur.Models;
 
 namespace ProxyNavigateur.DB
 {
+    /// <summary>
+    /// Interface qui sert de contrat pour la classe de base de donnée
+    /// </summary>
     public interface BDDInterface
     {
         void creationTables();

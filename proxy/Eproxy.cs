@@ -17,7 +17,7 @@ namespace proxy
     {
         private ProxyServer proxyServer;
         private Dictionary<Guid, string> requestBodyHistory;
-        private Rechercheur.Rechercheur r;
+        private IRechercheur r;
         private bool activationRechercheContenu = true;
         private bool activationRechercheUrl = true;
 
@@ -35,7 +35,7 @@ namespace proxy
             Console.WriteLine(activationRechercheContenu + " " + activationRechercheUrl);     
         }
 
-        public void setRechercheur(Rechercheur.Rechercheur r)
+        public void setRechercheur(IRechercheur r)
         {
             this.r = r;
         }

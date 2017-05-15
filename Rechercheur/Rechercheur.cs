@@ -11,20 +11,54 @@ using ProxyNavigateur.Models;
 
 namespace Rechercheur
 {
-    public class Rechercheur
+    /// <summary>
+    /// Classe qui sert pour la recherche de la base de données
+    /// </summary>
+    public class Rechercheur : IRechercheur
     {
-        DAL bdd;
+        /// <summary>
+        /// Variable qui sert à stocker la classe d'accès à la base de données
+        /// </summary>
+        IDAL bdd;
 
+        /// <summary>
+        /// Verrous pour les threads
+        /// </summary>
         private static Object _lock = new object();
 
+        /// <summary>
+        /// Valeur
+        /// </summary>
         private double value = 0;
-        //private ArrayList listWordValue = new ArrayList();
+
+        /// <summary>
+        /// Variable qui stocke les valeurs des mots interdits
+        /// </summary>
         private List<string> listWordValue = new List<string>();
+
+        /// <summary>
+        /// Dictionnaire qui stocke les mots et leurs valeurs
+        /// </summary>
         private Dictionary<string, int> dictValMot;
+
+        /// <summary>
+        /// Dictionnaire qui stocke les mot-clés et les thèmes associées
+        /// </summary>
         private Dictionary<string, string> lienThemeMot;
+
+        /// <summary>
+        /// Dictionnaire qui stocke les sites d'un côté et leur autorisation (vraie ou fausse) de l'autre
+        /// </summary>
         private Dictionary<string, bool> listeUrlACheck;
+
+        /// <summary>
+        /// Dictionnaire qui stocke les sites dynamiques d'un côté et leur autorisation (vraie ou fausse) de l'autre
+        /// </summary>
         private Dictionary<string, bool> listeDynUrlACheck;
-        //private string[] separateur;
+
+        /// <summary>
+        /// Variable qui stocke une valeur d'arrêt
+        /// </summary>
         private int valArret=0;
 
         string[] separateurURL = {
@@ -60,7 +94,7 @@ namespace Rechercheur
             }
         }
 
-        public Rechercheur(DAL bdd)
+        public Rechercheur(IDAL bdd)
         {
             this.bdd = bdd;
             try
@@ -76,6 +110,23 @@ namespace Rechercheur
             }
         }
 
+        public void setBdd(IDAL bdd)
+        {
+            this.bdd = bdd;
+            try
+            {
+                dictValMot = bdd.motsInterditVal();
+                lienThemeMot = bdd.retourTheme();
+                listeUrlACheck = bdd.listeSiteBool();
+                listeDynUrlACheck = bdd.retourListeDynamiqueSites();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        [System.Obsolete]
         public bool goodWord(string msg) //à changer
         {
             bool validWord = false;
@@ -83,6 +134,7 @@ namespace Rechercheur
             return validWord;
         }
 
+        [System.Obsolete]
         public bool checkWord(string msg) //à changer
         {
             return bdd.verifSite(msg);

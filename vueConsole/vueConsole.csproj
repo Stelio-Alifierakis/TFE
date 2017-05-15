@@ -78,6 +78,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Configurateur\Configurateur.csproj">
+      <Project>{90795899-18e5-4647-ad66-6264311088e9}</Project>
+      <Name>Configurateur</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProxyNavigateur\ProxyNavigateur.csproj">
       <Project>{96888cb6-3184-46e0-8600-622f00c6d9c8}</Project>
       <Name>ProxyNavigateur</Name>

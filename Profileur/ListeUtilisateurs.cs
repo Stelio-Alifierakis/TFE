@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Profileur
 {
-    public class ListeUtilisateurs
+    public class ListeUtilisateurs : IListUtilisateur
     {
         private List<Utilisateur> listUtilisateur;
 

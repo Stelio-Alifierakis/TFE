@@ -12,19 +12,38 @@ using Dapper;
 
 namespace ProxyNavigateur.DB
 {
+    /// <summary>
+    /// Classe qui contient les fonctions d'accès à la base de données
+    /// </summary>
     public class db : BDDInterface
     {
-
+        /// <summary>
+        /// Nom de la base de données
+        /// </summary>
         private string BdNom;
+
+        /// <summary>
+        /// Chaîne de caractère qui sert à l'accès à la BDD sqlite
+        /// </summary>
         private string sqliteInfo = string.Empty;
 
+        /// <summary>
+        /// constructeur
+        /// </summary>
         public db() { }
 
+        /// <summary>
+        /// Constructeur
+        /// </summary>
+        /// <param name="nomBase">Nom de la base de données</param>
         public db(string nomBase) {
             BdNom = nomBase; //"BDD.sqlite"
             sqliteInfo = "Data Source=" + BdNom + ";Version=3;";
         }
 
+        /// <summary>
+        /// Fonction qui créé les différentes tables
+        /// </summary>
         public void creationTables()
         {
 
@@ -118,6 +137,9 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Fonction qui supprime le fichier de base de données
+        /// </summary>
         public void suppressionDB()
         {
             if (File.Exists(BdNom))
@@ -133,6 +155,9 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Fonction qui appelle le seed des tables
+        /// </summary>
         public void seeder()
         {
             TableSeed ts = new TableSeed(this);
@@ -141,6 +166,10 @@ namespace ProxyNavigateur.DB
 
         //méthodes sut la table Synchronisation
 
+        /// <summary>
+        /// Crée un champs synchronisation
+        /// </summary>
+        /// <param name="synch">Date de la synchro</param>
         public void SetSynchro(Synchronisation synch)
         {
             using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
@@ -171,6 +200,11 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Récupère une synchronisation
+        /// </summary>
+        /// <param name="date">Date</param>
+        /// <returns>Synchronisation</returns>
         public Synchronisation GetSynchro(DateTime date)
         {
             using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
@@ -195,6 +229,10 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Récupère toutes les synchronisation
+        /// </summary>
+        /// <returns>Liste des synchronisation</returns>
         public IEnumerable<Synchronisation> GetSynchros()
         {
 
@@ -218,6 +256,10 @@ namespace ProxyNavigateur.DB
 
         //méthodes sut la table Listes
 
+        /// <summary>
+        /// Crée une liste
+        /// </summary>
+        /// <param name="l">Liste</param>
         public void SetListe(Listes l)
         {
             using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
@@ -239,6 +281,11 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Récupère une liste
+        /// </summary>
+        /// <param name="ms">Nom de la liste</param>
+        /// <returns>Liste</returns>
         public Listes GetListes(string ms)
         {
             using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
@@ -263,6 +310,10 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Récupère toutes les listes
+        /// </summary>
+        /// <returns>L'ensemble des listes</returns>
         public IEnumerable<Listes> GetListes()
         {
 
@@ -286,6 +337,10 @@ namespace ProxyNavigateur.DB
 
         //méthodes sut la table Theme
 
+        /// <summary>
+        /// Créé un thème
+        /// </summary>
+        /// <param name="theme">Thème</param>
         public void SetListeTheme(ListeTheme theme)
         {
             using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
@@ -315,6 +370,11 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Récupère un thème
+        /// </summary>
+        /// <param name="ms">Nom du thème</param>
+        /// <returns>Thème</returns>
         public ListeTheme GetTheme(string ms)
         {
             using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
@@ -339,6 +399,10 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Récupère tous les thèmes
+        /// </summary>
+        /// <returns>Liste des thèmes</returns>
         public IEnumerable<ListeTheme> GetListeThemes()
         {
 
@@ -362,6 +426,10 @@ namespace ProxyNavigateur.DB
 
         //méthodes sut la table Topologie
 
+        /// <summary>
+        /// Créé une topologie
+        /// </summary>
+        /// <param name="topo">Topologie</param>
         public void SetTopologie(Topologie topo)
         {
             using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
@@ -383,6 +451,11 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Récupère une topologie
+        /// </summary>
+        /// <param name="ms">ID machine de la topologie à récupérer</param>
+        /// <returns>Topologie</returns>
         public Topologie GetTopo(string ms)
         {
             using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
@@ -407,6 +480,10 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Récupère toutes les topologies
+        /// </summary>
+        /// <returns>Liste des topologies</returns>
         public IEnumerable<Topologie> GetTopos()
         {
 
@@ -430,6 +507,10 @@ namespace ProxyNavigateur.DB
 
         //méthodes sut la table Listes Dynamique
 
+        /// <summary>
+        /// Crée un site dynamique
+        /// </summary>
+        /// <param name="dyn">URL du site</param>
         public void SetListeDynamique(ListeDynamique dyn)
         {
             using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
@@ -451,6 +532,11 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Récupère un site dynamique
+        /// </summary>
+        /// <param name="ms">URL du site</param>
+        /// <returns></returns>
         public ListeDynamique GetListeDynamique(string ms)
         {
             using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
@@ -475,6 +561,10 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Récupère tous les sites dynamiques
+        /// </summary>
+        /// <returns>Liste des sites dynamiques</returns>
         public IEnumerable<ListeDynamique> GetListeDynamiques()
         {
 
@@ -496,6 +586,11 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Récupère tous les sites dynamiques par thème
+        /// </summary>
+        /// <param name="nomTheme">Nom du thème</param>
+        /// <returns>Liste des sites dynamiques</returns>
         public IEnumerable<ListeDynamique> GetListeDynamiques(string nomTheme)
         {
 
@@ -526,6 +621,10 @@ namespace ProxyNavigateur.DB
 
         //méthodes sut la table Sites
 
+        /// <summary>
+        /// Crée un site
+        /// </summary>
+        /// <param name="site">Nom du site</param>
         public void SetSites(Sites site)
         {
             using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
@@ -546,6 +645,11 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Récupère un site
+        /// </summary>
+        /// <param name="ms">Nom du site</param>
+        /// <returns>Site</returns>
         public Sites GetSite(string ms)
         {
             using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
@@ -570,6 +674,10 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Récupère tous les sites
+        /// </summary>
+        /// <returns>Liste des sites</returns>
         public IEnumerable<Sites> GetSites()
         {
 
@@ -594,6 +702,10 @@ namespace ProxyNavigateur.DB
 
         //méthodes sut la table Mot-cle
 
+        /// <summary>
+        /// Crée un mot-clé
+        /// </summary>
+        /// <param name="mc">Mot</param>
         public void SetMotCle(MotCle mc)
         {
             using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
@@ -615,6 +727,11 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Récupère un mot clé
+        /// </summary>
+        /// <param name="ms">Mot</param>
+        /// <returns>Mot-clé</returns>
         public MotCle GetMotCle(string ms)
         {
             using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
@@ -639,6 +756,10 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Récupère tous les mots-clé
+        /// </summary>
+        /// <returns>Liste des mots-clé</returns>
         public IEnumerable<MotCle> GetMotCles()
         {
 
@@ -662,6 +783,10 @@ namespace ProxyNavigateur.DB
 
         //méthodes sut la table Synonyme
 
+        /// <summary>
+        /// Crée un synonyme
+        /// </summary>
+        /// <param name="syn">Mot</param>
         public void SetSynonyme(Synonyme syn)
         {
             using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
@@ -683,6 +808,11 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Récupère un synonyme
+        /// </summary>
+        /// <param name="ms">Mot</param>
+        /// <returns>Synonyme</returns>
         public Synonyme GetSynonyme(string ms)
         {
             using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
@@ -707,6 +837,10 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Récupère tous les synonymes
+        /// </summary>
+        /// <returns>Liste des synonymes</returns>
         public IEnumerable<Synonyme> GetSynonymes()
         {
             using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
@@ -729,6 +863,13 @@ namespace ProxyNavigateur.DB
 
         //vérif valeur
 
+        /// <summary>
+        /// Fonction qui vérifie un site.
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        /// <remarks>Ne marche plus</remarks>
+        [System.Obsolete]
         public bool verifSite(string msg) //à changer
         {
             bool test = false;
@@ -757,6 +898,11 @@ namespace ProxyNavigateur.DB
             return test;
         }
 
+        /// <summary>
+        /// Récupère tous les sites qui sont dans la liste dont le nom est stocké dans la variable <paramref name="listeURL"/>
+        /// </summary>
+        /// <param name="listeURL">Nom de la liste</param>
+        /// <returns>Liste de sites</returns>
         public IEnumerable<Sites> getURL(string listeURL)
         {
             using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
@@ -789,6 +935,12 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Vérifie que la phrase contenue dans la variable <paramref name="phrase"/> comporte l'un des mots-clé ou des synonymes
+        /// </summary>
+        /// <param name="phrase">Phrase dans laquelle chercher les mots</param>
+        /// <returns>Booléen vrai ou faux</returns>
+        /// <value>vrai ou faux</value>
         public bool checkPartWord(string phrase)
         {
             bool verif = false;
@@ -838,6 +990,11 @@ namespace ProxyNavigateur.DB
 
         //retourne valeur
 
+        /// <summary>
+        /// Retourne la valeur d'un mot
+        /// </summary>
+        /// <param name="mot">Mot</param>
+        /// <returns>Valeur</returns>
         public int retourVal(string mot)
         {
             int val = 0;
@@ -871,6 +1028,11 @@ namespace ProxyNavigateur.DB
             return val;
         }
 
+        /// <summary>
+        /// Retourne le nom du thème d'un mot
+        /// </summary>
+        /// <param name="word">Mot</param>
+        /// <returns>Thème</returns>
         public string returnTheme(string word)
         {
             string returnWord = string.Empty;
@@ -904,6 +1066,10 @@ namespace ProxyNavigateur.DB
             return returnWord;
         }
 
+        /// <summary>
+        /// Retourne la liste des mots-clé (ou synonyme) et une valeur qui est égale à 0 dans un dictionnaire
+        /// </summary>
+        /// <returns>Dictionnaire mot-clé et valeur 0</returns>
         public Dictionary<string,int> motsInterdit()
         {
             Dictionary<string, int> dictMots=new Dictionary<string, int>();
@@ -955,6 +1121,10 @@ namespace ProxyNavigateur.DB
             return dictMots;
         }
 
+        /// <summary>
+        /// Retourne la liste des mots-clé (ou synonyme) et leurs valeurs
+        /// </summary>
+        /// <returns>Dictionnaire mots-clé et valeurs</returns>
         public Dictionary<string,int> motsInterditVal()
         {
             Dictionary<string, int> dictMotsVal = new Dictionary<string, int>();
@@ -1010,6 +1180,10 @@ namespace ProxyNavigateur.DB
             return dictMotsVal;
         }
 
+        /// <summary>
+        /// Retourne les thèmes liés aux synonymes et mots-clés
+        /// </summary>
+        /// <returns>Dictionnaire de thèmes et mots-clé ou synonymes</returns>
         public Dictionary<string,string> retourTheme()
         {
             Dictionary<string, string> dictMotTheme = new Dictionary<string, string>();
@@ -1065,6 +1239,10 @@ namespace ProxyNavigateur.DB
             return dictMotTheme;
         }
 
+        /// <summary>
+        /// Retourne un dictionnaire de thèmes
+        /// </summary>
+        /// <returns>Dictionnaires de thèmes et valeurs 0</returns>
         public Dictionary<string,int> themeVal()
         {
             Dictionary<string, int> retourThemeVal = new Dictionary<string, int>();
@@ -1096,6 +1274,10 @@ namespace ProxyNavigateur.DB
             return retourThemeVal;
         }
 
+        /// <summary>
+        /// Retourne un dictionnaire de thèmes et de valeur booléenne
+        /// </summary>
+        /// <returns>Dictionnaire de thèmes et valeurs booléennes</returns>
         public Dictionary<string, bool> retourListeSites()
         {
             Dictionary<string, bool> retourSites = new Dictionary<string, bool>();
@@ -1132,6 +1314,10 @@ namespace ProxyNavigateur.DB
             }
         }
 
+        /// <summary>
+        /// Retourne un dictionnaire de sites dynamique et de valeurs booléennes
+        /// </summary>
+        /// <returns>Dictionnaire de sites dynamique et valeurs booléennes</returns>
         public Dictionary<string, bool> retourListeDynamiqueSites()
         {
             Dictionary<string, bool> retourSites = new Dictionary<string, bool>();
