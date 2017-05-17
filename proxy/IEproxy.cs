@@ -8,6 +8,9 @@ using Rechercheur;
 
 namespace proxy
 {
+    /// <summary>
+    /// Interface qui sert de contrat à la classe de proxy
+    /// </summary>
     public interface IEproxy
     {
         void StartProxy();

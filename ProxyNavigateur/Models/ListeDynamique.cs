@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProxyNavigateur.Models
+namespace BaseDonnees.Models
 {
     /// <summary>
     /// Modèle de sites dynamique

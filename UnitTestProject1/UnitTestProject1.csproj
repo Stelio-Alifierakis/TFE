@@ -105,9 +105,9 @@
       <Project>{4404d7b7-3b5e-449f-a76f-7b23007a35aa}</Project>
       <Name>Profileur</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ProxyNavigateur\ProxyNavigateur.csproj">
+    <ProjectReference Include="..\ProxyNavigateur\BaseDonnees.csproj">
       <Project>{96888cb6-3184-46e0-8600-622f00c6d9c8}</Project>
-      <Name>ProxyNavigateur</Name>
+      <Name>BaseDonnees</Name>
     </ProjectReference>
     <ProjectReference Include="..\Rechercheur\Rechercheur.csproj">
       <Project>{5396eff4-e854-4f7e-b273-cb6a115a6018}</Project>

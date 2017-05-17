@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ProxyNavigateur;
 using System.Collections;
 using System.Threading;
 
-using ProxyNavigateur.Models;
+using BaseDonnees;
+using BaseDonnees.Models;
 
 namespace Rechercheur
 {
@@ -61,26 +61,44 @@ namespace Rechercheur
         /// </summary>
         private int valArret=0;
 
-        string[] separateurURL = {
+        /// <summary>
+        /// Chaînes de caractères utilisées pour séparer les URL en plusieurs morceaux
+        /// </summary>
+        private readonly string[] separateurURL = {
                "/","&", "=", "?", ":"
             };
 
-        string[] separateurBodyHead = {
+        /// <summary>
+        /// Chaînes de caractères utilisées pour séparer le contenu web en 2, une partie head et une partie body
+        /// </summary>
+        private readonly string[] separateurBodyHead = {
                "<head","<body"
             };
 
-        string[] separateurHead = {
+        /// <summary>
+        /// Chaînes de caractères utilisées pour séparer le contenu du head
+        /// </summary>
+        private readonly string[] separateurHead = {
                 "<title","</title>", "name=\"description"
             };
 
-        string[] separateurBody = {
+        /// <summary>
+        /// Chaînes de caractères utilisées pour séparer le contenu du body
+        /// </summary>
+        private readonly string[] separateurBody = {
                 "<p",
             };
 
+        /// <summary>
+        /// Chaînes de caractères utilisées pour séparer les phrases
+        /// </summary>
         string[] separateurMot = {
                 " ", "\n", "\r\n", "=", "_", ",", "'","&","\""
             };
 
+        /// <summary>
+        /// Getter et setter de ValArret
+        /// </summary>
         public int ValArret
         {
             get
@@ -94,6 +112,11 @@ namespace Rechercheur
             }
         }
 
+        /// <summary>
+        /// Constructeur.
+        /// Reprend les différents dictionnaires depuis la classe d'accès à la base de données.
+        /// </summary>
+        /// <param name="bdd">Classe d'accès à la base de données</param>
         public Rechercheur(IDAL bdd)
         {
             this.bdd = bdd;
@@ -110,6 +133,11 @@ namespace Rechercheur
             }
         }
 
+        /// <summary>
+        /// Classe qui va définir la classe d'accès à la base de données.
+        /// Reprend les différents dictionnaires depuis la classe d'accès à la base de données.
+        /// </summary>
+        /// <param name="bdd">Classe d'accès à la base de données</param>
         public void setBdd(IDAL bdd)
         {
             this.bdd = bdd;
@@ -126,6 +154,11 @@ namespace Rechercheur
             }
         }
 
+        /// <summary>
+        /// Classe qui ne marche plus
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
         [System.Obsolete]
         public bool goodWord(string msg) //à changer
         {
@@ -134,17 +167,35 @@ namespace Rechercheur
             return validWord;
         }
 
+        /// <summary>
+        /// Classe à ne pas utiliser.
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
         [System.Obsolete]
         public bool checkWord(string msg) //à changer
         {
             return bdd.verifSite(msg);
         }
 
+        /// <summary>
+        /// Vérifie les mots partiellement (obsolète)
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        [System.Obsolete]
         public bool checkPartWord(string msg)
         {
             return bdd.checkPartWord(msg);
         }
 
+        /// <summary>
+        /// Fonction qui va attribuer une valeur à une phrase.
+        /// Elle va vérifier le nombre de doublon d'un mot.
+        /// Chaque mot aura pour valeur, la valeur du mot exposant le nombre de fois que le mot est présent.
+        /// </summary>
+        /// <param name="phrase">Phrase à évaluer</param>
+        /// <returns>Valeur de retour</returns>
         public double valPhrase(string phrase)
         {
             Dictionary<string, int> nombreMots=new Dictionary<string, int>();
@@ -192,6 +243,11 @@ namespace Rechercheur
             return val;
         }
 
+        /// <summary>
+        /// Récupère la liste des sites sous forme de listes
+        /// </summary>
+        /// <param name="nomListe">Nom de liste</param>
+        /// <returns>Liste des site</returns>
         public List<Sites> getListeSites(string nomListe)
         {
             List<Sites> l = bdd.retourSites(nomListe);
@@ -199,6 +255,11 @@ namespace Rechercheur
             return l;
         }
 
+        /// <summary>
+        /// Récupère la liste des sites dynamiques sous forme de listes
+        /// </summary>
+        /// <param name="nomTheme">Nom du thème</param>
+        /// <returns>Liste des sites dynamiques</returns>
         public List<ListeDynamique> GetListeDynamiques(string nomTheme)
         {
             List<ListeDynamique> dyn = bdd.GetListeDynamiques(nomTheme);
@@ -206,6 +267,13 @@ namespace Rechercheur
             return dyn;
         }
 
+        /// <summary>
+        /// Fonction qui va attribuer un thème à une phrase selon le thème qui aura eu le plus de valeur.
+        /// Elle va vérifier le nombre de doublon d'un mot.
+        /// Chaque mot aura pour valeur, la valeur du mot exposant le nombre de fois que le mot est présent.
+        /// </summary>
+        /// <param name="phrase">Phrase à analyser</param>
+        /// <returns>Mot du thème</returns>
         public string themePage(string phrase)
         {
             Dictionary<string, int> valParTheme = new Dictionary<string, int>();
@@ -258,6 +326,11 @@ namespace Rechercheur
             return motTheme;
         }
 
+        /// <summary>
+        /// Vérifie si une URL fait partie des URL bannie ou contient des mots interdits
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public int checkUrl(string url)
         {
             int verif = 2;

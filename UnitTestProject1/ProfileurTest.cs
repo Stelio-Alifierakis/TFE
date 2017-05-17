@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using ProxyNavigateur;
-using ProxyNavigateur.Models;
+using BaseDonnees;
+using BaseDonnees.Models;
 using System.Collections.Generic;
 using System.Collections;
 using System.IO;
@@ -14,9 +14,15 @@ using Profileur.MotDePasse;
 
 namespace UnitTestProject1
 {
+    /// <summary>
+    /// Classe qui teste les profil
+    /// </summary>
     [TestClass]
     public class ProfileurTest
     {
+        /// <summary>
+        /// Testes la vérification de mot de passe
+        /// </summary>
         [TestMethod]
         public void verificationModDePasseTest()
         {
@@ -28,6 +34,9 @@ namespace UnitTestProject1
             Assert.AreEqual(false, u.verificationMotDePasse("bonbon"));
         }
 
+        /// <summary>
+        /// Vérifie l'existence des utilisateurs
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void listeUtilisateurTest()
@@ -45,6 +54,9 @@ namespace UnitTestProject1
             Assert.Fail("Bernard", lu.ListUtilisateur[0].Prenom);
         }
 
+        /// <summary>
+        /// Teste la liste des thèmes
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ProfilListeThemeTest()
@@ -63,6 +75,9 @@ namespace UnitTestProject1
             Assert.Fail("essai", p.ListeTheme[1]);
         }
 
+        /// <summary>
+        /// Testes un utilisateur
+        /// </summary>
         [TestMethod]
         public void UtilisateurProfilTest()
         {

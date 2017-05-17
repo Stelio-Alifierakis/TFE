@@ -7,8 +7,8 @@
     <ProjectGuid>{96888CB6-3184-46E0-8600-622F00C6D9C8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ProxyNavigateur</RootNamespace>
-    <AssemblyName>ProxyNavigateur</AssemblyName>
+    <RootNamespace>BaseDonnees</RootNamespace>
+    <AssemblyName>BaseDonnees</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -46,7 +46,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>bin\x86\Debug\ProxyNavigateur.XML</DocumentationFile>
+    <DocumentationFile>bin\x86\Debug\BaseDonnees.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>

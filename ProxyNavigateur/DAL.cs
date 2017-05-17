@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ProxyNavigateur.DB;
-using ProxyNavigateur.Models;
+using BaseDonnees.DB;
+using BaseDonnees.Models;
 
-namespace ProxyNavigateur
+namespace BaseDonnees
 {
     /// <summary>
     /// Classe d'accès aux données

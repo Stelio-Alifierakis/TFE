@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ProxyNavigateur;
+using BaseDonnees;
 using Rechercheur;
 using proxy;
 using System.Runtime.InteropServices;
@@ -11,11 +11,22 @@ using Configurateur;
 
 namespace vueConsole
 {
+    /// <summary>
+    /// Classe de base du programme
+    /// </summary>
     class Program
     {
         //private static readonly IEproxy Controller = new Eproxy();
+
+        /// <summary>
+        /// On appelle le configurateur
+        /// </summary>
         private static Configurateur.Configurateur conf = new Configurateur.Configurateur();
 
+        /// <summary>
+        /// Point d'entrée du programme
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
 

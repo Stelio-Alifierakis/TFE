@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vueConsole", "vueConsole\vu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{987B8688-E732-4999-A388-03008BB69217}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyNavigateur", "ProxyNavigateur\ProxyNavigateur.csproj", "{96888CB6-3184-46E0-8600-622F00C6D9C8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseDonnees", "ProxyNavigateur\BaseDonnees.csproj", "{96888CB6-3184-46E0-8600-622F00C6D9C8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rechercheur", "Rechercheur\Rechercheur.csproj", "{5396EFF4-E854-4F7E-B273-CB6A115A6018}"
 EndProject

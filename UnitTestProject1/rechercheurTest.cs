@@ -1,39 +1,53 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ProxyNavigateur;
+using BaseDonnees;
 using Moq;
 using Rechercheur;
 using System.IO;
 
 namespace UnitTestProject1
 {
+    /// <summary>
+    /// Classe de test pour le rechercheur
+    /// </summary>
     [TestClass]
     public class rechercheurTest
     {
+        /// <summary>
+        /// Variable qui stocke la classe d'accès à la base de données
+        /// </summary>
         DAL d;
-        ProxyNavigateur.DB.db bd;
 
+        /// <summary>
+        /// Variable qui stocke la BDD
+        /// </summary>
+        BaseDonnees.DB.db bd;
+
+        /// <summary>
+        /// Fonction qui initialise le test.
+        /// Initialise la BDD et les tables.
+        /// </summary>
         [TestInitialize]
         public void Init_Test()
         {
-            bd = new ProxyNavigateur.DB.db("test.sqlite");
+            bd = new BaseDonnees.DB.db("test.sqlite");
             d = new DAL(bd);
             d.creation();
 
-            ProxyNavigateur.Models.ListeTheme th = new ProxyNavigateur.Models.ListeTheme("TestTheme");
+            BaseDonnees.Models.ListeTheme th = new BaseDonnees.Models.ListeTheme("TestTheme");
             bd.SetListeTheme(th);
 
-            ProxyNavigateur.Models.MotCle mc = new ProxyNavigateur.Models.MotCle
+            BaseDonnees.Models.MotCle mc = new BaseDonnees.Models.MotCle
             {
                 mot = "test",
                 valeur = 15,
                 fk_theme = "TestTheme",
                 DateAjout = DateTime.Today,
                 fk_Date = DateTime.Today,
-                Synonyme = new ProxyNavigateur.Models.Synonyme()
+                Synonyme = new BaseDonnees.Models.Synonyme()
             };
 
-            ProxyNavigateur.Models.Synonyme syn = new ProxyNavigateur.Models.Synonyme
+            BaseDonnees.Models.Synonyme syn = new BaseDonnees.Models.Synonyme
             {
                 mot = "essai",
                 DateAjout = DateTime.Today,
@@ -44,8 +58,8 @@ namespace UnitTestProject1
             bd.SetMotCle(mc);
             bd.SetSynonyme(syn);
 
-            ProxyNavigateur.Models.Listes liste = new ProxyNavigateur.Models.Listes("Liste Verte");
-            ProxyNavigateur.Models.Sites site = new ProxyNavigateur.Models.Sites
+            BaseDonnees.Models.Listes liste = new BaseDonnees.Models.Listes("Liste Verte");
+            BaseDonnees.Models.Sites site = new BaseDonnees.Models.Sites
             {
                 nomSite = "www.facebook.com",
                 DateAjout = DateTime.Now,
@@ -56,8 +70,8 @@ namespace UnitTestProject1
             bd.SetListe(liste);
             bd.SetSites(site);
 
-            liste = new ProxyNavigateur.Models.Listes("Liste Rouge");
-            site = new ProxyNavigateur.Models.Sites
+            liste = new BaseDonnees.Models.Listes("Liste Rouge");
+            site = new BaseDonnees.Models.Sites
             {
                 nomSite = "www.youporn.com",
                 DateAjout = DateTime.Now,
@@ -69,12 +83,19 @@ namespace UnitTestProject1
             bd.SetSites(site);
         }
 
+        /// <summary>
+        /// Fonction qui ferme les testes.
+        /// Supprime la BDD.
+        /// </summary>
         [TestCleanup]
         public void Fermeture_Tests()
         {
             d.suppressionDB();
         }
 
+        /// <summary>
+        /// Test un mot
+        /// </summary>
         [TestMethod]
         public void test_checkWord()
         {
@@ -84,6 +105,9 @@ namespace UnitTestProject1
             Assert.AreEqual(false, r.checkPartWord("carotte"));
         }
 
+        /// <summary>
+        /// Teste la valeur d'une phrase
+        /// </summary>
         [TestMethod]
         public void test_returnValue()
         {
@@ -97,6 +121,9 @@ namespace UnitTestProject1
             Assert.AreNotEqual(240, r.valPhrase(@"a"));
         }
 
+        /// <summary>
+        /// Teste le thème d'une phrase
+        /// </summary>
         [TestMethod]
         public void test_returnValueTheme() {
             Rechercheur.Rechercheur r = new Rechercheur.Rechercheur(d);
@@ -104,6 +131,9 @@ namespace UnitTestProject1
             Assert.AreEqual("TestTheme", r.themePage("test"));
         }
 
+        /// <summary>
+        /// Teste si un site web est accepté, refusé ou indifférent
+        /// </summary>
         [TestMethod]
         public void test_return_valeur_url()
         {

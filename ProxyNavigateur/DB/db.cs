@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using ProxyNavigateur.Models;
+using BaseDonnees.Models;
 using System.Data.SQLite;
 using System.IO;
 using System.Data;
 using Dapper;
 
-namespace ProxyNavigateur.DB
+namespace BaseDonnees.DB
 {
     /// <summary>
     /// Classe qui contient les fonctions d'accès à la base de données

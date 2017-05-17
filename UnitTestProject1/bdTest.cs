@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using ProxyNavigateur;
-using ProxyNavigateur.Models;
+using BaseDonnees;
+using BaseDonnees.Models;
 using System.Collections.Generic;
 using System.Collections;
 using System.IO;
@@ -11,11 +11,17 @@ using System.Linq;
 
 namespace UnitTestProject1
 {
+    /// <summary>
+    /// Classe de teste qui va tester les classes et fonctions relatives à la base de données
+    /// </summary>
     [TestClass]
     public class bdTest
     {
-        ProxyNavigateur.DB.db bd;
+        BaseDonnees.DB.db bd;
 
+        /// <summary>
+        /// Initialise les test en créant la BDD sqlite de test et en créant les différentes tables.
+        /// </summary>
        [TestInitialize]
         public void Init_Test()
         {
@@ -30,46 +36,58 @@ namespace UnitTestProject1
                     Console.WriteLine(ex.Message);
                 }
             }
-            bd = new ProxyNavigateur.DB.db("test.sqlite");
+            bd = new BaseDonnees.DB.db("test.sqlite");
             bd.creationTables();
         }
 
+        /// <summary>
+        /// Fonction qui se lance à la fin des test. Elle va supprimer le fichier de BDD.
+        /// </summary>
         [TestCleanup]
         public void Fermeture_Tests()
         {
             bd.suppressionDB();
         }
 
+        /// <summary>
+        /// Teste la création des différentes tables
+        /// </summary>
         [TestMethod]
         public void Creation_BDD_sqlite()
         {
             
-            bd.SetListe(new ProxyNavigateur.Models.Listes { liste="test" });
-            List <ProxyNavigateur.Models.Listes> l = bd.GetListes().ToList();
+            bd.SetListe(new BaseDonnees.Models.Listes { liste="test" });
+            List <BaseDonnees.Models.Listes> l = bd.GetListes().ToList();
             Assert.IsNotNull(l);
             Assert.AreEqual("test",l[0].liste);
             Assert.AreEqual(1,l.Count);            
         }
 
+        /// <summary>
+        /// Teste l'obtention d'une liste
+        /// </summary>
         [TestMethod]
         public void Test_Get_Liste()
         {
-            bd.SetListe(new ProxyNavigateur.Models.Listes { liste = "test" });
-            ProxyNavigateur.Models.Listes l = bd.GetListes("test");
+            bd.SetListe(new BaseDonnees.Models.Listes { liste = "test" });
+            BaseDonnees.Models.Listes l = bd.GetListes("test");
             Assert.IsNotNull(l);
             Assert.AreEqual("test", l.liste);
         }
 
+        /// <summary>
+        /// Testes l'obtention d'un site dynamique
+        /// </summary>
         [TestMethod]
         public void Test_Get_ListeDynamique()
         {
-            bd.SetListeDynamique(new ProxyNavigateur.Models.ListeDynamique {
+            bd.SetListeDynamique(new BaseDonnees.Models.ListeDynamique {
                 url ="testUrl",
                 fk_theme ="testTheme",
                 DateAjout =DateTime.Today,
                 fk_Date =DateTime.Today
             });
-            ProxyNavigateur.Models.ListeDynamique dyn = bd.GetListeDynamique("testUrl");
+            BaseDonnees.Models.ListeDynamique dyn = bd.GetListeDynamique("testUrl");
             Assert.IsNotNull(dyn);
             Assert.AreEqual("testUrl", dyn.url);
             Assert.AreEqual("testTheme", dyn.fk_theme);
@@ -77,19 +95,25 @@ namespace UnitTestProject1
             Assert.AreEqual(DateTime.Today, dyn.fk_Date);
         }
 
+        /// <summary>
+        /// Teste l'obtention d'un thème
+        /// </summary>
         [TestMethod]
         public void Test_Get_ListeTheme()
         {
-            bd.SetListeTheme(new ProxyNavigateur.Models.ListeTheme { theme = "testTheme" });
-            ProxyNavigateur.Models.ListeTheme lt = bd.GetTheme("testTheme");
+            bd.SetListeTheme(new BaseDonnees.Models.ListeTheme { theme = "testTheme" });
+            BaseDonnees.Models.ListeTheme lt = bd.GetTheme("testTheme");
             Assert.IsNotNull(lt);
             Assert.AreEqual("testTheme", lt.theme);
         }
 
+        /// <summary>
+        /// Teste l'obtention d'un mot-clé
+        /// </summary>
         [TestMethod]
         public void Test_Get_MotCle()
         {
-            bd.SetMotCle(new ProxyNavigateur.Models.MotCle {
+            bd.SetMotCle(new BaseDonnees.Models.MotCle {
                 mot ="test",
                 valeur =15,
                 fk_theme="TestTheme",
@@ -97,7 +121,7 @@ namespace UnitTestProject1
                 fk_Date = DateTime.Today
             });
 
-            ProxyNavigateur.Models.MotCle mc = bd.GetMotCle("test");
+            BaseDonnees.Models.MotCle mc = bd.GetMotCle("test");
             Assert.IsNotNull(mc);
             Assert.AreEqual("test", mc.mot);
             Assert.AreEqual(15, mc.valeur);
@@ -106,10 +130,13 @@ namespace UnitTestProject1
             Assert.AreEqual(DateTime.Today, mc.fk_Date);
         }
 
+        /// <summary>
+        /// Teste l'obtention d'un site
+        /// </summary>
         [TestMethod]
         public void Test_Get_Site()
         {
-            bd.SetSites(new ProxyNavigateur.Models.Sites {
+            bd.SetSites(new BaseDonnees.Models.Sites {
                 nomSite ="testSite",
                 fk_theme ="testTheme",
                 fk_liste="testListe",
@@ -117,7 +144,7 @@ namespace UnitTestProject1
                 fk_Date= DateTime.Today
             });
 
-            ProxyNavigateur.Models.Sites s = bd.GetSite("testSite");
+            BaseDonnees.Models.Sites s = bd.GetSite("testSite");
             Assert.IsNotNull(s);
             Assert.AreEqual("testSite", s.nomSite);
             Assert.AreEqual("testTheme", s.fk_theme);
@@ -126,25 +153,31 @@ namespace UnitTestProject1
             Assert.AreEqual(DateTime.Today, s.fk_Date);
         }
 
+        /// <summary>
+        /// Teste l'obtention d'une synchronisation
+        /// </summary>
         [TestMethod]
         public void Test_Get_Synchro()
         {
-            bd.SetSynchro(new ProxyNavigateur.Models.Synchronisation { date=DateTime.Today });
-            ProxyNavigateur.Models.Synchronisation syn = bd.GetSynchro(DateTime.Today);
+            bd.SetSynchro(new BaseDonnees.Models.Synchronisation { date=DateTime.Today });
+            BaseDonnees.Models.Synchronisation syn = bd.GetSynchro(DateTime.Today);
             Assert.IsNotNull(syn);
             Assert.AreEqual(DateTime.Today, syn.date);
         }
 
+        /// <summary>
+        /// Teste l'obtention d'un synonyme
+        /// </summary>
         [TestMethod]
         public void Test_Get_Synonyme()
         {
-            bd.SetSynonyme(new ProxyNavigateur.Models.Synonyme {
+            bd.SetSynonyme(new BaseDonnees.Models.Synonyme {
                 mot="testSynonyme",
                 DateAjout= DateTime.Today,
                 fk_Date= DateTime.Today,
                 fk_trad="testTrad"
             });
-            ProxyNavigateur.Models.Synonyme syn = bd.GetSynonyme("testSynonyme");
+            BaseDonnees.Models.Synonyme syn = bd.GetSynonyme("testSynonyme");
             Assert.IsNotNull(syn);
             Assert.AreEqual("testSynonyme", syn.mot);
             Assert.AreEqual("testTrad", syn.fk_trad);
@@ -152,31 +185,37 @@ namespace UnitTestProject1
             Assert.AreEqual(DateTime.Today, syn.fk_Date);
         }
 
+        /// <summary>
+        /// Teste l'obtention d'une topologie
+        /// </summary>
         [TestMethod]
         public void Test_Get_Topologie()
         {
-            bd.SetTopologie(new ProxyNavigateur.Models.Topologie {
+            bd.SetTopologie(new BaseDonnees.Models.Topologie {
                 idMachine="testId",
                 fk_Date =DateTime.Today
             });
-            ProxyNavigateur.Models.Topologie topo = bd.GetTopo("testId");
+            BaseDonnees.Models.Topologie topo = bd.GetTopo("testId");
             Assert.IsNotNull(topo);
             Assert.AreEqual("testId", topo.idMachine);
             Assert.AreEqual(DateTime.Today, topo.fk_Date);
         }
 
+        /// <summary>
+        /// Teste le seeder de la BDD
+        /// </summary>
         [TestMethod]
         public void Seeder_test()
         {
             bd.seeder();
 
-            List<ProxyNavigateur.Models.Listes> l = bd.GetListes().ToList();
-            List<ProxyNavigateur.Models.ListeDynamique> ld = bd.GetListeDynamiques().ToList();
-            List<ProxyNavigateur.Models.ListeTheme> lt = bd.GetListeThemes().ToList();
-            List<ProxyNavigateur.Models.MotCle> m = bd.GetMotCles().ToList();
-            List<ProxyNavigateur.Models.Synonyme> syn= bd.GetSynonymes().ToList();
-            List<ProxyNavigateur.Models.Topologie> topo = bd.GetTopos().ToList();
-            List<ProxyNavigateur.Models.Sites> sites = bd.GetSites().ToList();
+            List<BaseDonnees.Models.Listes> l = bd.GetListes().ToList();
+            List<BaseDonnees.Models.ListeDynamique> ld = bd.GetListeDynamiques().ToList();
+            List<BaseDonnees.Models.ListeTheme> lt = bd.GetListeThemes().ToList();
+            List<BaseDonnees.Models.MotCle> m = bd.GetMotCles().ToList();
+            List<BaseDonnees.Models.Synonyme> syn= bd.GetSynonymes().ToList();
+            List<BaseDonnees.Models.Topologie> topo = bd.GetTopos().ToList();
+            List<BaseDonnees.Models.Sites> sites = bd.GetSites().ToList();
 
             Assert.IsNotNull(l);
             /*Assert.AreEqual("Liste Verte", l[0].liste);
@@ -225,6 +264,9 @@ namespace UnitTestProject1
             Assert.AreEqual(2, sites.Count);*/
         }
 
+        /// <summary>
+        /// Teste l'obtention des sites d'une liste donnée
+        /// </summary>
         [TestMethod]
         public void getURL_test()
         {
@@ -240,6 +282,9 @@ namespace UnitTestProject1
             Assert.AreEqual("www.youporn.com", l2[0].nomSite);
         }
 
+        /// <summary>
+        /// Teste l'obtention des sites d'une liste donnée (via le DAL)
+        /// </summary>
         [TestMethod]
         public void getURLDAL_test()
         {
@@ -260,10 +305,13 @@ namespace UnitTestProject1
             Assert.AreEqual("www.youporn.com", l2[0].nomSite);
         }
 
+        /// <summary>
+        /// Teste l'existence d'un site
+        /// </summary>
         [TestMethod]
         public void Test_verifMot()
         {
-            bd.SetSites(new ProxyNavigateur.Models.Sites
+            bd.SetSites(new BaseDonnees.Models.Sites
             {
                 nomSite = "testSite",
                 fk_theme = "testTheme",
@@ -276,23 +324,26 @@ namespace UnitTestProject1
             Assert.AreEqual(false, bd.verifSite("test"));
         }
 
+        /// <summary>
+        /// Vérifie l'existence d'un site
+        /// </summary>
         [TestMethod]
         public void Test_VerifSite()
         {
 
-            ProxyNavigateur.Models.MotCle mc = new ProxyNavigateur.Models.MotCle
+            BaseDonnees.Models.MotCle mc = new BaseDonnees.Models.MotCle
             {
                 mot = "test",
                 valeur = 15,
                 fk_theme = "TestTheme",
                 DateAjout = DateTime.Today,
                 fk_Date = DateTime.Today,
-                Synonyme = new ProxyNavigateur.Models.Synonyme()
+                Synonyme = new BaseDonnees.Models.Synonyme()
             };
 
             bd.SetMotCle(mc);
 
-            bd.SetSynonyme(new ProxyNavigateur.Models.Synonyme
+            bd.SetSynonyme(new BaseDonnees.Models.Synonyme
             {
                 mot = "testSynonyme",
                 DateAjout = DateTime.Today,
@@ -300,19 +351,19 @@ namespace UnitTestProject1
                 fk_trad = mc.mot
             });
 
-            mc = new ProxyNavigateur.Models.MotCle
+            mc = new BaseDonnees.Models.MotCle
             {
                 mot = "carotte",
                 valeur = 7,
                 fk_theme = "TestTheme",
                 DateAjout = DateTime.Today,
                 fk_Date = DateTime.Today,
-                Synonyme = new ProxyNavigateur.Models.Synonyme()
+                Synonyme = new BaseDonnees.Models.Synonyme()
             };
 
             bd.SetMotCle(mc);
 
-            bd.SetSynonyme(new ProxyNavigateur.Models.Synonyme
+            bd.SetSynonyme(new BaseDonnees.Models.Synonyme
             {
                 mot = "beurre",
                 DateAjout = DateTime.Today,
@@ -320,14 +371,14 @@ namespace UnitTestProject1
                 fk_trad = mc.mot
             });
 
-            mc = new ProxyNavigateur.Models.MotCle
+            mc = new BaseDonnees.Models.MotCle
             {
                 mot = "grand",
                 valeur = 2,
                 fk_theme = "TestTheme",
                 DateAjout = DateTime.Today,
                 fk_Date = DateTime.Today,
-                Synonyme = new ProxyNavigateur.Models.Synonyme()
+                Synonyme = new BaseDonnees.Models.Synonyme()
             };
 
             bd.SetMotCle(mc);
@@ -342,22 +393,25 @@ namespace UnitTestProject1
             Assert.AreEqual(false, bd.verifSite("ici se trouve une phrase au hasard"));
         }
 
+        /// <summary>
+        /// Vérifie l'existence d'un mot dans une phrase
+        /// </summary>
         [TestMethod]
         public void test_bdd_CheckPartWord()
         {
-            ProxyNavigateur.Models.MotCle mc = new ProxyNavigateur.Models.MotCle
+            BaseDonnees.Models.MotCle mc = new BaseDonnees.Models.MotCle
             {
                 mot = "test",
                 valeur = 15,
                 fk_theme = "TestTheme",
                 DateAjout = DateTime.Today,
                 fk_Date = DateTime.Today,
-                Synonyme = new ProxyNavigateur.Models.Synonyme()
+                Synonyme = new BaseDonnees.Models.Synonyme()
             };
 
             bd.SetMotCle(mc);
 
-            bd.SetSynonyme(new ProxyNavigateur.Models.Synonyme
+            bd.SetSynonyme(new BaseDonnees.Models.Synonyme
             {
                 mot = "testSynonyme",
                 DateAjout = DateTime.Today,
@@ -365,19 +419,19 @@ namespace UnitTestProject1
                 fk_trad = mc.mot
             });
 
-            mc = new ProxyNavigateur.Models.MotCle
+            mc = new BaseDonnees.Models.MotCle
             {
                 mot = "carotte",
                 valeur = 7,
                 fk_theme = "TestTheme",
                 DateAjout = DateTime.Today,
                 fk_Date = DateTime.Today,
-                Synonyme = new ProxyNavigateur.Models.Synonyme()
+                Synonyme = new BaseDonnees.Models.Synonyme()
             };
 
             bd.SetMotCle(mc);
 
-            bd.SetSynonyme(new ProxyNavigateur.Models.Synonyme
+            bd.SetSynonyme(new BaseDonnees.Models.Synonyme
             {
                 mot = "beurre",
                 DateAjout = DateTime.Today,
@@ -385,14 +439,14 @@ namespace UnitTestProject1
                 fk_trad = mc.mot
             });
 
-            mc = new ProxyNavigateur.Models.MotCle
+            mc = new BaseDonnees.Models.MotCle
             {
                 mot = "grand",
                 valeur = 2,
                 fk_theme = "TestTheme",
                 DateAjout = DateTime.Today,
                 fk_Date = DateTime.Today,
-                Synonyme = new ProxyNavigateur.Models.Synonyme()
+                Synonyme = new BaseDonnees.Models.Synonyme()
             };
 
             bd.SetMotCle(mc);
@@ -406,22 +460,25 @@ namespace UnitTestProject1
             Assert.AreEqual(false, bd.checkPartWord("ici se trouve une phrase au hasard"));
         }
 
+        /// <summary>
+        /// Vérifie le retour de valeur d'un mot
+        /// </summary>
         [TestMethod]
         public void test_bdd_ReturnValeur()
         {
-            ProxyNavigateur.Models.MotCle mc = new ProxyNavigateur.Models.MotCle
+            BaseDonnees.Models.MotCle mc = new BaseDonnees.Models.MotCle
             {
                 mot = "test",
                 valeur = 15,
                 fk_theme = "TestTheme",
                 DateAjout = DateTime.Today,
                 fk_Date = DateTime.Today,
-                Synonyme = new ProxyNavigateur.Models.Synonyme()
+                Synonyme = new BaseDonnees.Models.Synonyme()
             };
 
             bd.SetMotCle(mc);
 
-            bd.SetSynonyme(new ProxyNavigateur.Models.Synonyme
+            bd.SetSynonyme(new BaseDonnees.Models.Synonyme
             {
                 mot = "testSynonyme",
                 DateAjout = DateTime.Today,
@@ -429,19 +486,19 @@ namespace UnitTestProject1
                 fk_trad = mc.mot
             });
 
-            mc = new ProxyNavigateur.Models.MotCle
+            mc = new BaseDonnees.Models.MotCle
             {
                 mot = "carotte",
                 valeur = 7,
                 fk_theme = "TestTheme",
                 DateAjout = DateTime.Today,
                 fk_Date = DateTime.Today,
-                Synonyme = new ProxyNavigateur.Models.Synonyme()
+                Synonyme = new BaseDonnees.Models.Synonyme()
             };
 
             bd.SetMotCle(mc);
 
-            bd.SetSynonyme(new ProxyNavigateur.Models.Synonyme
+            bd.SetSynonyme(new BaseDonnees.Models.Synonyme
             {
                 mot = "beurre",
                 DateAjout = DateTime.Today,
@@ -449,14 +506,14 @@ namespace UnitTestProject1
                 fk_trad = mc.mot
             });
 
-            mc = new ProxyNavigateur.Models.MotCle
+            mc = new BaseDonnees.Models.MotCle
             {
                 mot = "grand",
                 valeur = 2,
                 fk_theme = "TestTheme",
                 DateAjout = DateTime.Today,
                 fk_Date = DateTime.Today,
-                Synonyme = new ProxyNavigateur.Models.Synonyme()
+                Synonyme = new BaseDonnees.Models.Synonyme()
             };
 
             bd.SetMotCle(mc);
@@ -469,6 +526,9 @@ namespace UnitTestProject1
             Assert.AreEqual(0, bd.retourVal("plouf"));
         }
 
+        /// <summary>
+        /// Testes le retour de liste de sites dynamiques
+        /// </summary>
         [TestMethod]
         public void test_listeDyn()
         {
@@ -480,6 +540,9 @@ namespace UnitTestProject1
             Assert.AreEqual("reallifecam.com",l[0].url);
         }
 
+        /// <summary>
+        /// Testes le dictionnaire mot-clé et nombres associé
+        /// </summary>
         [TestMethod]
         public void test_dictionnaryMotCle()
         {
@@ -494,6 +557,9 @@ namespace UnitTestProject1
             Assert.AreEqual(0, dictTest["porn"]);
         }
 
+        /// <summary>
+        /// Testes le dictionnaire mot-clé et valeur
+        /// </summary>
         [TestMethod]
         public void test_dictionnaryMotCleVal()
         {
@@ -508,6 +574,9 @@ namespace UnitTestProject1
             Assert.AreEqual(15, dictTest["porn"]);
         }
 
+        /// <summary>
+        /// Testes le dictionnaire thème et mot
+        /// </summary>
         [TestMethod]
         public void test_dictionnaryMotTheme()
         {
@@ -522,6 +591,9 @@ namespace UnitTestProject1
             Assert.AreEqual("Pornographie", dictTest["porn"]);
         }
 
+        /// <summary>
+        /// Testes le dictionnaire thème et valeur
+        /// </summary>
         [TestMethod]
         public void test_dictionnaryValTheme()
         {
@@ -534,6 +606,9 @@ namespace UnitTestProject1
             Assert.AreEqual(0, dictTest["Approprie"]);
         }
 
+        /// <summary>
+        /// Testes le dictionnaire entre valeur booléenne et nom du site
+        /// </summary>
         [TestMethod]
         public void test_val_site_liste()
         {
@@ -547,6 +622,9 @@ namespace UnitTestProject1
             Assert.AreEqual(true, dictTest["localhost"]);
         }
 
+        /// <summary>
+        /// Testes le dictionnaire entre valeur booléenne et nom du site dynamique
+        /// </summary>
         [TestMethod]
         public void test_val_site_lite_dynamique()
         {

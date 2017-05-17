@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ProxyNavigateur.Models;
+using BaseDonnees.Models;
 
-namespace ProxyNavigateur.DB
+namespace BaseDonnees.DB
 {
     /// <summary>
     /// Interface qui sert de contrat pour la classe de base de donnée

@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using ProxyNavigateur;
-using ProxyNavigateur.Models;
+using BaseDonnees;
+using BaseDonnees.Models;
 
 namespace Rechercheur
 {
