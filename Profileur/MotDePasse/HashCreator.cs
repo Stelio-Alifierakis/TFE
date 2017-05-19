@@ -13,6 +13,8 @@ namespace Profileur.MotDePasse
     /// </summary>
     public class HashCreator
     {
+        string salt;
+
         /// <summary>
         /// Fonction qui va hasher un mot de passe
         /// </summary>
@@ -20,9 +22,21 @@ namespace Profileur.MotDePasse
         /// <returns>Hashage de mot de passe</returns>
         public string HashMDP(string mdp)
         {
-            string salt = BCrypt.Net.BCrypt.GenerateSalt();
+            this.salt = BCrypt.Net.BCrypt.GenerateSalt();
 
-            return BCrypt.Net.BCrypt.HashPassword(mdp,salt);
+            return BCrypt.Net.BCrypt.HashPassword(mdp,this.salt);
+        }
+
+        /// <summary>
+        /// Fonction qui va hasher un mot de passe.
+        /// </summary>
+        /// <param name="mdp">Mot de passe à hasher</param>
+        /// <param name="salt">Salt</param>
+        /// <returns>Hashage de mot de passe</returns>
+        public string HashMDP(string mdp, string salt)
+        {
+
+            return BCrypt.Net.BCrypt.HashPassword(mdp, salt);
         }
 
         /// <summary>
@@ -33,6 +47,7 @@ namespace Profileur.MotDePasse
         /// <returns>Retourne vrai ou faux selon si les hashages sont identiques</returns>
         public bool checkMotDePasse(string mdp, string hash)
         {
+            
             return BCrypt.Net.BCrypt.Verify(mdp,hash);
         }
     }

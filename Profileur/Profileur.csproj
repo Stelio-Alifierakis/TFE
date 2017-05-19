@@ -47,9 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractListUtilisateurs.cs" />
     <Compile Include="IListUtilisateur.cs" />
     <Compile Include="ListeUtilisateurs.cs" />
     <Compile Include="MotDePasse\HashCreator.cs" />
+    <Compile Include="Observateur\IObservateur.cs" />
     <Compile Include="Profil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilisateur.cs" />

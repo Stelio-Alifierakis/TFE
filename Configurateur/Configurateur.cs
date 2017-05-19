@@ -38,12 +38,12 @@ namespace Configurateur
         /// </summary>
         public void init()
         {
+            ListeUtilisateurs listeUser = new ListeUtilisateurs();
             DAL d = new DAL(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) + "/bdd/test.sqlite");
             Rechercheur.Rechercheur r = new Rechercheur.Rechercheur(d);
             //Controller.setRechercheur(r);
-            ListeUtilisateurs list = new ListeUtilisateurs();
             construction = new Constructeur();
-            construction.construction(d, r, Controller, list);
+            construction.construction(d, r, Controller, listeUser);
         }
 
         /// <summary>

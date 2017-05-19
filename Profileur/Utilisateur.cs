@@ -211,6 +211,34 @@ namespace Profileur
         }
 
         /// <summary>
+        /// Constructeur.
+        /// Ce constructeur permet de différencier les anciens des nouveaux utilisateurs instancié.
+        /// </summary>
+        /// <param name="nom">Nom de l'utilisateur</param>
+        /// <param name="prenom">Prénom de l'utilisateur</param>
+        /// <param name="login">Login de l'utilisateur</param>
+        /// <param name="age">Age de l'utilisateur</param>
+        /// <param name="profil">Profil de l'utilisateur</param>
+        /// <param name="motDePasse">Mot de passe de l'utilisateur</param>
+        /// <param name="existe">Indique si le mot de passe existe déjà ou pas</param>
+        public Utilisateur(string nom, string prenom, string login, int age, Profil profil, string motDePasse, bool existe)
+        {
+            this.Nom = nom;
+            this.Prenom = prenom;
+            this.Age = age;
+            this.Profil = profil;
+            this.Login = login;
+            if (existe)
+            {
+                this.motDePasse = motDePasse;
+            }
+            else
+            {
+                this.MotDePasse = motDePasse;
+            }
+        }
+
+        /// <summary>
         /// Fonction qui permet de changer le profil d'un utilisateur
         /// </summary>
         /// <param name="profil">Nouveau profil</param>

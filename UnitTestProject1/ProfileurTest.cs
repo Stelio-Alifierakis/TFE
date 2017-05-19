@@ -46,8 +46,8 @@ namespace UnitTestProject1
             lu.AjoutUtilisateur(u);
 
             Assert.IsNotNull(lu);
-            Assert.AreEqual("Bernard", lu.ListUtilisateur[0].Prenom);
-            Assert.AreEqual(14, lu.ListUtilisateur[0].Age);
+            Assert.AreEqual("Bernard", lu.ListUtilisateur[3].Prenom);
+            Assert.AreEqual(14, lu.ListUtilisateur[3].Age);
 
             lu.RetirerUtilisateur(u.Login);
 

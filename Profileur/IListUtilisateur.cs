@@ -10,7 +10,9 @@ namespace Profileur
     /// </summary>
     public interface IListUtilisateur
     {
+        List<Utilisateur> initListe();
         void AjoutUtilisateur(Utilisateur user);
         void RetirerUtilisateur(string nomUtilisateur);
+        bool ChangeUtilisateurEnCours(string login, string mdp);
     }
 }

@@ -10,7 +10,7 @@ namespace Profileur
     /// <summary>
     /// Classe qui sert à stocker la liste des utilisateurs
     /// </summary>
-    public class ListeUtilisateurs : IListUtilisateur
+    public class ListeUtilisateurs : AbstractListUtilisateurs
     {
         /// <summary>
         /// Liste des utilisateurs
@@ -22,7 +22,56 @@ namespace Profileur
         /// </summary>
         public ListeUtilisateurs()
         {
-            listUtilisateur = new List<Utilisateur>();
+            //listUtilisateur = new List<Utilisateur>();
+            listUtilisateur = initListe();
+        }
+
+        /// <summary>
+        /// Fonction qui va lire les fichiers d'utilisateurs et qui va les mettre dans une liste d'utilisateur
+        /// </summary>
+        /// <returns>Liste d'utilisateurs</returns>
+        public override List<Utilisateur> initListe()
+        {
+            //throw new NotImplementedException();
+            List<Utilisateur> liste = new List<Utilisateur>();
+
+            /*
+                Sert pour le test
+            */
+            Profil prof = new Profil();
+            prof.ajoutTheme("Pornographie");
+
+            Utilisateur user = new Utilisateur
+            {
+                Profil = prof,
+                Nom = "Bolivar",
+                Prenom = "Ernesto",
+                Age = 14,
+                Login = "B.E",
+                MotDePasse = "test"
+            };
+
+            Profil prof2 = new Profil();
+            prof2.ajoutTheme("Pornographie");
+            prof2.ajoutTheme("Violence");
+
+            Utilisateur user2 = new Utilisateur
+            {
+                Profil = prof2,
+                Nom = "Bon",
+                Prenom = "Jean",
+                Age = 18,
+                Login = "B.J",
+                MotDePasse = "test"
+            };
+
+            liste.Add(user);
+            liste.Add(user2);
+            /*
+                Fin de la zone de texte
+            */
+
+            return liste;
         }
 
         /// <summary>
@@ -41,11 +90,13 @@ namespace Profileur
             }
         }
 
+        
+
         /// <summary>
         /// Ajoute un utilisateur dans la liste
         /// </summary>
         /// <param name="user">Utilisateur</param>
-        public void AjoutUtilisateur(Utilisateur user){
+        public override void AjoutUtilisateur(Utilisateur user){
             ListUtilisateur.Add(user);
        }
 
@@ -62,7 +113,7 @@ namespace Profileur
         /// Retire un utilisateur dont on connait le nom
         /// </summary>
         /// <param name="nomUtilisateur">Nom de l'utilisateur</param>
-        public void RetirerUtilisateur(string nomUtilisateur)
+        public override void RetirerUtilisateur(string nomUtilisateur)
         {
             for (int i=0; i<=ListUtilisateur.Count; i++)
             {
@@ -74,5 +125,48 @@ namespace Profileur
             }
         }
 
+        /// <summary>
+        /// Fonction qui va changer l'utilisateur en cours (utilisé pour l'authentification)
+        /// </summary>
+        /// <param name="login">Identifiant</param>
+        /// <param name="mdp">Mot de passe</param>
+        /// <returns>Valeur booléenne pour savoir si l'opération a réussi ou échoué</returns>
+        public override bool ChangeUtilisateurEnCours(string login, string mdp)
+        {
+            //throw new NotImplementedException();
+
+            Utilisateur utilisateurCourant = obtientUtilisateur(login);
+
+            if (utilisateurCourant.verificationMotDePasse(mdp))
+            {
+                base.Notifier(utilisateurCourant);
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Fonction qui va récupérer l'utilisateur dont on connait le login depuis la liste des utilisateurs
+        /// </summary>
+        /// <param name="login">Login demandé</param>
+        /// <returns>Utilisateur demandé</returns>
+        private Utilisateur obtientUtilisateur(string login)
+        {
+            Utilisateur utilisateurCourant = new Utilisateur();
+
+            foreach (Utilisateur u in listUtilisateur)
+            {
+                if (u.Login==login)
+                {
+                    utilisateurCourant = u;
+                    break;
+                }
+            }
+
+
+
+            return utilisateurCourant;
+        }
     }
 }

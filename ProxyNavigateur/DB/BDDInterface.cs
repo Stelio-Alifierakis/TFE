@@ -71,5 +71,7 @@ namespace BaseDonnees.DB
         Dictionary<string, bool> retourListeSites();
 
         Dictionary<string, bool> retourListeDynamiqueSites();
+
+        Dictionary<string, string> retourSiteTheme();
     }
 }

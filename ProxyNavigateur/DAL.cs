@@ -523,5 +523,14 @@ namespace BaseDonnees
         {
             return bd.retourListeDynamiqueSites();
         }
+
+        /// <summary>
+        /// Récupère la liste des sites liés à leurs thème principal
+        /// </summary>
+        /// <returns>Liste des sites lié aux thèmes</returns>
+        public Dictionary<string, string> retourSiteTheme()
+        {
+            return bd.retourSiteTheme();
+        }
     }
 }

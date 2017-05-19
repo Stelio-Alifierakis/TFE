@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 using System.Collections;
 using System.Threading;
 
+using Rechercheur.Gest;
+
 using BaseDonnees;
 using BaseDonnees.Models;
+
+using Profileur;
 
 namespace Rechercheur
 {
@@ -19,7 +23,12 @@ namespace Rechercheur
         /// <summary>
         /// Variable qui sert à stocker la classe d'accès à la base de données
         /// </summary>
-        IDAL bdd;
+        private IDAL bdd;
+
+        /// <summary>
+        /// Classe qui gère tout ce qui a trait à l'utilisateur en cours
+        /// </summary>
+        private GestionUtilisateurs gestUser;
 
         /// <summary>
         /// Verrous pour les threads
@@ -113,6 +122,22 @@ namespace Rechercheur
         }
 
         /// <summary>
+        /// Getter et setter de la gestion des utilisateurs
+        /// </summary>
+        public GestionUtilisateurs GestUser
+        {
+            get
+            {
+                return gestUser;
+            }
+
+            set
+            {
+                gestUser = value;
+            }
+        }
+
+        /// <summary>
         /// Constructeur.
         /// Reprend les différents dictionnaires depuis la classe d'accès à la base de données.
         /// </summary>
@@ -120,6 +145,9 @@ namespace Rechercheur
         public Rechercheur(IDAL bdd)
         {
             this.bdd = bdd;
+
+            gestUser = new GestionUtilisateurs();
+
             try
             {
                 dictValMot = bdd.motsInterditVal();
@@ -226,18 +254,24 @@ namespace Rechercheur
 
             foreach (KeyValuePair<string,int> mot in nombreMots)
             {
-                if (mot.Value==1)
+                if (lienThemeMot.ContainsKey(mot.Key))
                 {
-                    val += dictValMot[mot.Key];
-                }
-                else if(mot.Value >1)
-                {
-                    val += Math.Pow(dictValMot[mot.Key],mot.Value);
-                }
+                    if (GestUser.testTheme(lienThemeMot[mot.Key]))
+                    {
+                        if (mot.Value == 1)
+                        {
+                            val += dictValMot[mot.Key];
+                        }
+                        else if (mot.Value > 1)
+                        {
+                            val += Math.Pow(dictValMot[mot.Key], mot.Value);
+                        }
 
-                if (value>100)
-                {
-                    return val;
+                        if (value > 100)
+                        {
+                            return val;
+                        }
+                    }
                 }
             }
             return val;
@@ -337,34 +371,38 @@ namespace Rechercheur
 
             string[] separateur = url.Split(separateurURL, StringSplitOptions.RemoveEmptyEntries);
 
+            Dictionary<string, string> siteTheme=bdd.retourSiteTheme();
+
             foreach (string urlACheck in separateur)
             {
-                if (listeUrlACheck.ContainsKey(urlACheck) && listeUrlACheck[urlACheck]==true)
+
+                if (listeUrlACheck.ContainsKey(urlACheck))
                 {
+
                     Console.WriteLine(listeUrlACheck[urlACheck]);
-                    verif = 1;
-                    break;
+                    verif = urlCheckTheme(urlACheck, listeUrlACheck[urlACheck], siteTheme);
+                    //verif = 1;
                 }
-                else if(listeUrlACheck.ContainsKey(urlACheck) && listeUrlACheck[urlACheck] == false)
+                else if (listeDynUrlACheck.ContainsKey(urlACheck))
                 {
-                    Console.WriteLine(listeUrlACheck[urlACheck]);
-                    verif = 0;
-                    break;
-                }
-                else if (listeDynUrlACheck.ContainsKey(urlACheck) && listeDynUrlACheck[urlACheck] == true)
-                {
-                    Console.WriteLine(listeUrlACheck[urlACheck]);
-                    verif = 1;
-                    break;
-                }
-                else if (listeDynUrlACheck.ContainsKey(urlACheck) && listeDynUrlACheck[urlACheck] == false)
-                {
-                    Console.WriteLine(listeUrlACheck[urlACheck]);
-                    verif = 0;
-                    break;
+                    Console.WriteLine(listeDynUrlACheck[urlACheck]);
+                    verif = urlCheckTheme(urlACheck, listeDynUrlACheck[urlACheck], siteTheme);
+                    //verif = 1;
                 }
             }
             return verif;
+        }
+
+        private int urlCheckTheme(string urlACheck, bool valeurBooleenne, Dictionary<string, string> siteTheme)
+        {
+            if (GestUser.testTheme(siteTheme[urlACheck]))
+            {
+               return valeurBooleenne == true ? 1 : 0 ;
+            }
+            else
+            {
+                return 1;
+            }
         }
     }
 }

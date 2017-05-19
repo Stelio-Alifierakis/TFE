@@ -102,7 +102,8 @@ namespace BaseDonnees.DB
             setSynonyme("whore", mc.mot, sync.date);
             setSynonyme("chienne", mc.mot, sync.date);
 
-
+            th = setListeTheme("Violence");
+            mc = setMotCle("Meutre", 15, sync.date, th.theme);
         }
 
         /// <summary>

@@ -1275,7 +1275,7 @@ namespace BaseDonnees.DB
         }
 
         /// <summary>
-        /// Retourne un dictionnaire de thèmes et de valeur booléenne
+        /// Retourne un dictionnaire d'URL et de valeur booléenne
         /// </summary>
         /// <returns>Dictionnaire de thèmes et valeurs booléennes</returns>
         public Dictionary<string, bool> retourListeSites()
@@ -1328,6 +1328,7 @@ namespace BaseDonnees.DB
                 {
                     connexion.Open();
                 }
+
                 try
                 {
                     List<ListeDynamique> siteListes = connexion.Query<ListeDynamique>("SELECT * FROM ListeDynamique").ToList();
@@ -1352,6 +1353,54 @@ namespace BaseDonnees.DB
 
                 return retourSites;
             }
+        }
+
+        /// <summary>
+        /// Retourne un dictionnaire des sites liés avec leurs thèmes
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, string> retourSiteTheme()
+        {
+            Dictionary<string, string> retourSites = new Dictionary<string, string>();
+
+            using (IDbConnection connexion = new SQLiteConnection(sqliteInfo))
+            {
+                if (connexion.State == ConnectionState.Closed)
+                {
+                    connexion.Open();
+                }
+
+                try
+                {
+                    List<Sites> siteListes = connexion.Query<Sites>("SELECT * FROM Sites").ToList();
+
+                    foreach (Sites s in siteListes)
+                    {
+                        if (!retourSites.ContainsKey(s.nomSite))
+                        {
+                            retourSites.Add(s.nomSite, s.fk_theme);
+                        }
+                    }
+
+                    List<ListeDynamique> siteListeDyn = connexion.Query<ListeDynamique>("SELECT * FROM ListeDynamique").ToList();
+
+                    foreach (ListeDynamique s in siteListeDyn)
+                    {
+                        if (!retourSites.ContainsKey(s.url))
+                        {
+                            retourSites.Add(s.url, s.fk_theme);
+                        }
+                    }
+                    return retourSites;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return null;
+                }
+            }
+
+            //return retourSites;
         }
 
     }

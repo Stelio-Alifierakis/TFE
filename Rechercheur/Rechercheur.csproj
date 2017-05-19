@@ -45,11 +45,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gest\GestionUtilisateurs.cs" />
     <Compile Include="IRechercheur.cs" />
     <Compile Include="Rechercheur.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Profileur\Profileur.csproj">
+      <Project>{4404d7b7-3b5e-449f-a76f-7b23007a35aa}</Project>
+      <Name>Profileur</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProxyNavigateur\BaseDonnees.csproj">
       <Project>{96888cb6-3184-46e0-8600-622f00c6d9c8}</Project>
       <Name>BaseDonnees</Name>

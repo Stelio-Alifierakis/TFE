@@ -59,5 +59,6 @@ namespace BaseDonnees
         Dictionary<string, bool> retourListeDynamiqueSites();
         List<Sites> retourSites(string nomListe);
         List<ListeDynamique> GetListeDynamiques(string nomTheme);
+        Dictionary<string, string> retourSiteTheme();
     }
 }

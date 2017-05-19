@@ -49,7 +49,10 @@ namespace Configurateur
             this.listUtilisateur=listUtilisateur;
 
             initBdd();
+
             initProxy();
+
+            initRechercheur(rechercheur, listUtilisateur);
         }
 
         /// <summary>
@@ -57,10 +60,28 @@ namespace Configurateur
         /// </summary>
         private void initBdd()
         {
-            /*d.suppressionDB();
-             d.creation();
-             d.seed();*/
+            /*dal.suppressionDB();
+            dal.creation();
+            dal.seed();*/
             rechercheur.setBdd(dal);
+        }
+
+        private void initRechercheur(IRechercheur r, IListUtilisateur l)
+        {
+            Rechercheur.Rechercheur rech = (Rechercheur.Rechercheur)r;
+
+            ListeUtilisateurs list=(ListeUtilisateurs)l;
+
+            list.Ajout(rech.GestUser);
+
+            /*
+                test
+             */
+            //Console.WriteLine(list.ChangeUtilisateurEnCours("B.J", "test"));
+            Console.WriteLine(list.ChangeUtilisateurEnCours("B.E", "test"));
+            /*
+             Fin test
+             */
         }
 
         /// <summary>
