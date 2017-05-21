@@ -1,0 +1,67 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:GUI.Vues">
+
+    <DataTemplate x:Key="FenGestionUtilisateursTemplate">
+
+        <StackPanel >
+            <StackPanel
+                Margin="50,50,50,50"
+                Orientation="Vertical">
+                <TextBlock
+                    FontFamily="Arial"
+                    LineStackingStrategy="MaxHeight"
+                    LineHeight="30"
+                    FontSize="30"
+                    VerticalAlignment="Center">
+                    Gestion des utilisateurs
+                </TextBlock>
+
+                <Grid x:Name="grilleUtilisateur">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border BorderThickness="1" BorderBrush="Black" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
+
+                    <TextBlock Style="{DynamicResource grandFontGrille}" Grid.Row="0" Grid.Column="0">
+                        Nom
+                    </TextBlock>
+
+                    <TextBlock Style="{DynamicResource grandFontGrille}" Grid.Row="0" Grid.Column="1">
+                        Prénom
+                    </TextBlock>
+
+                    <TextBlock Style="{DynamicResource grandFontGrille}" Grid.Row="0" Grid.Column="2">
+                        Profil
+                    </TextBlock>
+
+                    <TextBlock Style="{DynamicResource grandFontGrille}" Grid.Row="1" Grid.Column="0">
+                        test
+                    </TextBlock>
+
+                    <TextBlock Style="{DynamicResource grandFontGrille}" Grid.Row="1" Grid.Column="1">
+                        test
+                    </TextBlock>
+
+                    <TextBlock Style="{DynamicResource grandFontGrille}" Grid.Row="1" Grid.Column="2">
+                        test
+                    </TextBlock>
+
+                </Grid>
+
+            </StackPanel>
+        </StackPanel>
+
+    </DataTemplate>
+    
+    
+</ResourceDictionary>
