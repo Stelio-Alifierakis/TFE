@@ -16,5 +16,8 @@ namespace proxy
         void StartProxy();
         void Stop();
         void setRechercheur(IRechercheur r);
+
+        Activitateur retourActifURL();
+        Activitateur retourActifContenu();
     }
 }

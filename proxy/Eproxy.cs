@@ -43,10 +43,14 @@ namespace proxy
         /// </summary>
         private bool activationRechercheContenu = true;
 
+        private Activitateur actifRechercheContenu;
+
         /// <summary>
         /// Valeur booléenne qui va activer la recherche sur le contenu de l'URL
         /// </summary>
         private bool activationRechercheUrl = true;
+
+        private Activitateur actifRechercheURL;
 
         /// <summary>
         /// Message affiché lors des blocages
@@ -64,10 +68,17 @@ namespace proxy
         /// <see cref="ProxyServer"/>
         public Eproxy()
         {
+            actifRechercheContenu = new Activitateur(true);
+            actifRechercheURL = new Activitateur(true);
+
             proxyServer = new ProxyServer();
             proxyServer.TrustRootCertificate = true;
             requestBodyHistory = new Dictionary<Guid, string>();
             dicoValidSite = new Dictionary<string, int>();
+
+            actifRechercheContenu.actif = true;
+            actifRechercheURL.actif = true;
+
             Console.WriteLine(activationRechercheContenu + " " + activationRechercheUrl);     
         }
 
@@ -145,7 +156,7 @@ namespace proxy
             var method = e.WebSession.Request.Method.ToUpper();
             if ((method == "POST" || method == "PUT" || method == "PATCH"))
             {
-                if (activationRechercheUrl && lockSiteUrl == 0)
+                if (actifRechercheURL.actif && lockSiteUrl == 0)
                 {
                     //Get/Set request body bytes
                     byte[] bodyBytes = await e.GetRequestBody();
@@ -180,7 +191,7 @@ namespace proxy
 
             //Console.WriteLine("requête " + e.WebSession.Request.RequestUri.AbsoluteUri);
 
-            if (activationRechercheContenu && dicoValidSite.ContainsKey(e.WebSession.Request.RequestUri.AbsoluteUri))
+            if (actifRechercheContenu.actif && dicoValidSite.ContainsKey(e.WebSession.Request.RequestUri.AbsoluteUri))
             {
                 validSite = dicoValidSite[e.WebSession.Request.RequestUri.AbsoluteUri];
             }
@@ -196,7 +207,7 @@ namespace proxy
 
             //Console.WriteLine("Validation URL : " + validSite + " -----------------> " + e.WebSession.Request.RequestUri.AbsoluteUri);
 
-            if (activationRechercheContenu && validSite == 0)
+            if (actifRechercheContenu.actif && validSite == 0)
             {
                 await e.Ok(messageBlocage +
                       "<p>Raison : Site dans les listes bloquantes</p>" +
@@ -273,6 +284,18 @@ namespace proxy
         public Task OnCertificateSelection(object sender, CertificateSelectionEventArgs e)
         {
             return Task.FromResult(0);
+        }
+
+        public Activitateur retourActifURL()
+        {
+            //throw new NotImplementedException();
+            return actifRechercheContenu;
+        }
+
+        public Activitateur retourActifContenu()
+        {
+            //throw new NotImplementedException();
+            return actifRechercheContenu;
         }
     }
 }

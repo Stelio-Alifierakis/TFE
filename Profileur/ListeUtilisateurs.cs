@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-
-
 namespace Profileur
 {
     /// <summary>
     /// Classe qui sert à stocker la liste des utilisateurs
     /// </summary>
+    [Serializable]
     public class ListeUtilisateurs : AbstractListUtilisateurs
     {
         /// <summary>
@@ -41,6 +40,16 @@ namespace Profileur
             Profil prof = new Profil();
             prof.ajoutTheme("Pornographie");
 
+            Utilisateur Defaut = new Utilisateur
+            {
+                Profil = prof,
+                Nom = "Default",
+                Prenom = "Default",
+                Age = 14,
+                Login = "",
+                MotDePasse = ""
+            };
+
             Utilisateur user = new Utilisateur
             {
                 Profil = prof,
@@ -65,8 +74,10 @@ namespace Profileur
                 MotDePasse = "test"
             };
 
+            liste.Add(Defaut);
             liste.Add(user);
             liste.Add(user2);
+
             /*
                 Fin de la zone de texte
             */
@@ -137,7 +148,7 @@ namespace Profileur
 
             Utilisateur utilisateurCourant = obtientUtilisateur(login);
 
-            if (utilisateurCourant.verificationMotDePasse(mdp))
+            if (utilisateurCourant!=null && utilisateurCourant.verificationMotDePasse(mdp))
             {
                 base.Notifier(utilisateurCourant);
                 return true;
@@ -151,7 +162,7 @@ namespace Profileur
         /// </summary>
         /// <param name="login">Login demandé</param>
         /// <returns>Utilisateur demandé</returns>
-        private Utilisateur obtientUtilisateur(string login)
+        public Utilisateur obtientUtilisateur(string login)
         {
             Utilisateur utilisateurCourant = new Utilisateur();
 
@@ -163,8 +174,6 @@ namespace Profileur
                     break;
                 }
             }
-
-
 
             return utilisateurCourant;
         }

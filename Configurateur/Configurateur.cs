@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using Profileur;
 using proxy;
 using BaseDonnees;
 using Rechercheur;
+using GUI.Model;
 
 namespace Configurateur
 {
@@ -30,7 +32,7 @@ namespace Configurateur
         /// </summary>
         public Configurateur()
         {
-           
+            
         }
 
         /// <summary>
@@ -41,9 +43,8 @@ namespace Configurateur
             ListeUtilisateurs listeUser = new ListeUtilisateurs();
             DAL d = new DAL(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) + "/bdd/test.sqlite");
             Rechercheur.Rechercheur r = new Rechercheur.Rechercheur(d);
-            //Controller.setRechercheur(r);
             construction = new Constructeur();
-            construction.construction(d, r, Controller, listeUser);
+            construction.construction(d,r,Controller,listeUser);
         }
 
         /// <summary>
@@ -61,6 +62,5 @@ namespace Configurateur
         {
             construction.stop();
         }
-
     }
 }

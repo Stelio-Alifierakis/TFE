@@ -47,8 +47,11 @@ namespace Profileur.MotDePasse
         /// <returns>Retourne vrai ou faux selon si les hashages sont identiques</returns>
         public bool checkMotDePasse(string mdp, string hash)
         {
-            
-            return BCrypt.Net.BCrypt.Verify(mdp,hash);
+            if (hash!=null && mdp!=null)
+            {
+                return BCrypt.Net.BCrypt.Verify(mdp, hash);
+            }
+            return false;
         }
     }
 }

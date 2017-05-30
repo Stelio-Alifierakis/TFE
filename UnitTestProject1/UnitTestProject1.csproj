@@ -101,6 +101,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Communicateur\Communicateur.csproj">
+      <Project>{95348e49-4d50-4bba-99b4-8eaee12563d6}</Project>
+      <Name>Communicateur</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Profileur\Profileur.csproj">
       <Project>{4404d7b7-3b5e-449f-a76f-7b23007a35aa}</Project>
       <Name>Profileur</Name>

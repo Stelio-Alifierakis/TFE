@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using GUI.ViewModel;
+
 namespace GUI
 {
     /// <summary>
@@ -18,14 +20,20 @@ namespace GUI
     /// </summary>
     public partial class connection : Window
     {
+        Com com;
+
         public connection()
         {
             InitializeComponent();
+            com = new Com();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            
+            string login = txtBx_Identifiant.Text;
+            string mdp = txtBx_Mdp.Password;
+            //com.testCom();
+            com.LancementAuth(login, mdp);
         }
     }
 }

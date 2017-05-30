@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ServiceModel;
+using System.Runtime.Serialization;
+
 using Profileur.MotDePasse;
+
 
 namespace Profileur
 {
     /// <summary>
     /// Modèle utilisateur
     /// </summary>
+    [DataContract]
     public class Utilisateur
     {
         /// <summary>
@@ -43,7 +48,8 @@ namespace Profileur
 
         /// <summary>
         /// Getter et setter du profil de l'utilisateur
-        /// </summary>
+        /// </summary> 
+        [DataMember]
         public Profil Profil
         {
             get
@@ -60,6 +66,7 @@ namespace Profileur
         /// <summary>
         /// Getter et setter du nom
         /// </summary>
+        [DataMember]
         public string Nom
         {
             get
@@ -92,6 +99,7 @@ namespace Profileur
         /// <summary>
         /// Getter et setter de l'âge
         /// </summary>
+        [DataMember]
         public int Age
         {
             get
@@ -108,6 +116,7 @@ namespace Profileur
         /// <summary>
         /// Getter et setter du login
         /// </summary>
+        [DataMember]
         public string Login
         {
             get
@@ -124,6 +133,7 @@ namespace Profileur
         /// <summary>
         /// Getter et setter du mot de passe
         /// </summary>
+        [DataMember]
         public string MotDePasse
         {
             get
@@ -140,7 +150,9 @@ namespace Profileur
         /// <summary>
         /// Constructeur
         /// </summary>
-        public Utilisateur() { }
+        public Utilisateur() {
+            
+        }
 
         /// <summary>
         /// Constructeur
@@ -151,6 +163,7 @@ namespace Profileur
         /// <param name="age">Age de l'utilisateur</param>
         public Utilisateur(string nom, string prenom, string login, int age)
         {
+            
             this.Nom = nom;
             this.Prenom = prenom;
             this.Age = age;
@@ -167,6 +180,7 @@ namespace Profileur
         /// <param name="profil">Profil de l'utilisateur</param>
         public Utilisateur(string nom, string prenom, string login, int age, Profil profil)
         {
+            
             this.Nom = nom;
             this.Prenom = prenom;
             this.Age = age;
@@ -184,6 +198,7 @@ namespace Profileur
         /// <param name="motDePasse">Mot de passe de l'utilisateur</param>
         public Utilisateur(string nom, string prenom, string login, int age, string motDePasse)
         {
+            
             this.Nom = nom;
             this.Prenom = prenom;
             this.Age = age;
@@ -202,6 +217,7 @@ namespace Profileur
         /// <param name="motDePasse">Mot de passe de l'utilisateur</param>
         public Utilisateur(string nom, string prenom, string login, int age, Profil profil, string motDePasse)
         {
+            
             this.Nom = nom;
             this.Prenom = prenom;
             this.Age = age;
@@ -223,6 +239,7 @@ namespace Profileur
         /// <param name="existe">Indique si le mot de passe existe déjà ou pas</param>
         public Utilisateur(string nom, string prenom, string login, int age, Profil profil, string motDePasse, bool existe)
         {
+            
             this.Nom = nom;
             this.Prenom = prenom;
             this.Age = age;

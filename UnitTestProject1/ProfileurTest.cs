@@ -10,6 +10,7 @@ using Dapper;
 using System.Linq;
 
 using Profileur;
+using Communicateur;
 using Profileur.MotDePasse;
 
 namespace UnitTestProject1
@@ -46,8 +47,8 @@ namespace UnitTestProject1
             lu.AjoutUtilisateur(u);
 
             Assert.IsNotNull(lu);
-            Assert.AreEqual("Bernard", lu.ListUtilisateur[3].Prenom);
-            Assert.AreEqual(14, lu.ListUtilisateur[3].Age);
+            Assert.AreEqual("Bernard", lu.ListUtilisateur[4].Prenom);
+            Assert.AreEqual(14, lu.ListUtilisateur[4].Age);
 
             lu.RetirerUtilisateur(u.Login);
 

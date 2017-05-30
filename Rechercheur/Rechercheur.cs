@@ -96,7 +96,7 @@ namespace Rechercheur
         /// </summary>
         private readonly string[] separateurBody = {
                 "<p",
-            };
+        };
 
         /// <summary>
         /// Chaînes de caractères utilisées pour séparer les phrases

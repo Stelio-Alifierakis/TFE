@@ -11,12 +11,13 @@ namespace Profileur
     /// <summary>
     /// Classe abstraite qui va servir surtout pour implémenter le pattern observateur avec le rechercheur
     /// </summary>
+    [Serializable]
     public abstract class AbstractListUtilisateurs : IListUtilisateur
     {
         /// <summary>
         /// Liste des observateurs
         /// </summary>
-        private List<IObservateur> listObservateur;
+        [NonSerialized]private List<IObservateur> listObservateur;
 
         /// <summary>
         /// Constructeur

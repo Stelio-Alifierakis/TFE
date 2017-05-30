@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using Profileur;
 using proxy;
 using BaseDonnees;
 using Rechercheur;
+using Communicateur.ComWCF;
+using Communicateur.ComProxy;
 
 namespace Configurateur
 {
@@ -34,6 +37,10 @@ namespace Configurateur
         /// </summary>
         private IListUtilisateur listUtilisateur;
 
+        private Serveur serv;
+
+        private IProxyCom comProxy;
+
         /// <summary>
         /// Initialise la construction des différents éléments
         /// </summary>
@@ -48,11 +55,18 @@ namespace Configurateur
             this.eproxy = eproxy;
             this.listUtilisateur=listUtilisateur;
 
+            comProxy = new ComProxy();
+
+            comProxy.setActifContenu(eproxy.retourActifContenu());
+            comProxy.setActifUrl(eproxy.retourActifURL());
+
             initBdd();
 
             initProxy();
 
             initRechercheur(rechercheur, listUtilisateur);
+
+            initServeurPipe();
         }
 
         /// <summary>
@@ -60,17 +74,17 @@ namespace Configurateur
         /// </summary>
         private void initBdd()
         {
-            /*dal.suppressionDB();
-            dal.creation();
-            dal.seed();*/
             rechercheur.setBdd(dal);
         }
 
         private void initRechercheur(IRechercheur r, IListUtilisateur l)
         {
+            
             Rechercheur.Rechercheur rech = (Rechercheur.Rechercheur)r;
 
-            ListeUtilisateurs list=(ListeUtilisateurs)l;
+            ListeUtilisateurs list =(ListeUtilisateurs)l;
+
+            comProxy.setListUtilisateur(list);
 
             list.Ajout(rech.GestUser);
 
@@ -79,9 +93,20 @@ namespace Configurateur
              */
             //Console.WriteLine(list.ChangeUtilisateurEnCours("B.J", "test"));
             Console.WriteLine(list.ChangeUtilisateurEnCours("B.E", "test"));
+
+            comProxy.setUtilisateur(list.obtientUtilisateur("B.E"));
+
             /*
              Fin test
              */
+        }
+
+        private void initServeurPipe()
+        {
+            serv = new Serveur(comProxy);
+
+            serv.Init();
+
         }
 
         /// <summary>
@@ -97,6 +122,7 @@ namespace Configurateur
         /// </summary>
         public void demarrage()
         {
+            serv.start();
             eproxy.StartProxy();
         }
 
@@ -105,7 +131,13 @@ namespace Configurateur
         /// </summary>
         public void stop()
         {
+            serv.stop();
             eproxy.Stop();
+        }
+
+        public bool changeUtilisateur(string login, string mdp)
+        {
+            return listUtilisateur.ChangeUtilisateurEnCours(login, mdp);
         }
     }
 }

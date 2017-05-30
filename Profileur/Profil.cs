@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace Profileur
 {
@@ -9,6 +10,7 @@ namespace Profileur
     /// Classe qui servira de profil pour les utilisateur.
     /// Elle permet notamment de savoir quels seront les thèmes auquel l'utilisateur sera soumis.
     /// </summary>
+    [DataContract]
     public class Profil
     {
         /// <summary>
@@ -19,6 +21,7 @@ namespace Profileur
         /// <summary>
         /// Getter et setter de la liste des thème
         /// </summary>
+        [DataMember]
         public List<string> ListeTheme
         {
             get
