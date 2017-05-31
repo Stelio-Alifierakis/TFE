@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Profileur.Observateur;
+
 namespace Profileur
 {
     /// <summary>
@@ -37,7 +39,7 @@ namespace Profileur
             /*
                 Sert pour le test
             */
-            Profil prof = new Profil();
+            Profil prof = new Profil(true);
             prof.ajoutTheme("Pornographie");
 
             Utilisateur Defaut = new Utilisateur
@@ -162,7 +164,7 @@ namespace Profileur
         /// </summary>
         /// <param name="login">Login demandé</param>
         /// <returns>Utilisateur demandé</returns>
-        public Utilisateur obtientUtilisateur(string login)
+        public override Utilisateur obtientUtilisateur(string login)
         {
             Utilisateur utilisateurCourant = new Utilisateur();
 
@@ -171,6 +173,7 @@ namespace Profileur
                 if (u.Login==login)
                 {
                     utilisateurCourant = u;
+                    //base.Notifier(utilisateurCourant);
                     break;
                 }
             }

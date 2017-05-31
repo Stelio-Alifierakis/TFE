@@ -7,6 +7,7 @@ using Rechercheur;
 using BaseDonnees;
 using proxy;
 using Profileur;
+using Profileur.Observateur;
 
 namespace Configurateur
 {

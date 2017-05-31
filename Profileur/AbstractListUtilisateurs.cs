@@ -17,14 +17,14 @@ namespace Profileur
         /// <summary>
         /// Liste des observateurs
         /// </summary>
-        [NonSerialized]private List<IObservateur> listObservateur;
+        [NonSerialized]private List<IObservateurProfileur> listObservateur;
 
         /// <summary>
         /// Constructeur
         /// </summary>
         public AbstractListUtilisateurs()
         {
-            listObservateur = new List<IObservateur>();
+            listObservateur = new List<IObservateurProfileur>();
         }
 
 
@@ -55,6 +55,7 @@ namespace Profileur
         /// <returns></returns>
         public abstract bool ChangeUtilisateurEnCours(string login, string mdp);
 
+        public abstract Utilisateur obtientUtilisateur(string login);
 
         //Fonctions utilisées pour l'observateur
 
@@ -62,7 +63,7 @@ namespace Profileur
         /// Ajoute un observateur
         /// </summary>
         /// <param name="obs">Observateur</param>
-        public void Ajout(IObservateur obs)
+        public void Ajout(IObservateurProfileur obs)
         {
             listObservateur.Add(obs);
         }
@@ -71,7 +72,7 @@ namespace Profileur
         /// Retire un observateur
         /// </summary>
         /// <param name="obs">Observateur</param>
-        public void Retirer(IObservateur obs)
+        public void Retirer(IObservateurProfileur obs)
         {
             listObservateur.Remove(obs);
         }
@@ -82,7 +83,7 @@ namespace Profileur
         /// <param name="u">Utilisateur</param>
         public void Notifier(Utilisateur u)
         {
-            foreach (IObservateur obs in listObservateur)
+            foreach (IObservateurProfileur obs in listObservateur)
             {
                 obs.update(u);
             }

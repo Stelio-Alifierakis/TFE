@@ -35,12 +35,22 @@ namespace Profileur
             }
         }
 
+        [DataMember]
+        public bool adulte { get; set; }
+
         /// <summary>
         /// Constructeur
         /// </summary>
         public Profil()
         {
             ListeTheme = new List<string>();
+            adulte = false;
+        }
+
+        public Profil(bool adulte)
+        {
+            ListeTheme = new List<string>();
+            this.adulte = adulte;
         }
 
         /// <summary>

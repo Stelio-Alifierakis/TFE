@@ -14,7 +14,7 @@ namespace Rechercheur.Gest
     /// <summary>
     /// Classe qui va gérer l'utilisateur pour le rechercheur
     /// </summary>
-    public class GestionUtilisateurs : IObservateur
+    public class GestionUtilisateurs : IObservateurProfileur
     {
         /// <summary>
         /// Variable qui stocke l'utilisateur
@@ -70,7 +70,7 @@ namespace Rechercheur.Gest
         /// Fonction qui va mettre à jour l'utilisateur
         /// </summary>
         /// <param name="u">Utilisateur</param>
-        void IObservateur.update(Utilisateur u)
+        void IObservateurProfileur.update(Utilisateur u)
         {
             //throw new NotImplementedException();
             Utilisateur = u;

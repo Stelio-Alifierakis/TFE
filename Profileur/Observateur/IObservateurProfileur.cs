@@ -9,7 +9,7 @@ namespace Profileur.Observateur
     /// <summary>
     /// Interface qui servira lors des changements d'utilisateurs
     /// </summary>
-    public interface IObservateur
+    public interface IObservateurProfileur
     {
         void update(Utilisateur u);
     }

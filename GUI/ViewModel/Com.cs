@@ -7,6 +7,7 @@ using System.Threading;
 
 using Communicateur.ComWCF;
 using GUI.Model;
+using Profileur;
 
 namespace GUI.ViewModel
 {
@@ -43,7 +44,19 @@ namespace GUI.ViewModel
 
             Client cli = new Client();
             //cli.startTest();
-            cli.startAuth(auth.login, auth.mdp);
+            bool testAuth = cli.startAuth(auth.login, auth.mdp);
+
+            //bool testAuth = cli.testConnexion();
+
+            if (testAuth)
+            {
+                Utilisateur user = cli.UtilisateurCourant();
+
+                if (user.Profil.adulte)
+                {
+
+                }
+            }
             
         }
     }

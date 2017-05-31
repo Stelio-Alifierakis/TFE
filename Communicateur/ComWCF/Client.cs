@@ -4,19 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ServiceModel;
+using Profileur;
 
 namespace Communicateur.ComWCF
 {
     public class Client : IMyCallbackService
     {
+        private bool testConnexionUser = false;
+
         public void startTest()
         {
             new Client().Run();
         }
 
-        public void startAuth(string login, string mdp)
+        public bool startAuth(string login, string mdp)
         {
-            new Client().Authentification(login, mdp);
+            return new Client().Authentification(login, mdp);
         }
 
         private ISimpleService initFactory()
@@ -48,13 +51,22 @@ namespace Communicateur.ComWCF
             Console.WriteLine(testouille); //juste pour l'exemple
         }
 
-        public void Authentification(string login, string mdp)
+        public bool Authentification(string login, string mdp)
         {
             Console.WriteLine("WCF authentification lancée");
             var proxy = initFactory();
             /*var factory = new DuplexChannelFactory<ISimpleService>(new InstanceContext(this), new NetNamedPipeBinding(), new EndpointAddress("net.pipe://localhost/SimpleService"));
             var proxy = factory.CreateChannel();*/
-            proxy.VerifIdentifiant(login, mdp);
+            bool test= proxy.VerifIdentifiant(login, mdp);
+            Console.WriteLine(test);
+            return test;
+        }
+
+        public Utilisateur UtilisateurCourant()
+        {
+            //throw new NotImplementedException();
+            var proxy = initFactory();
+            return proxy.RetourUtilisateurCourant();
         }
     }
 }

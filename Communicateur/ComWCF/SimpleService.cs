@@ -22,6 +22,8 @@ namespace Communicateur.ComWCF
         private Utilisateur UtilisateurCom;
         private IListUtilisateur ListUserCom;
 
+        public bool testConnexionUser { get; set; }
+
         public static void AjoutProxyCom(IProxyCom proxCom)
         {
             proxyCommunication = proxCom;
@@ -33,6 +35,8 @@ namespace Communicateur.ComWCF
             ActifParUrl = proxyCommunication.RetourActiveParURL();
             UtilisateurCom = proxyCommunication.RetourUtilisateur();
             ListUserCom = proxyCommunication.RetourListeUtilisateur();
+
+            testConnexionUser = false;
         }
 
         public string ProcessData()
@@ -53,13 +57,35 @@ namespace Communicateur.ComWCF
             return testouille;
         }
 
-        public void VerifIdentifiant(string login, string mdp){
+
+        public bool VerifIdentifiant(string login, string mdp){
 
             var callback = OperationContext.Current.GetCallbackChannel<IMyCallbackService>();
             Console.WriteLine("WCF authentification lancée");
-            Console.WriteLine(ListUserCom.ChangeUtilisateurEnCours(login, mdp));
-            callback.Notification("test");
+            testConnexionUser = ListUserCom.ChangeUtilisateurEnCours(login, mdp);
+
+            if (testConnexionUser)
+            {
+                UtilisateurCom = ListUserCom.obtientUtilisateur(login);
+                proxyCommunication.setUtilisateur(UtilisateurCom);
+            }
+
+            return testConnexionUser;
+            //callback.Notification("test");
             //ListUserCom.verifCom(login, mdp);
+        }
+
+        public Utilisateur RetourUtilisateurCourant()
+        {
+            //throw new NotImplementedException();
+            return UtilisateurCom;
+        }
+
+        public bool retourTestUser()
+        {
+            //throw new NotImplementedException();
+
+            return testConnexionUser;
         }
     }
 }

@@ -14,5 +14,6 @@ namespace Profileur
         void AjoutUtilisateur(Utilisateur user);
         void RetirerUtilisateur(string nomUtilisateur);
         bool ChangeUtilisateurEnCours(string login, string mdp);
+        Utilisateur obtientUtilisateur(string login);
     }
 }

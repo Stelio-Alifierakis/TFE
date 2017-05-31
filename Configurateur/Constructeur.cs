@@ -9,6 +9,7 @@ using BaseDonnees;
 using Rechercheur;
 using Communicateur.ComWCF;
 using Communicateur.ComProxy;
+using Profileur.Observateur;
 
 namespace Configurateur
 {

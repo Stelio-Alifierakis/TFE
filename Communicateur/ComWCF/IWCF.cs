@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ServiceModel;
 
+using Profileur;
+
 namespace Communicateur.ComWCF
 {
     public interface IMyCallbackService
@@ -15,7 +17,8 @@ namespace Communicateur.ComWCF
         [OperationContract(IsOneWay = true)]
         void Notification(string testouille);
 
-
+        [OperationContract]
+        Utilisateur UtilisateurCourant();
     }
 
     // Define your service contract and specify the callback contract
@@ -29,6 +32,9 @@ namespace Communicateur.ComWCF
         string test(string testouille);
 
         [OperationContract]
-        void VerifIdentifiant(string login, string mdp);
+        bool VerifIdentifiant(string login, string mdp);
+
+        [OperationContract]
+        Utilisateur RetourUtilisateurCourant();
     }
 }
