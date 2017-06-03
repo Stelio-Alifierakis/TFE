@@ -5,7 +5,9 @@ using System.Text;
 
 namespace Synchronisateur
 {
-    public class Class1
+    public interface IComSynchro
     {
+        void Start(string IDProg);
+        void Stop();
     }
 }

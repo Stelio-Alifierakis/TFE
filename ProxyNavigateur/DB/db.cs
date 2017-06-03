@@ -424,7 +424,7 @@ namespace BaseDonnees.DB
             }
         }
 
-        //méthodes sut la table Topologie
+        //méthodes sur la table Topologie
 
         /// <summary>
         /// Créé une topologie

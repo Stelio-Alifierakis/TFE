@@ -46,6 +46,7 @@
     <Compile Include="Configurateur.cs" />
     <Compile Include="Constructeur.cs" />
     <Compile Include="IConstructeur.cs" />
+    <Compile Include="IdentificateurProgramme.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +73,10 @@
     <ProjectReference Include="..\Rechercheur\Rechercheur.csproj">
       <Project>{5396eff4-e854-4f7e-b273-cb6a115a6018}</Project>
       <Name>Rechercheur</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Synchronisateur\Synchronisateur.csproj">
+      <Project>{075bb886-3ebb-47cd-98ae-a0579179f2dc}</Project>
+      <Name>Synchronisateur</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

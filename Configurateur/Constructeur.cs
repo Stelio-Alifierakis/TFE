@@ -10,6 +10,7 @@ using Rechercheur;
 using Communicateur.ComWCF;
 using Communicateur.ComProxy;
 using Profileur.Observateur;
+using Synchronisateur;
 
 namespace Configurateur
 {
@@ -22,6 +23,10 @@ namespace Configurateur
         /// Variable qui stocke la classe d'accès à la base de donnée
         /// </summary>
         private IDAL dal;
+
+        private IComSynchro synchro;
+
+        private IdentificateurProgramme idProg;
 
         /// <summary>
         /// Variable qui stocke la classe de recherche sur les mots et URL.
@@ -58,6 +63,10 @@ namespace Configurateur
 
             comProxy = new ComProxy();
 
+            synchro = new ComSynchro(dal);
+
+            idProg = new IdentificateurProgramme();
+
             comProxy.setActifContenu(eproxy.retourActifContenu());
             comProxy.setActifUrl(eproxy.retourActifURL());
 
@@ -68,6 +77,8 @@ namespace Configurateur
             initRechercheur(rechercheur, listUtilisateur);
 
             initServeurPipe();
+
+            
         }
 
         /// <summary>
@@ -110,6 +121,11 @@ namespace Configurateur
 
         }
 
+        private void initSynchro()
+        {
+            
+        }
+
         /// <summary>
         /// Classe qui initialise le rechercheur
         /// </summary>
@@ -123,8 +139,11 @@ namespace Configurateur
         /// </summary>
         public void demarrage()
         {
+            synchro.Start(idProg.numeroProgramme);
             serv.start();
             eproxy.StartProxy();
+
+            
         }
 
         /// <summary>
@@ -132,6 +151,7 @@ namespace Configurateur
         /// </summary>
         public void stop()
         {
+            synchro.Stop();
             serv.stop();
             eproxy.Stop();
         }
