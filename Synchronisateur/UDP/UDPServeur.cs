@@ -74,7 +74,7 @@ namespace Synchronisateur.UDP
 
                     string msg = s.messageString(donnee);
 
-                    Console.WriteLine(msg);
+                    Console.WriteLine("Message reçu " + msg);
                 }
                 catch { }
             }

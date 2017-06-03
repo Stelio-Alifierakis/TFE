@@ -47,6 +47,8 @@ namespace Synchronisateur.UDP
 
             byte[] b = s.serial(msg);
 
+            Console.WriteLine("Message envoyé");
+
             UdpClient udpCli = new UdpClient();
 
             udpCli.Send(b, b.Length, IPAddress.Broadcast.ToString(), 16043);
