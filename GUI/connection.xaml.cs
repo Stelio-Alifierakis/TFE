@@ -18,22 +18,39 @@ namespace GUI
     /// <summary>
     /// Interaction logic for connection.xaml
     /// </summary>
-    public partial class connection : Window
+    public partial class connection : Window, IView
     {
         Com com;
 
-        public connection()
+        public connection(AuthentificationViewModel viewModel)
         {
+            viewModel.view = this;
+            ViewModel = viewModel;
             InitializeComponent();
             com = new Com();
         }
 
+        public IViewModel ViewModel
+        {
+            get
+            {
+                return DataContext as IViewModel;
+            }
+            set
+            {
+                DataContext = value;
+            }
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string login = txtBx_Identifiant.Text;
+
+            
+
+            /*string login = txtBx_Identifiant.Text;
             string mdp = txtBx_Mdp.Password;
             //com.testCom();
-            com.LancementAuth(login, mdp);
+            com.LancementAuth(login, mdp);*/
         }
     }
 }

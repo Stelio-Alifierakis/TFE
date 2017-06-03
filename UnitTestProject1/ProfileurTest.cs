@@ -91,5 +91,44 @@ namespace UnitTestProject1
             Assert.AreEqual("Jacques", u.Nom);
             Assert.AreEqual("test", u.Profil.ListeTheme[0]);
         }
+
+        [TestMethod]
+        public void VerifLoginUser()
+        {
+            Utilisateur u = new Utilisateur("Jacques", "Bernard", "Jacques.Bernard", 14, "test");
+            ListeUtilisateurs lu = new ListeUtilisateurs();
+            lu.AjoutUtilisateur(u);
+
+            Assert.IsNotNull(lu);
+            Assert.AreEqual(true, lu.ChangeUtilisateurEnCours("Jacques.Bernard", "test"));
+            Assert.AreEqual(true, lu.ChangeUtilisateurEnCours("", ""));
+            Assert.AreEqual(false, lu.ChangeUtilisateurEnCours("Jacques.Bernad", "test"));
+        }
+
+        [TestMethod]
+        public void TestMotDePasse()
+        {
+            Utilisateur u = new Utilisateur("Jacques", "Bernard", "Jacques.Bernard", 14, "test");
+            Assert.IsNotNull(u);
+            Assert.AreEqual(true, u.verificationMotDePasse("test"));
+
+            u = new Utilisateur("Jacques", "Bernard", "", 14, "");
+            Assert.IsNotNull(u);
+            Assert.AreEqual(false, u.verificationMotDePasse("test"));
+            Assert.AreEqual(true, u.verificationMotDePasse(""));
+        }
+
+        [TestMethod]
+        public void TestBcryptVerify()
+        {
+            HashCreator h = new HashCreator();
+            string hashe=h.HashMDP("");
+            Assert.AreEqual(true, h.checkMotDePasse("", "$2a$10$cCCVc6odqxDpcmEsnqDYM.dAysJsC0PYxifFSUU8bAPuwjmSNX5GG"));
+            Assert.AreEqual(false, h.checkMotDePasse("", "$2a$10$wffrNsHbvNJOtilp0U08q.rcYKwQuc9swHns9GE8AblaIMxlghvIK"));
+            Assert.AreEqual(false, h.checkMotDePasse("", "$2a$10$eB4ot372dJty1O3HnKQcZeOITUiwcpQCDHw3McIbfOSqRVyRu.EJe"));
+
+            HashCreator h2 = new HashCreator();
+            Assert.AreEqual(true, h2.checkMotDePasse("", hashe));
+        }
     }
 }

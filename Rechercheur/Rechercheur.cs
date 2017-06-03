@@ -390,6 +390,12 @@ namespace Rechercheur
                     //verif = 1;
                 }
             }
+
+            if (listeDynUrlACheck.ContainsKey(url))
+            {
+                verif = urlCheckTheme(url, listeDynUrlACheck[url], siteTheme);
+            }
+
             return verif;
         }
 
@@ -403,6 +409,11 @@ namespace Rechercheur
             {
                 return 1;
             }
+        }
+
+        public void MiseAjourListeDyn(string url, string theme)
+        {
+            bdd.SetListeDynamique(url, DateTime.Now, theme);
         }
     }
 }

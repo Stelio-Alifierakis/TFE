@@ -19,6 +19,9 @@ namespace Communicateur.ComWCF
 
         [OperationContract]
         Utilisateur UtilisateurCourant();
+
+        [OperationContract]
+        ListeUtilisateurs RetourListeUser();
     }
 
     // Define your service contract and specify the callback contract
@@ -36,5 +39,8 @@ namespace Communicateur.ComWCF
 
         [OperationContract]
         Utilisateur RetourUtilisateurCourant();
+
+        [OperationContract]
+        ListeUtilisateurs RetourListeUser();
     }
 }

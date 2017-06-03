@@ -39,6 +39,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -60,9 +61,16 @@
       <DependentUpon>Main.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Authentification.cs" />
+    <Compile Include="Model\login\AnonymousIdentity.cs" />
+    <Compile Include="Model\login\Auth.cs" />
+    <Compile Include="Model\login\CustomPrincipal.cs" />
+    <Compile Include="Model\login\DelegateCommand.cs" />
+    <Compile Include="Model\login\IdentiteCustom.cs" />
     <Compile Include="switcher\IsSwitchable.cs" />
     <Compile Include="switcher\Switcher.cs" />
+    <Compile Include="ViewModel\AuthentificationViewModel.cs" />
     <Compile Include="ViewModel\Com.cs" />
+    <Compile Include="ViewModel\SwitcherViewModel.cs" />
     <Compile Include="Vues\Accueil.xaml.cs">
       <DependentUpon>Accueil.xaml</DependentUpon>
     </Compile>

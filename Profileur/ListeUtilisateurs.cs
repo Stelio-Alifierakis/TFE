@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 
 using Profileur.Observateur;
+using System.Runtime.Serialization;
 
 namespace Profileur
 {
     /// <summary>
     /// Classe qui sert à stocker la liste des utilisateurs
     /// </summary>
-    [Serializable]
+    [DataContract]
     public class ListeUtilisateurs : AbstractListUtilisateurs
     {
         /// <summary>
@@ -90,6 +91,7 @@ namespace Profileur
         /// <summary>
         /// Getter et setter de la liste des utilisateurs
         /// </summary>
+        [DataMember]
         public List<Utilisateur> ListUtilisateur
         {
             get
@@ -103,7 +105,7 @@ namespace Profileur
             }
         }
 
-        
+
 
         /// <summary>
         /// Ajoute un utilisateur dans la liste

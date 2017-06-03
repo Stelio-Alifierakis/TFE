@@ -6,18 +6,27 @@
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
         Title="connection" Height="200" Width="300">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"/>
+    </Window.Resources>
+
     <StackPanel VerticalAlignment="Center" Margin="10,10,10,10">
         <Label Name="test" Content="test:"/>
         <StackPanel Margin="0,10,0,0">
             <Label Content="Identifiant :"/>
-            <TextBox Name="txtBx_Identifiant"></TextBox>
+            <TextBox Name="txtBx_Identifiant" Text="{Binding Username}"></TextBox>
         </StackPanel>
         <StackPanel Margin="0,10,0,0">
             <Label Content="Mot de passe :"/>
             <PasswordBox Name="txtBx_Mdp"></PasswordBox>
         </StackPanel>
         <StackPanel HorizontalAlignment="Right" Margin="0,10,0,0">
-            <Button Content="S'authentifier" Click="Button_Click"/>
+            <Button Content="S'authentifier" Click="Button_Click"
+                    Command="{Binding LoginCommand, Mode=OneTime}"
+                    CommandParameter="{Binding ElementName=txtBx_Mdp}"/>
         </StackPanel>
+
+        <TextBlock Text="{Binding Status}" Foreground="Red" TextWrapping="Wrap" />
     </StackPanel>
 </Window>

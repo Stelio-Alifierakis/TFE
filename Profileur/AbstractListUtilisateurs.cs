@@ -5,19 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Profileur.Observateur;
+using System.Runtime.Serialization;
 
 namespace Profileur
 {
     /// <summary>
     /// Classe abstraite qui va servir surtout pour implémenter le pattern observateur avec le rechercheur
     /// </summary>
-    [Serializable]
+    [DataContract]
+    [KnownType(typeof(ListeUtilisateurs))]
     public abstract class AbstractListUtilisateurs : IListUtilisateur
     {
         /// <summary>
         /// Liste des observateurs
         /// </summary>
-        [NonSerialized]private List<IObservateurProfileur> listObservateur;
+        private List<IObservateurProfileur> listObservateur;
 
         /// <summary>
         /// Constructeur

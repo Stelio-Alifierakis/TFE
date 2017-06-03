@@ -81,6 +81,19 @@ namespace Communicateur.ComWCF
             return UtilisateurCom;
         }
 
+        public ListeUtilisateurs RetourListeUser()
+        {
+            Console.WriteLine("La demande de la liste d'utilisateur a été effectuée");
+            //throw new NotImplementedException();
+
+            ListeUtilisateurs l = (ListeUtilisateurs)ListUserCom;
+
+            Console.WriteLine(l.ListUtilisateur[0].MotDePasse);
+
+            return (ListeUtilisateurs)ListUserCom;
+        }
+
+
         public bool retourTestUser()
         {
             //throw new NotImplementedException();

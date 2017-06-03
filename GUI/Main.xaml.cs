@@ -12,13 +12,27 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 using GUI.Vues;
+using GUI.ViewModel;
 
 namespace GUI
 {
+    public interface IView
+    {
+        IViewModel ViewModel
+        {
+            get;
+            set;
+        }
+
+        void Show();
+
+        void Close();
+    }
+
     /// <summary>
     /// Interaction logic for Main.xaml
     /// </summary>
-    public partial class Main : Window
+    public partial class Main : Window, IView
     {
         UserControl currentPage;
 
@@ -28,6 +42,18 @@ namespace GUI
             Init();
             switcher.Switcher.main = this;
             switcher.Switcher.Switch(new Accueil());
+        }
+
+        public IViewModel ViewModel
+        {
+            get
+            {
+                return DataContext as IViewModel;
+            }
+            set
+            {
+                DataContext = value;
+            }
         }
 
         public void Init()

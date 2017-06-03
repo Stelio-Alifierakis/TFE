@@ -83,6 +83,7 @@ namespace Profileur
         /// <summary>
         /// Getter et setter du prénom
         /// </summary>
+        [DataMember]
         public string Prenom
         {
             get
@@ -142,6 +143,7 @@ namespace Profileur
             }
             set
             {
+                //motDePasse = value;
                 HashCreator h = new HashCreator();
                 motDePasse =h.HashMDP(value);
             }

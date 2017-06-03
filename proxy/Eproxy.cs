@@ -239,6 +239,9 @@ namespace proxy
                             if (activationRechercheContenu && validSite != 1 && r.checkUrl(e.WebSession.Request.RequestUri.AbsoluteUri) != 1 && r.valPhrase(body) > 20)
                             {
                                 string theme = r.themePage(body);
+
+                                r.MiseAjourListeDyn(e.WebSession.Request.RequestUri.AbsoluteUri, theme);
+
                                 await e.SetResponseBodyString(messageBlocage +
                                 "Raison : " + theme +
                                 "</body>" +

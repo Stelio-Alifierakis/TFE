@@ -12,6 +12,8 @@ namespace Communicateur.ComWCF
     {
         private bool testConnexionUser = false;
 
+        #region appels clients
+
         public void startTest()
         {
             new Client().Run();
@@ -21,6 +23,13 @@ namespace Communicateur.ComWCF
         {
             return new Client().Authentification(login, mdp);
         }
+
+        public IListUtilisateur startAppelListeUser()
+        {
+            return new Client().RetourListeUser();
+        }
+
+        #endregion
 
         private ISimpleService initFactory()
         {
@@ -67,6 +76,22 @@ namespace Communicateur.ComWCF
             //throw new NotImplementedException();
             var proxy = initFactory();
             return proxy.RetourUtilisateurCourant();
+        }
+
+        public ListeUtilisateurs RetourListeUser()
+        {
+            //throw new NotImplementedException();
+            var proxy = initFactory();
+            try
+            {
+                return proxy.RetourListeUser();
+            }
+            catch (CommunicationException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+            
         }
     }
 }

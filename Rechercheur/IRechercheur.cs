@@ -23,5 +23,6 @@ namespace Rechercheur
         string themePage(string phrase);
         int checkUrl(string url);
         void setBdd(IDAL bdd);
+        void MiseAjourListeDyn(string url, string theme);
     }
 }
