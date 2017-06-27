@@ -42,6 +42,7 @@ namespace Profileur
             */
             Profil prof = new Profil(true);
             prof.ajoutTheme("Pornographie");
+            prof.ajoutTheme("TFE");
 
             Utilisateur Defaut = new Utilisateur
             {

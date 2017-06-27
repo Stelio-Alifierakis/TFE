@@ -35,6 +35,9 @@ namespace Profileur
             }
         }
 
+        /// <summary>
+        /// Variable boolénne qui définit si l'utilisateur est un adulte ou non
+        /// </summary>
         [DataMember]
         public bool adulte { get; set; }
 
@@ -47,6 +50,10 @@ namespace Profileur
             adulte = false;
         }
 
+        /// <summary>
+        /// Constructeur
+        /// </summary>
+        /// <param name="adulte">Booléen</param>
         public Profil(bool adulte)
         {
             ListeTheme = new List<string>();

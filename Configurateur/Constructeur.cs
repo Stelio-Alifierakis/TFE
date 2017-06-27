@@ -78,7 +78,6 @@ namespace Configurateur
 
             initServeurPipe();
 
-            
         }
 
         /// <summary>
@@ -129,7 +128,7 @@ namespace Configurateur
         /// <summary>
         /// Classe qui initialise le rechercheur
         /// </summary>
-        public void initProxy()
+        private void initProxy()
         {
             eproxy.setRechercheur(rechercheur);
         }
@@ -139,7 +138,7 @@ namespace Configurateur
         /// </summary>
         public void demarrage()
         {
-            synchro.Start(idProg.numeroProgramme);
+            //synchro.Start(idProg.numeroProgramme);
             serv.start();
             eproxy.StartProxy();
 
@@ -151,11 +150,17 @@ namespace Configurateur
         /// </summary>
         public void stop()
         {
-            synchro.Stop();
+            //synchro.Stop();
             serv.stop();
             eproxy.Stop();
         }
 
+        /// <summary>
+        /// Fonction qui va appeler la fonction de changement d'utilisateur de la liste des utilisateurs
+        /// </summary>
+        /// <param name="login">Login utilisateur</param>
+        /// <param name="mdp">Mot de passe</param>
+        /// <returns>Valeur booléenne</returns>
         public bool changeUtilisateur(string login, string mdp)
         {
             return listUtilisateur.ChangeUtilisateurEnCours(login, mdp);

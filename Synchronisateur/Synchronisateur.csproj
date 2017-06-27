@@ -44,7 +44,14 @@
   <ItemGroup>
     <Compile Include="ComSynchro.cs" />
     <Compile Include="IComSynchro.cs" />
+    <Compile Include="Message\Crypteur.cs" />
+    <Compile Include="Message\MessageEnvoi.cs" />
     <Compile Include="Message\Serial.cs" />
+    <Compile Include="TCP\ClientEnvoi.cs" />
+    <Compile Include="TCP\ClientReception.cs" />
+    <Compile Include="TCP\ClientTCP.cs" />
+    <Compile Include="TCP\InstanceServeur.cs" />
+    <Compile Include="TCP\ServeurTCP.cs" />
     <Compile Include="UDP\IUDPClient.cs" />
     <Compile Include="UDP\IUDPServeur.cs" />
     <Compile Include="UDP\UDPClient.cs" />

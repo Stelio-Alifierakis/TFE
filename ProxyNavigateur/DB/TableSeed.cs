@@ -104,6 +104,10 @@ namespace BaseDonnees.DB
 
             th = setListeTheme("Violence");
             mc = setMotCle("Meutre", 15, sync.date, th.theme);
+
+            th = setListeTheme("TFE");
+            setSite("www.heh.be", sync.date, th.theme, liste.liste);
+            mc = setMotCle("choucroute", 15, sync.date, th.theme);
         }
 
         /// <summary>

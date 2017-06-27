@@ -101,8 +101,8 @@ namespace Rechercheur
         /// <summary>
         /// Chaînes de caractères utilisées pour séparer les phrases
         /// </summary>
-        string[] separateurMot = {
-                " ", "\n", "\r\n", "=", "_", ",", "'","&","\""
+        private readonly string[] separateurMot = {
+                " ", "\n", "\r\n", "=", "_", ",", "'","&","\"", ">", "<"
             };
 
         /// <summary>
@@ -267,13 +267,15 @@ namespace Rechercheur
                             val += Math.Pow(dictValMot[mot.Key], mot.Value);
                         }
 
-                        if (value > 100)
+                        if (val > 100)
                         {
+                            Console.WriteLine("-------------------------#########>valeur bonne " + val);
                             return val;
                         }
                     }
                 }
             }
+            Console.WriteLine(val);
             return val;
         }
 

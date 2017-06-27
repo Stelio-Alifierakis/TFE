@@ -66,10 +66,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ProxyNavigateur\BaseDonnees.csproj">
-      <Project>{96888cb6-3184-46e0-8600-622f00c6d9c8}</Project>
-      <Name>BaseDonnees</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Rechercheur\Rechercheur.csproj">
       <Project>{5396eff4-e854-4f7e-b273-cb6a115a6018}</Project>
       <Name>Rechercheur</Name>

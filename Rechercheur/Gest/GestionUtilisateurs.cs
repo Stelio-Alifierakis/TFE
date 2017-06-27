@@ -70,7 +70,7 @@ namespace Rechercheur.Gest
         /// Fonction qui va mettre à jour l'utilisateur
         /// </summary>
         /// <param name="u">Utilisateur</param>
-        void IObservateurProfileur.update(Utilisateur u)
+        public void update(Utilisateur u)
         {
             //throw new NotImplementedException();
             Utilisateur = u;

@@ -44,10 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComProxy\ComProxy.cs" />
-    <Compile Include="ComProxy\IBool.cs" />
-    <Compile Include="ComProxy\IListUtilisateurCom.cs" />
     <Compile Include="ComProxy\IProxyCom.cs" />
-    <Compile Include="ComProxy\IUtilisateurCom.cs" />
     <Compile Include="ComWCF\Client.cs" />
     <Compile Include="ComWCF\IWCF.cs" />
     <Compile Include="ComWCF\Serveur.cs" />

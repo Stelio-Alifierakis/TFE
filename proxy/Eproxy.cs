@@ -8,7 +8,7 @@ using Titanium.Web.Proxy;
 using Titanium.Web.Proxy.EventArguments;
 using Titanium.Web.Proxy.Models;
 
-using BaseDonnees.Models;
+
 using Rechercheur;
 
 namespace proxy
@@ -43,6 +43,9 @@ namespace proxy
         /// </summary>
         private bool activationRechercheContenu = true;
 
+        /// <summary>
+        /// Objet qui détient la valeur d'activation de la recherche sur le contenu
+        /// </summary>
         private Activitateur actifRechercheContenu;
 
         /// <summary>
@@ -50,6 +53,9 @@ namespace proxy
         /// </summary>
         private bool activationRechercheUrl = true;
 
+        /// <summary>
+        /// Objet qui détient la valeur d'activation de la recherche sur l'URL
+        /// </summary>
         private Activitateur actifRechercheURL;
 
         /// <summary>
@@ -154,10 +160,12 @@ namespace proxy
             Console.WriteLine("Validation URL : " + lockSiteUrl + " -----------------> " + e.WebSession.Request.RequestUri.AbsoluteUri);
 
             var method = e.WebSession.Request.Method.ToUpper();
-            if ((method == "POST" || method == "PUT" || method == "PATCH"))
+            Console.WriteLine(e.WebSession.Request.Method.ToUpper() + " " + actifRechercheURL.actif + " " + lockSiteUrl);
+            if ( method == "POST" || method == "PUT" || method == "PATCH")
             {
-                if (actifRechercheURL.actif && lockSiteUrl == 0)
+                if (actifRechercheURL.actif && lockSiteUrl != 0)
                 {
+                    Console.WriteLine("test");
                     //Get/Set request body bytes
                     byte[] bodyBytes = await e.GetRequestBody();
                     await e.SetRequestBody(bodyBytes);
@@ -170,14 +178,23 @@ namespace proxy
                 }
                 else
                 {
+                    Console.WriteLine("essai");
                     await e.Ok(messageBlocage +
                       "<p>Raison : Site dans les listes bloquantes</p>" +
                       "</body>" +
                       "</html>");
                 }
             }
-            //Console.WriteLine("Analyse de l'en-tête " + e.WebSession.Request.RequestUri.AbsoluteUri);
-        }
+
+            if (method == "GET" && actifRechercheURL.actif && lockSiteUrl == 0)
+            {
+                await e.Ok(messageBlocage +
+                      "<p>Raison : Site dans les listes bloquantes</p>" +
+                      "</body>" +
+                      "</html>");
+            }
+                //Console.WriteLine("Analyse de l'en-tête " + e.WebSession.Request.RequestUri.AbsoluteUri);
+       }
 
         /// <summary>
         /// Fonction évènementielle qui se déclenchera à chaque réponses
@@ -289,12 +306,20 @@ namespace proxy
             return Task.FromResult(0);
         }
 
+        /// <summary>
+        /// Méthode qui retourne l'activateur pour la recherche sur l'URL
+        /// </summary>
+        /// <returns>Activateur sur l'URL</returns>
         public Activitateur retourActifURL()
         {
             //throw new NotImplementedException();
             return actifRechercheContenu;
         }
 
+        /// <summary>
+        /// Méthode qui retourne l'activateur pour la recherche sur le contenu
+        /// </summary>
+        /// <returns>Activateur sur le contenu</returns>
         public Activitateur retourActifContenu()
         {
             //throw new NotImplementedException();

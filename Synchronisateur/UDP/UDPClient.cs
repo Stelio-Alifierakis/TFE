@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Net;
 
 using Synchronisateur.Message;
+using System.IO;
 
 namespace Synchronisateur.UDP
 {
@@ -45,15 +46,35 @@ namespace Synchronisateur.UDP
         {
             Serial s = new Serial();
 
-            byte[] b = s.serial(msg);
+            Crypteur crypt = new Crypteur();
+
+            MessageEnvoi mess = new MessageEnvoi();
+
+            mess.message = msg;
+
+            byte[] b = default(byte[]);
+
+            using (MemoryStream mem = new MemoryStream())
+            {
+
+
+                s.serial<MessageEnvoi>(mess, mem);
+
+                b = mem.ToArray();
+            }
+                
+
+            byte[] c= crypt.crypt(b);
 
             Console.WriteLine("Message envoyé");
 
             UdpClient udpCli = new UdpClient();
 
-            udpCli.Send(b, b.Length, IPAddress.Broadcast.ToString(), 16043);
+            udpCli.Send(c, c.Length, IPAddress.Broadcast.ToString(), 16043);
 
             udpCli.Close();
+
+            Console.WriteLine("Fin client");
         }
     }
 }

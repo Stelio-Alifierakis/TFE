@@ -57,6 +57,11 @@ namespace Profileur
         /// <returns></returns>
         public abstract bool ChangeUtilisateurEnCours(string login, string mdp);
 
+        /// <summary>
+        /// Fonction abstraite
+        /// </summary>
+        /// <param name="login">Login de l'utilisateur</param>
+        /// <returns>Utilisateur</returns>
         public abstract Utilisateur obtientUtilisateur(string login);
 
         //Fonctions utilisées pour l'observateur

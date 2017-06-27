@@ -37,7 +37,9 @@ namespace Synchronisateur.UDP
             {
                 try
                 {
-                    serveur = new UdpClient(16043);
+                    IPEndPoint ip = new IPEndPoint(IPAddress.Parse("0.0.0.0"), 16043);
+                    serveur = new UdpClient(ip);
+                    //serveur = new UdpClient(16043);
                     Console.WriteLine("Serveur lancé");
                 }
                 catch (Exception ex)
@@ -68,15 +70,25 @@ namespace Synchronisateur.UDP
                 {
                     IPEndPoint client = null;
 
+                    Crypteur crypt = new Crypteur();
+
                     byte[] donnee = serveur.Receive(ref client);
 
                     Console.WriteLine("Données reçues en provenance de {0}:{1}.", client.Address, client.Port);
 
-                    string msg = s.messageString(donnee);
+                    byte[] c = crypt.decrypt(donnee);
 
-                    Console.WriteLine("Message reçu " + msg);
+                    string msg = s.messageString<MessageEnvoi>(c).message;
+
+                    //string msg = s.messageString(donnee);
+
+                    Console.WriteLine("--------------> Message reçu " + msg);
                 }
                 catch { }
+                finally
+                {
+                    //serveur.Close();
+                }
             }
 
             serveur.Close();

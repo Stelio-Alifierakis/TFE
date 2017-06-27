@@ -13,7 +13,10 @@ namespace Profileur.MotDePasse
     /// </summary>
     public class HashCreator
     {
-        string salt;
+        /// <summary>
+        /// Salt
+        /// </summary>
+        private string salt;
 
         /// <summary>
         /// Fonction qui va hasher un mot de passe

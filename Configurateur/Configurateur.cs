@@ -42,6 +42,9 @@ namespace Configurateur
         {
             ListeUtilisateurs listeUser = new ListeUtilisateurs();
             DAL d = new DAL(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) + "/bdd/test.sqlite");
+            Console.WriteLine(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) + "/bdd/test.sqlite");
+            /*d.creation();
+            d.seed();*/
             Rechercheur.Rechercheur r = new Rechercheur.Rechercheur(d);
             construction = new Constructeur();
             construction.construction(d,r,Controller,listeUser);
